@@ -51,8 +51,8 @@
 		</div>
 		<div id="mainbody" class="col-sm-10">
 			<h3>Solving a System of Nonlinear Equations Using Newton's Method <small>MATLAB</small></h3>
-			<p><big>Numerical Analysis - San Francisco State University</big> Date</p>
-			<p>Project Description</p>
+			<p><big>Numerical Analysis - San Francisco State University</big> Spring 2017</p>
+			<p>This assignment involves using MATLAB to implement Newton's Method for solving a system of nonlinear equations. In this case, <i>f<sub>1</sub>(x,y) = x<sup>2</sup> - y + sin(x - y) - 2</i> and <i>f<sub>2</sub>(x,y) = y<sup>2</sup> - x - 3</i>.</p>
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -62,35 +62,268 @@
 					</div>
 					<div id="results" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Results Explanation</p>
+							<p>These tables show the values of <i>f<sub>1</sub>(x,y)</i>, <i>f<sub>2</sub>(x,y)</i>, <i>x</i>, and <i>y</i> at each iteration of Newton's Method for solving a system of nonlinear equations. The program converges on a confirmed solution for the system in only five iterations. <i>x</i> and <i>y</i> both reach values with 16-digit precision. <i>f1</i> and <i>f2</i> both converge to 0, within the machine epsilon.</p>
+							<table class="table table-responsive table-hover">
+								<thead>
+									<tr>
+										<th><big>Iteration</big></th>
+										<th><big>f1(x,y)</big></th>
+										<th><big>f2(x,y)</big></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>0</td>
+										<td>-1</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>0.013116212985597</td>
+										<td>0.077160493827160</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>0.103016995917160 * 1.0e-03</td>
+										<td>0.364363727111480 * 1.0e-03</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>0.318331859678175 * 1.0e-08</td>
+										<td>0.863597762883268 * 1.0e-15</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="table table-responsive table-hover">
+								<thead>
+									<tr>
+										<th>Iteration</th>
+										<th>x</th>
+										<th>y</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>0</td>
+										<td>2</td>
+										<td>2</td>
+									</tr>
+									<tr>
+										<td>1</td>
+										<td>2.111111111111111</td>
+										<td>2.277777777777778</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>2.10131370556641</td>
+										<td>2.258689463889127</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>2.101258294418177</td>
+										<td>2.258596533924143</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>2.101258292948052</td>
+										<td>2.258596531686891</td>
+									</tr>
+									<tr>
+										<td>5</td>
+										<td>2.101258292948052</td>
+										<td>2.258596531686891</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-code">Sample Code: ***<span class="caret"></span></a>
-						</p>
-					</div>
-					<div id="sample-code" class="panel-collapse collapse">
-						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
-</pre>
-						</div>
-					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-output">Code and Output:<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-output" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
+							<p>I initialize <i>x</i> and <i>y</i> as symbols. <i>f1</i> and <i>f2</i> make up the system of nonlinear equations. I also create the <i>f</i> vector, which holds <i>f1</i> and <i>f2</i>. At every iteration of the loop, I find a <i>deltaX</i> by solving the system <i>jacobian(f) * deltaX = -f</i> using the current values for <i>x</i> and <i>y</i>. This is done with the <i>linsolve(A,B)</i> function which uses LU factorization to solve the linear system <i>AX = B</i>.It is important to subsitute the values for the <i>x</i> and <i>y</i> symbols by using the <i>subs(A)</i> function. Then I add <i>deltaX</i> to <i>x</i> and <i>y</i> updating their values for the next iteration. The loop exits when the 2-norm of either <i>f</i> or <i>deltaX</i> is less than the machine epsilon, which means the program has converged on a solution to the system of nonlinear equations/.</p>
+<pre>syms x y
+
+f1 = x^2 - y + sin(x-y) - 2
+f2 = y^2 - x - 3
+f = [f1;f2]
+
+x = 2 %initial value for x
+y = 2 %initial value for y
+
+deltaX = [1;1]
+
+while ((double(subs(norm(f))) >= eps) & (norm(deltaX) >= eps))
+	double(subs(f))
+	deltaX = linsolve(double(subs(jacobian(f))), double(subs(-f)))
+	x = x + deltaX(1,1)
+	y= y + deltaX(2,1)
+end
+ 
+f1 =
+ 
+sin(x - y) - y + x^2 - 2
+ 
+ 
+f2 =
+ 
+y^2 - x - 3
+ 
+ 
+f =
+ 
+ sin(x - y) - y + x^2 - 2
+              y^2 - x - 3
+ 
+
+x =
+
+     2
+
+
+y =
+
+     2
+
+
+deltaX =
+
+     1
+     1
+
+
+ans =
+
+     0
+    -1
+
+
+deltaX =
+
+    0.1111
+    0.2778
+
+
+x =
+
+    2.1111
+
+
+y =
+
+    2.2778
+
+
+ans =
+
+    0.0131
+    0.0772
+
+
+deltaX =
+
+   -0.0098
+   -0.0191
+
+
+x =
+
+    2.1013
+
+
+y =
+
+    2.2587
+
+
+ans =
+
+   1.0e-03 *
+
+    0.1030
+    0.3644
+
+
+deltaX =
+
+   1.0e-04 *
+
+   -0.5544
+   -0.9293
+
+
+x =
+
+    2.1013
+
+
+y =
+
+    2.2586
+
+
+ans =
+
+   1.0e-08 *
+
+    0.3183
+    0.8636
+
+
+deltaX =
+
+   1.0e-08 *
+
+   -0.1470
+   -0.2237
+
+
+x =
+
+    2.1013
+
+
+y =
+
+    2.2586
+
+
+ans =
+
+   1.0e-15 *
+
+   -0.1002
+    0.5844
+
+
+deltaX =
+
+   1.0e-15 *
+
+   -0.0330
+   -0.1367
+
+
+x =
+
+    2.1013
+
+
+y =
+
+    2.2586
 </pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>

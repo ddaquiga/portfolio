@@ -175,6 +175,9 @@
 								</tbody>
 							</table>
 						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
@@ -186,112 +189,115 @@
 					<div id="sample-code" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p>Here is a section of code from <i>sys2.cpp</i>, my dynamic 2-bit branch predictor. First I create the predictor and branch target buffer vectors. The <code>predictor</code> vector holds the current branch prediction for each entry. Each entry of the branch target buffer(<code>btb</code>) holds a tag, a valid bit, and the branch target address. For each line of the given trace file, I extract the indeces and tag by manipulating the bits of the current branch address. Then, I update the entries in <code>predictor</code> and <code>btb</code>. Throughout the loop, I collect various branch and prediction statistics and fill up a stringstream to display if verbose mode is active.</p>
-<pre class="pre-scrollable">	vector<int> predictor(n,1);
-	vector< vector<int> > btb(m, vector<int>(3)); // branch target buffer
+<pre>vector<int> predictor(n,1);
+vector< vector<int> > btb(m, vector<int>(3)); // branch target buffer
 
-	/*
-	  btb[i][0] = tag
-	  btb[i][1] = valid
-	  btb[i][2] = bta
-	*/
-	for (int i = 0; i < m; i++){
-	  btb[i][0] = -1;
-	  btb[i][1] = 0;
-	  btb[i][2] = -1;
-	}
+/*
+  btb[i][0] = tag
+  btb[i][1] = valid
+  btb[i][2] = bta
+*/
+for (int i = 0; i < m; i++){
+  btb[i][0] = -1;
+  btb[i][1] = 0;
+  btb[i][2] = -1;
+}
 
-	stringstream verboseStream;
-	int totalBranches = taken.size();
+stringstream verboseStream;
+int totalBranches = taken.size();
 
-	for (int i = 0; i < totalBranches; i++){
-	  if (branchType[i] == 1){
+for (int i = 0; i < totalBranches; i++){
+  if (branchType[i] == 1){
 
-	    /*
-	    / splitting up the current branch address to find the correct
-	    / index for the prediction buffer, index for the branch target
-	    / buffer, and the tag
-	    */
-	    int predictionIndex = (branchAddress[i] >> 2) & (n-1);
-	    int btbIndex = (branchAddress[i] >> 2) & (m-1);
-	    int btbTag = branchAddress[i] >> (2 + (int)log2((double)m));
+    /*
+    / splitting up the current branch address to find the correct
+    / index for the prediction buffer, index for the branch target
+    / buffer, and the tag
+    */
+    int predictionIndex = (branchAddress[i] >> 2) & (n-1);
+    int btbIndex = (branchAddress[i] >> 2) & (m-1);
+    int btbTag = branchAddress[i] >> (2 + (int)log2((double)m));
 
-	    //  fill the stream if using verbose mode
-	    if (verbose){
-	      verboseStream.str(string());
-	      verboseStream << '\n' << numBranches << ' ';
-	    }
+    //  fill the stream if using verbose mode
+    if (verbose){
+      verboseStream.str(string());
+      verboseStream << '\n' << numBranches << ' ';
+    }
 
-	    //  collect branch statistics
-	    numBranches++;
-	    if (branchAddress[i] < branchTarget[i]){
-	      forward++;
-	      if (taken[i] == 1){
-	        forwardTaken++;
-	      }
-	    } else {
-	      backward++;
-	      if (taken[i] == 1){
-	        backwardTaken++;
-	      }
-	    }
-
-
-	    //fill verbose stream
-	    if (verbose){
-	      verboseStream << hex << predictionIndex << ' ' 
-	        << predictor[predictionIndex] << ' ';
-	    }
+    //  collect branch statistics
+    numBranches++;
+    if (branchAddress[i] < branchTarget[i]){
+      forward++;
+      if (taken[i] == 1){
+        forwardTaken++;
+      }
+    } else {
+      backward++;
+      if (taken[i] == 1){
+        backwardTaken++;
+      }
+    }
 
 
-	    if (predictor[predictionIndex] > 1){ //predicted taken
-	      btbAccess++;
-	      if (btb[btbIndex][1] == 1){ //if valid bit is on
-
-	        //  tags don't match, btb miss
-	        if (btb[btbIndex][0] != btbTag){
-	          btbMiss++;
-	        }
-	      }
-
-	      if (taken[i] == 0){
-	        mispredictions++;
-	      }
-	    }
-	    else{
-	      if (taken[i] == 1){
-	        mispredictions++;
-	      }
-	    }
-
-	    //  update prediction (2-bit saturation counter)
-	    if (taken[i] == 1){
-
-	      if (predictor[predictionIndex] < 3){
-	        predictor[predictionIndex]++;
-	      }
-
-	      btb[btbIndex][0] = btbTag;      //tag
-	      btb[btbIndex][1] = 1;       //valid bit
-	      btb[btbIndex][2] = branchTarget[i]; //branch target address
-	    }
-	    else{
-	      if (predictor[predictionIndex] > 0){
-	        predictor[predictionIndex]--;
-	      }
-	    }
+    //fill verbose stream
+    if (verbose){
+      verboseStream << hex << predictionIndex << ' ' 
+        << predictor[predictionIndex] << ' ';
+    }
 
 
-	    if (verbose){
-	      verboseStream << predictor[predictionIndex] << ' '
-	        << hex << btbIndex << ' ' 
-	        << hex << btb[btbIndex][0] << ' '
-	        << btbAccess << ' ' << btbMiss;
-	      cout << verboseStream.str();
-	    }
+    if (predictor[predictionIndex] > 1){ //predicted taken
+      btbAccess++;
+      if (btb[btbIndex][1] == 1){ //if valid bit is on
 
-	  }
-	}
+        //  tags don't match, btb miss
+        if (btb[btbIndex][0] != btbTag){
+          btbMiss++;
+        }
+      }
+
+      if (taken[i] == 0){
+        mispredictions++;
+      }
+    }
+    else{
+      if (taken[i] == 1){
+        mispredictions++;
+      }
+    }
+
+    //  update prediction (2-bit saturation counter)
+    if (taken[i] == 1){
+
+      if (predictor[predictionIndex] < 3){
+        predictor[predictionIndex]++;
+      }
+
+      btb[btbIndex][0] = btbTag;      //tag
+      btb[btbIndex][1] = 1;       //valid bit
+      btb[btbIndex][2] = branchTarget[i]; //branch target address
+    }
+    else{
+      if (predictor[predictionIndex] > 0){
+        predictor[predictionIndex]--;
+      }
+    }
+
+
+    if (verbose){
+      verboseStream << predictor[predictionIndex] << ' '
+        << hex << btbIndex << ' ' 
+        << hex << btb[btbIndex][0] << ' '
+        << btbAccess << ' ' << btbMiss;
+      cout << verboseStream.str();
+    }
+
+  }
+}
 </pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
@@ -304,18 +310,21 @@
 					<div id="sample-output" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p>The <i>sys2</i> program is called on the <i>li2.trace</i> file with a 1024-entry prediction array and a 2048-entry branch target buffer array. The program outputs various branch and prediction data gathered throughout the trace.</p>
-<pre>	$ ./sys2 li2.trace 1024 2048
+<pre>$ ./sys2 li2.trace 1024 2048
 
-	Number of branches = 64903
-	Number of forward branches = 44624
-	Number of forward taken branches = 29310
-	Number of backward branches = 20279
-	Number of backward taken branches = 14688
-	Number of mispredictions = 6593
-	Misprediction rate = 0.101582
-	Number of BTB misses = 210
-	BTB miss rate = 0.00470778
+Number of branches = 64903
+Number of forward branches = 44624
+Number of forward taken branches = 29310
+Number of backward branches = 20279
+Number of backward taken branches = 14688
+Number of mispredictions = 6593
+Misprediction rate = 0.101582
+Number of BTB misses = 210
+BTB miss rate = 0.00470778
 </pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
@@ -326,3 +335,5 @@
 </body>
 </html>
 
+
+						

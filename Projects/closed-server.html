@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<div class="container-fluid">
+<div class="container">
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -51,9 +51,23 @@
 		</div>
 		<div id="mainbody" class="col-sm-10">
 			<h3>Closed-Queue Server System Analysis</h3>
-			<p><big>Computer Performance Analysis - San Francisco State University</big> Date</p>
-			<p>Project Description</p>
-			<div class="panel-group">
+			<p><big>Computer Performance Analysis - San Francisco State University</big> Fall 2016</p>
+			<p>In this project, I study queuing models of closed systems. In this sample, I calculate the processor utilization and the response time for the system given in figure 1 below. This multiprogrammed computer system, with 2 processors and 3 disks, processes 4 identical programs. Each program needs 10 CPU minutes. Also the disk service time is twice as long as the processor servce time, <i>S<sub>d</sub> = 2S<sub>p</sub></i>.</p>
+			<div class="panel-group"><div class="panel panel-default">
+					<div class="panel-heading">
+						<p class="panel-title">
+							<a data-toggle="collapse" href="#server-model">Server System Diagram<span class="caret"></span></a>
+						</p>
+					</div>
+					<div id="server-model" class="panel-collapse collapse">
+						<div class="panel-body">
+							<img class="img-responsive" src="images/openQueueModel.png">
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+						</div>
+					</div>
+				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
@@ -62,35 +76,100 @@
 					</div>
 					<div id="results" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Results Explanation</p>
+							<p>With the given information, I calculate processor utilization and response time for two cases. I first look at the case where both processors are working. Then, I look at the case where one of the processors goes offline leaving only one active processor in the system. This table shows the <b>Processor Utilization</b> and <b>Response Time (CPU minutes)</b> for each case.</p>
+							<table class="table table-responsive table-hover">
+								<thead>
+									<tr>
+										<th></th>
+										<th><big>2 Processors</big></th>
+										<th><big>1 Processor</big></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Processor Utilization</td>
+										<td>0.5957</td>
+										<td>0.8308</td>
+									</tr>
+									<tr>
+										<td>Response Time (CPU minutes)</td>
+										<td>33.5758</td>
+										<td>45.6140</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-code">Sample Code: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#state-transition-diagram">State Transition Diagram<span class="caret"></span></a>
 						</p>
 					</div>
-					<div id="sample-code" class="panel-collapse collapse">
+					<div id="state-transition-diagram" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
-</pre>
+							<p>This diagram shows the different states of this system. In state <i>p<sub>0</sub></i>, all four programs are either being served by one of the two central processors(CP) or they are waiting in the <i>CP</i> queue. In state <i>p<sub>4</sub></i>, all four programs are either being serviced by one of the three disks or waiting in the disk queue. In states <i>p<sub>1</sub></i>, <i>p<sub>2</sub></i>, and <i>p<sub>3</sub></i>, the programs are distributed between the CP's and disks in some combination according to the diagram. <i>&lambda;</i> is the rate of a single CP finishing a job. And <i>&mu;</i> is the rate of a single disk finishing a job. I use this state transition diagram to create the system of balanced equations used in the following calculations.</p>
+							<img class="img-responsive" src="images/stateDiagram.png">
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#calculations">Calculations<span class="caret"></span></a>
 						</p>
 					</div>
-					<div id="sample-output" class="panel-collapse collapse">
+					<div id="calculations" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
-</pre>
+<pre>Given:
+	2 CP's with speed Sp
+	3 Disks with speed Sd
+	4 Programs needing 10 CPU minutes each
+	Sd = 2Sp
+
+Derived:
+	λ = 1/Sp	μ = 1/Sd = 1/2Sp
+	ρ = λ/μ = 2
+
+Balanced Equations:
+2λp0 = μp1	→	p1 = 2ρp0 = 4p0
+2λp1= 2μp2	→	p2 = ρp1 = 2p1 = 8p0
+2λp2 = 3μp3	→	p3 = (2/3)ρp2  = (4/3)p2 = (32/3)p0
+λp3 = 3μp4	→	p4 = (1/3)ρp3 = (2/3)p3 = (64/9)p0
+
+p0 + p1 + p2 + p3 + p4 = 1
+p0 (1 + 4 + 8 + (32/3) + (64/9)) = 1
+
+p0 = 9/277
+p1 = 4p0 = 36/277
+p2 = 8p0 = 72/277
+p3 = (32/3)p0 = 96/277
+p4 = (64/9)p0  = 64/277
+
+Up = p0 + p1 + p2 + (1/2)p3
+	= 9/277 + 36/277 + 72/277 + 48/277
+	= 165 / 277
+	Up ≈ 0.5957
+
+
+	2RUp = 4Tp
+	R = 2Tp/Up
+		= (2*10)/(165/277)
+		= 5540/165
+		R ≈ 33.5758 CPU minutes</pre>
+							<p>In this calculation, I first derive <i>&lambda;</i> and <i>&mu;</i> from the given service times, <i>S<sub>p</sub></i> and <i>S<sub>d</sub></i>. From <i>&lambda;</i> and <i>&mu;</i> I get <i>&rho;</i>, the ratio of CP to disk service rates. In this case, <i>&rho;</i> is 2.</p>
+							<p>Now using the state transition diagram above, I make a system of balanced equations to find the probabilities of being in each of the five states. I express the probabilities of each state in terms of <i>p<sub>0</sub></i>. Then after solving for <i>p<sub>0</sub></i>, I calculate the probabilities of being in each other state.</p>
+							<p>Using the state transition diagram, I determine the states where the CP's are active. Using the probabilities of being in each state, I find the <b>processor utilization</b> (<i>U<sub>p</sub></i> = 0.5957). The total processor time required by 4 jobs is <i>4T<sub>p</sub></i> where <i>T<sub>p</sub></i> is the processor time required by one of the programs. The total processor time delivered by two processors is <i>2RU<sub>p</sub></i>, where <i>R</i> is the response time. The total processor time delivered is equal to the total processor time required by the 4 jobs, <i>2RU<sub>p</sub> = 4T<sub>p</sub></i>. Using this equality, I find the <b>response time</b> (<i>R</i> &asymp; 33.5758 CPU minutes).</p>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>

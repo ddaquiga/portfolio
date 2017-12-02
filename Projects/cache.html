@@ -51,14 +51,14 @@
 		</div>
 		<div id="mainbody" class="col-sm-10">
 			<h3>Data Cache Simulator <small>C++</small></h3>
-			<p><big>Computer Organization - San Francisco State University</big> Date</p>
+			<p><big>Computer Organization - San Francisco State University</big> Spring 2017</p>
 			<p>Get Source Code:</p>
 			<ul>
 				<li>.zip File: <a href="***.zip">Download</a></li>
 				<li>git url: <a href="https://github.com/ddaquiga/data-cache.git">https://github.com/ddaquiga/data-cache.git</a></li>
 				<li>git SSH key: git@github.com:ddaquiga/data-cache.git</li>
 			</ul>
-			<p>Project Description</p>
+			<p>For this project, I developed two cache simulator systems. For each system, I allocate  vectors to represent the cache, read each line of a trace file, and update the cache arrays accordingly. <b>System 1</b> simulates a <b>direct-mapped</b> data cache. <b>System 2</b> simulates a <b>k-way set associative</b> data-cache.</p>
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -68,35 +68,252 @@
 					</div>
 					<div id="results" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Results Explanation</p>
+							<p>Here are tables showing the miss rate and total access time for different cache configurations on the <i>FFT.xex</i> and <i>mad.xex</i> trace files.</p>
+							<table class="table table-responsive table-hover">
+								<thead>
+									<tr>
+										<th><big>System</big></th>
+										<th><big>Cache-Configuration</big></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>System 1a</td>
+										<td>1KB direct-mapped</td>
+									</tr>
+									<tr>
+										<td>System 1b</td>
+										<td>2KB direct-mapped</td>
+									</tr>
+									<tr>
+										<td>System 2a</td>
+										<td>1KB 2-way set associative</td>
+									</tr>
+									<tr>
+										<td>System 2b</td>
+										<td>1KB 4-way set associative</td>
+									</tr>
+									<tr>
+										<td>System 2c</td>
+										<td>2KB 2-way set associative</td>
+									</tr>
+									<tr>
+										<td>System 2d</td>
+										<td>2KB 4-way set associative</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="table table-responsive table-hover">
+								<thead>
+									<tr>
+										<th><big>Cache Configuration</big></th>
+										<th><big>FFT.xex miss rate</big></th>
+										<th><big>FFT.xex total access time</big></th>
+										<th><big>mad.xex miss rate</big></th>
+										<th><big>mad.xex total access time</big></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th>System 1a</th>
+										<th>0.38320</th>
+										<th>591760</th>
+										<th>0.174520</th>
+										<th>1138528</th>
+									</tr>
+									<tr>
+										<th>System 1b</th>
+										<th>0.032470</th>
+										<th>506240</th>
+										<th>0.137794</th>
+										<th>919168</th>
+									</tr>
+									<tr>
+										<th>System 2a</th>
+										<th>0.013350</th>
+										<th>258320</th>
+										<th>0.146904</th>
+										<th>969968</th>
+									</tr>
+									<tr>
+										<th>System 2b</th>
+										<th>0.001390</th>
+										<th>117120</th>
+										<th>0.134667</th>
+										<th>896368</th>
+									</tr>
+									<tr>
+										<th>System 2c</th>
+										<th>0.002210</th>
+										<th>123520</th>
+										<th>0.127096</th>
+										<th>851408</th>
+									</tr>
+									<tr>
+										<th>System 2d</th>
+										<th>0.001380</th>
+										<th>112960</th>
+										<th>0.122837</th>
+										<th>825728</th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-code">Sample Code: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-code">Sample Code: sys2.cpp<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-code" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
-</pre>
+						<p>Here is a sample from my direct-mapped data cache, <i>sys1.cpp</i>. I start by initializing the vectors that will represent the cache. The <i>cacheBlock</i> vector will hold the cached data. The <i>cacheMeta</i> vector will hold the tag, valid, and dirty bits. <i>cacheMeta[i][0]</i> holds the <b>tag</b> of the <i>i</i>'th element of the cache. <i>cacheMeta[i][1]</i> holds the <b>valid bit</b> of the <i>i</i>'th element. And <i>cacheMeta[i][2]</i> holds the <b>dirty bit</b> of the <i>i</i>'th element.</p>
+						<p>Using this data, I classify each instruction into either a cache hit, a clean cache miss, or a dirty cache miss. Then I adjust the cache entries depending on its classification. Throughout the loop, I record statistics on the cache accesses and also fill a stringstream for the verbose mode display.</p>
+<pre>vector< vector<int> > cacheMeta(numBlocks, vector<int>(3)); 
+vector< vector<string> > cacheBlock(numBlocks, vector<string>(blockSize << 2));
+
+for (int i = 0; i < numBlocks; i++){
+	cacheMeta[i][0] = 0; //tag
+	cacheMeta[i][1] = 0; //valid
+	cacheMeta[i][2] = 0; //dirty
+	for (int j = 0; j< (blockSize<<2); j++){
+		cacheBlock[i][j] = ""; //data in block at offset j
+	}
+}
+
+int numLines = data.size();
+stringstream verboseStream;
+
+for (int i = 0; i < numLines; i++){
+	int index = (dataAddress[i] >> offsetSize) & (numBlocks - 1);
+	int offset = dataAddress[i] & ((int)pow(2,offsetSize) - 1);
+	int tag = dataAddress[i] >> (offsetSize + indexSize);
+
+	verboseStream.str(string());
+	verboseStream << dec << i << ' ';
+	verboseStream << hex << index << ' ' << tag << ' ' <<
+		cacheMeta[index][1] << ' ' << cacheMeta[index][0] <<
+		' ' << cacheMeta[index][2] << ' ';
+
+	accesses++;
+
+	//cache hit
+	if(cacheMeta[index][0] == tag && cacheMeta[index][1] == 1){
+		verboseStream << "1 1\n";
+		//read hit
+		if (accessType[i].compare("R") == 0){
+			reads++;
+			readTime++; // cache to CPU
+		}
+		//write hit
+		else{
+			writes++;
+			writeTime++; // CPU to cache
+			cacheMeta[index][2] = 1;
+			cacheBlock[index][offset<<2] = data[i];
+		}
+	}
+	//cache miss
+	else{
+		verboseStream << "0 2";
+		dataMiss++;
+		cacheMeta[index][0] = tag;
+		cacheMeta[index][1] = 1;
+		cacheBlock[index][offset<<2] = data[i];
+
+		//clean miss
+		if(cacheMeta[index][2] == 0){
+			verboseStream << "a\n";
+			//clean read miss
+			if(accessType[i].compare("R") == 0){
+				reads++;
+				readMiss++;
+				readTime+= 81; 
+				bytesRead+= blockSize;
+				cacheMeta[index][2] = 0;
+			}
+			//clean write miss
+			else{
+				writes++;
+				writeMiss++;
+				writeTime+= 81; 	
+				bytesRead+= blockSize;
+				cacheMeta[index][2] = 1;
+			}
+		}
+		//dirty miss
+		else{
+			verboseStream << "b\n";
+			//dirty read miss
+			if(accessType[i].compare("R") == 0){
+				reads++;
+				readMiss++;
+				dirtyRead++;
+				readTime+=161;
+				bytesWrite+= blockSize;
+				bytesRead+=blockSize;
+				cacheMeta[index][2] = 0;
+			}
+			//dirty write miss
+			else{
+				writes++;
+				writeMiss++;
+				dirtyWrite++;
+				writeTime+=161; 
+				bytesWrite+= blockSize;
+				bytesRead+=blockSize;
+				cacheMeta[index][2] = 1;
+			}
+		}
+	}
+
+	if (verbose && i >= ic1 && i <= ic2)
+		cout << verboseStream.str();
+
+}</pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-output">Sample Output: sys2.cpp<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-output" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
+							<p>The sys1 program is called on the <i>mad.xex</i> trace file using a 1kb direct-mapped cache. The verbose mode is called to display cache data at each line of the tracefile between 1 and 10. The verbose mode display is formatted to show, respectively, the instruction order, the cache index calculated from the memory address, the tag calculated from the memory address, the valid bit of the cache block accessed, the tag stored in the cache block accessed (0 if invalid), dirty bit of the block accessed, hit(0) or miss(1), and whether it is a cache hit(1), a clean miss(2a), or a dirty miss(2b). After the verbose stringstream is displayed, the program outputs various cache statistics.</p>
+<pre>$ ./sys1 mad.xex 1 -v 1 10
+1 23 2ffb4d 1 2ffb4d 1 1 1
+2 22 2ffb4d 0 0 0 0 2a
+3 24 2ffb4d 0 0 0 0 2a
+4 1a 201e2 0 0 0 0 2a
+5 1a 201e2 1 201e2 0 1 1
+6 24 2ffb4d 1 2ffb4d 0 1 1
+7 1a 201e2 1 201e2 0 1 1
+8 24 2ffb4d 1 2ffb4d 0 1 1
+9 24 2ffb4d 1 2ffb4d 0 1 1
+10 1a 201e2 1 201e2 0 1 1
+direct-mapped, writeback, size = 1KB
+loads 47750 stores 11418 total 59168
+rmiss 7576 wmiss 2750 total 10326
+dirty rmiss 2108 dirty wmiss 1058
+bytes read 165216 bytes written 50656
+read time 822470 write time 316058
+total time 1138528
+miss rate 0.174520
 </pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>

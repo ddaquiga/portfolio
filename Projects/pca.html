@@ -51,52 +51,253 @@
 		</div>
 		<div id="mainbody" class="col-sm-10">
 			<h3>Principal Component Analysis <small>MATLAB</small></h3>
-			<p><big>Numerical Analysis - San Francisco State University</big> Date</p>
+			<p><big>Numerical Analysis - San Francisco State University</big> Spring 2017</p>
 			<p>Get Source Code:</p>
 			<ul>
 				<li>.zip File: <a href="***.zip">Download</a></li>
 				<li>git url: <a href="https://github.com/ddaquiga/pca.git">https://github.com/ddaquiga/pca.git</a></li>
 				<li>git SSH key: git@github.com:ddaquiga/pca.git</li>
 			</ul>
-			<p>Project Description</p>
+			<p>This code is an implementation of a principal component analysis(PCA) using a singular value decomposition(SVD) to reduce the dimensionality of a data set. In this example, I run the PCA on iris data consisting of the sepal length, sepal width, petal length, and petal width of 150 different species of iris. The PCA will calculate the principal components, the principal component scores, and the variances of the principal components.</p>
+
+			<p>The <b>principal components</b> are vectors giving the direction along the variables where the data varies the most; it shows the combinations of variables which give the highest variation.</p>
+
+			<p>The <b>principal component scores</b> shows the projection of each sample onto each principal component.</p>
+			
+			<p><b>Variances</b> show the variances along the different principal components.</p>
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#results">Results<span class="caret"></span></a>
-						</p>
-					</div>
-					<div id="results" class="panel-collapse collapse">
-						<div class="panel-body">
-							<p>Results Explanation</p>
-						</div>
-					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-code">Sample Code: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-code">Code: pcaSVD.m<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-code" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
+						<p>The most informative data related to PCA is the covariance matrix <i>C</i> of the data, which shows how each sample differs from every other sample. To perform PCA, I first center the data around the means of the variables, creating the <i>centered</i> matrix. Since <i>C</i> is symmetric, it can be written as <i>C = Y<sup>T</sup>Y</i>. Furthermore, <i>C = centered<sup>T</sup>centered/(n-1)</i>. So <i>Y = centered<sup>T</sup>/sqrt(n-1)</i>. SVD finds the <b>prinicipal component scores</b> by factoring <i>Y</i> into <i>U</i>, <i>S</i>, and <i>scores</i>. I format the <i>scores</i> matrix into its reduced form. Then, using <i>S</i> from the SVD, I find <i>V</i>, the <b>variances</b> of the principal components. Finally, using <i>scores</i> and <i>centered</i> we find the <i>PC</i>, the <b>principal components</b>.</p>
+<pre>	%	pcaSVD:
+	%		performs the principal component analysis on a data set
+	%		via singular value decomposition
+	%
+	%	input:
+	%		data-
+	%			MxN matrix containing M samples and N variables
+	%	output:
+	%		Scores-
+	%			MxN matrix of projected data
+	%		PC-
+	%			MxM matrix where the k'th column vector is the k'th principal component
+	%		Var-
+	%			N-vector of variances
+	%	usage:
+	%		[scores,PC,Var] = pcaSVD(data)
+
+function [scores,PC,V] = pcaSVD(data)
+
+[M,N] = size(data);
+mn = mean(data,2);
+centered = data - repmat(mn,1,N);
+Y = centered' / sqrt(N-1);
+[U,S,scores] = svd(Y);
+scores = scores(:,1:N);
+S = diag(S);
+V = S .* S;
+PC = (scores' * centered);
 </pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-output">Sample Output: pcaSVD.m<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-output" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
-</pre>
+							<p>In this sample, I run my function, <i>pcaSVD</i>, on the 150x4 <i>irisData</i> matrix; each row represents an iris species. The sepal length, sepal width, petal length, and petal width of each species is recorded in the first, second, third, and fourth columns, respectively. The <i>pcaSVD</i> function takes in a dataset and outputs the <b>principal component scores</b> - <i>scores</i>, the <b>principal components</b> - <i>PC</i>, and the <b>variances</b> of each principal component - <i>V</i>.</p>
+
+							<p><i>scores</i> is a 150x4 matrix where <i>scores[i,j]</i> is the <i>i</i>'th iris species projected onto the <i>j</i>'th principal component. In other words, <i>scores[i,j]</i> is the <b>principal component score</b> of the <i>i</i>'th iris species along the <i>j</i>'th principal component.</p>
+
+							<p><i>PC</i> is a 4x4 matrix where the vector in th <i>j</i>'th column is the <i>j</i>'th <b>principal component</b>. Each vector is made up of coordinates for each variable, giving a direction for the principal component.</p>
+
+							<p><i>V</i> is a 4-vector showing the <b>variances</b> of each principal component. Here, it shows the variances of <i>559.8206</i>, <i>96.5285</i>, <i>1.4859</i>, and <i>0</i> for the first, second, third, and fourth principal components, respectively. This shows that the first principal component can account for the bulk of the variation. The second principal component has some variance, but not on the same magnitude as the first. The third and fourth principal components are negligible.</p>
+<pre>>> [scores,PC,Var]=pcaSVD(IrisData)
+
+scores =
+
+   -0.0771   -0.1214    0.0016   -0.2190
+   -0.0753   -0.0999    0.0813    0.0081
+   -0.0709   -0.1104    0.0095    0.0228
+   -0.0700   -0.0971   -0.0328    0.0769
+   -0.0750   -0.1245   -0.0455    0.0523
+   -0.0784   -0.1260   -0.0483   -0.0623
+   -0.0671   -0.1127   -0.0598   -0.1604
+   -0.0759   -0.1124   -0.0182   -0.0078
+   -0.0670   -0.0918   -0.0052    0.0131
+   -0.0769   -0.1003    0.0090    0.0617
+   -0.0819   -0.1277   -0.0037   -0.0347
+   -0.0727   -0.1065   -0.0852    0.1326
+   -0.0752   -0.0997    0.0340    0.0096
+   -0.0658   -0.1081   -0.0099   -0.0029
+   -0.0870   -0.1556    0.0781    0.0530
+   -0.0814   -0.1567   -0.0608   -0.1035
+   -0.0774   -0.1428    0.0415   -0.1392
+   -0.0754   -0.1208    0.0266   -0.1011
+   -0.0856   -0.1251    0.0183   -0.0220
+   -0.0747   -0.1285   -0.0703   -0.0608
+   -0.0834   -0.1073    0.0259    0.0384
+   -0.0734   -0.1240   -0.0205   -0.1193
+   -0.0670   -0.1380   -0.0447    0.0571
+   -0.0736   -0.0991    0.0591    0.1096
+   -0.0735   -0.0939   -0.1526    0.0367
+   -0.0776   -0.0923    0.0587    0.0551
+   -0.0729   -0.1070    0.0094   -0.0487
+   -0.0791   -0.1180    0.0014    0.1070
+   -0.0792   -0.1183    0.0487    0.0397
+   -0.0717   -0.0977   -0.0578    0.0814
+   -0.0737   -0.0946   -0.0107    0.0522
+   -0.0796   -0.1146    0.1209   -0.0629
+   -0.0787   -0.1424   -0.1727   -0.0755
+   -0.0817   -0.1525   -0.0832    0.0566
+   -0.0769   -0.1003    0.0090    0.0617
+   -0.0759   -0.1171    0.0988    0.1308
+   -0.0838   -0.1290    0.1131   -0.0051
+   -0.0769   -0.1003    0.0090    0.0617
+   -0.0664   -0.0999   -0.0076    0.0113
+   -0.0777   -0.1132    0.0040    0.0007
+   -0.0734   -0.1242    0.0268   -0.1390
+   -0.0688   -0.0724    0.2137   -0.0349
+   -0.0657   -0.1079   -0.0572    0.0630
+   -0.0692   -0.1098    0.0346    0.0745
+   -0.0740   -0.1111   -0.1351   -0.0222
+   -0.0719   -0.0985    0.0841   -0.0629
+   -0.0766   -0.1249   -0.1178    0.1031
+   -0.0694   -0.1053   -0.0352    0.0629
+   -0.0801   -0.1268   -0.0260    0.0403
+   -0.0760   -0.1127    0.0290   -0.0622
+   -0.0998    0.0207    0.0587    0.1994
+   -0.0872    0.0179   -0.0050   -0.0477
+   -0.0973    0.0345    0.0414    0.1427
+   -0.0766    0.0389    0.0805   -0.0800
+   -0.0906    0.0371    0.0942   -0.0598
+   -0.0797    0.0384   -0.1115   -0.0336
+   -0.0840    0.0238   -0.0719   -0.0032
+   -0.0690    0.0087    0.0041   -0.0881
+   -0.0953    0.0311    0.0416   -0.0543
+   -0.0681    0.0219   -0.0382   -0.0640
+   -0.0726    0.0321    0.0808    0.0090
+   -0.0784    0.0174    0.0008   -0.0681
+   -0.0906    0.0369    0.1415    0.0456
+   -0.0852    0.0401   -0.0671    0.0269
+   -0.0753   -0.0026    0.0435   -0.0370
+   -0.0942    0.0145    0.0841   -0.0347
+   -0.0740    0.0325   -0.1334   -0.0053
+   -0.0857    0.0229   -0.0497   -0.0054
+   -0.0871    0.0592    0.1990   -0.0201
+   -0.0807    0.0247    0.0254    0.0202
+   -0.0743    0.0365   -0.1085   -0.2043
+   -0.0854    0.0140    0.0898   -0.0069
+   -0.0889    0.0633    0.0569   -0.0593
+   -0.0888    0.0429   -0.0924    0.1730
+   -0.0910    0.0202    0.0644   -0.1428
+   -0.0928    0.0193    0.0867   -0.0421
+   -0.0979    0.0424    0.0911    0.0578
+   -0.0911    0.0455    0.0493    0.1280
+   -0.0813    0.0331   -0.0195   -0.0325
+   -0.0828    0.0024    0.0876   -0.0291
+   -0.0791    0.0253    0.0505    0.0686
+   -0.0805    0.0205    0.0479   -0.0894
+   -0.0819    0.0157    0.0453   -0.0049
+   -0.0818    0.0669   -0.0794    0.0902
+   -0.0705    0.0342   -0.1779   -0.0066
+   -0.0779    0.0139   -0.1187    0.0151
+   -0.0933    0.0277    0.0418    0.0123
+   -0.0916    0.0490    0.1688   -0.0384
+   -0.0762    0.0145   -0.0936   -0.0600
+   -0.0759    0.0309    0.0308   -0.0293
+   -0.0783    0.0432   -0.1089    0.0850
+   -0.0846    0.0319   -0.0695   -0.0067
+   -0.0825    0.0239    0.0477   -0.0125
+   -0.0711    0.0118    0.0512   -0.0012
+   -0.0775    0.0306   -0.0415   -0.0760
+   -0.0799    0.0173   -0.1188    0.1711
+   -0.0786    0.0218   -0.0690   -0.0532
+   -0.0875    0.0218    0.0199    0.0130
+   -0.0697   -0.0090    0.1162    0.0651
+   -0.0787    0.0216   -0.0217   -0.0243
+   -0.0724    0.0839   -0.1385   -0.1252
+   -0.0734    0.0704   -0.0489   -0.0270
+   -0.0937    0.0825    0.0365   -0.0727
+   -0.0843    0.0787   -0.1245    0.0655
+   -0.0814    0.0839   -0.0496    0.0049
+   -0.1042    0.1078   -0.0094   -0.0898
+   -0.0602    0.0594   -0.1149    0.0514
+   -0.1035    0.0998   -0.0590   -0.0843
+   -0.0932    0.0997    0.0190   -0.0436
+   -0.0873    0.0686   -0.0351    0.0941
+   -0.0822    0.0453    0.0078    0.1799
+   -0.0843    0.0738    0.0398   -0.0106
+   -0.0875    0.0681    0.0595   -0.1314
+   -0.0704    0.0755    0.0260    0.0534
+   -0.0648    0.0694    0.0514    0.0922
+   -0.0760    0.0563    0.0157   -0.1589
+   -0.0872    0.0689   -0.0824   -0.0692
+   -0.1018    0.0800   -0.1833    0.1402
+   -0.1048    0.1366    0.0950   -0.1929
+   -0.0849    0.0819    0.0422    0.0835
+   -0.0857    0.0690    0.0372   -0.0224
+   -0.0674    0.0603   -0.0483    0.0645
+   -0.1086    0.1185    0.0151    0.0548
+   -0.0832    0.0572    0.0823   -0.0435
+   -0.0852    0.0655   -0.0822   -0.0333
+   -0.1000    0.0761   -0.0885    0.0559
+   -0.0809    0.0498    0.0576   -0.1078
+   -0.0787    0.0469   -0.0368   -0.0658
+   -0.0815    0.0836   -0.0023    0.0911
+   -0.1035    0.0745   -0.0440   -0.0779
+   -0.1035    0.0951    0.0580    0.2391
+   -0.1079    0.0645   -0.1215   -0.0737
+   -0.0798    0.0842    0.0227    0.0037
+   -0.0884    0.0599   -0.0625    0.0214
+   -0.0885    0.0899   -0.1946    0.0170
+   -0.1014    0.0870    0.1752    0.1533
+   -0.0727    0.0624   -0.0986    0.0034
+   -0.0851    0.0657   -0.1295   -0.0173
+   -0.0767    0.0436   -0.0366   -0.1025
+   -0.0886    0.0591    0.0793    0.0594
+   -0.0807    0.0710    0.0650   -0.0667
+   -0.0845    0.0476    0.1968    0.0784
+   -0.0734    0.0704   -0.0489   -0.0270
+   -0.0845    0.0782   -0.0299    0.0602
+   -0.0786    0.0679    0.0179    0.0388
+   -0.0816    0.0575    0.1546    0.0425
+   -0.0825    0.0699    0.1346   -0.1001
+   -0.0831    0.0574    0.0350    0.0693
+   -0.0721    0.0543   -0.1010   -0.0193
+   -0.0757    0.0571   -0.1262   -0.0801
+
+
+PC =
+
+  -29.2277    5.7383   -4.3238   27.8133
+   -2.4317  -11.4819   12.2030    1.7106
+    0.9924   -1.1075   -1.0007    1.1158
+   -0.0000    0.0000    0.0000   -0.0000
+
+
+Var =
+
+  559.8206
+   96.5285
+    1.4859
+    0.0000</pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>

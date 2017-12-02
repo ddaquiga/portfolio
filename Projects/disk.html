@@ -51,14 +51,14 @@
 		</div>
 		<div id="mainbody" class="col-sm-10">
 			<h3>Disk Performance Analysis <small>C++</small></h3>
-			<p><big>Computer Performance Analysis - San Francisco State University</big> Date</p>
+			<p><big>Computer Performance Analysis - San Francisco State University</big> Fall 2016</p>
 			<p>Get Source Code:</p>
 			<ul>
 				<li>.zip File: <a href="***.zip">Download</a></li>
 				<li>git url: <a href="https://github.com/ddaquiga/disk-seek.git">https://github.com/ddaquiga/disk-seek.git</a></li>
 				<li>git SSH key: git@github.com:ddaquiga/disk-seek.git</li>
 			</ul>
-			<p>Project Description</p>
+			<p>In this project, I study the <b>average seek time</b>, <i>Sd(Q)</i>, for the Quantum Atlas III disk in regards to the <b>disk queue length</b>, <i>Q</i>. I write a disk simulator program to calculate <i>Sd(Q)</i> using the specifications of the Quantum Atlas III. To optimize the system, I use the shortest seek time first scheme where the I/O mechanism always serves the request that is closest to the current position of the I/O head. Furthermore, I used an exponential model for calculating seek time.</p>
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -68,35 +68,110 @@
 					</div>
 					<div id="results" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Results Explanation</p>
+							<p>This graph shows the relationshp between the <b>average seek time(ms)</b> and the <b>queue length</b> of the Quantum Atlas III. It shows exponential decay, with the seek time reducing significantly at first, but it eventually shows diminishing returns, leveling out at about a <i>4ms</i> average seek time.</p>
+							<img class="img-responsive" src="images/diskResults.png" alt="Average Seek Time of Quantum Atlas III">
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-code">Sample Code: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-code">Sample Code: diskSim.cpp<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-code" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
-</pre>
+							<p>In my simulator, I run a trial for each queue length from 1 to 20. Each trial involves 10,000 disk accesses each, and the average seek distance and seek time are recorded. This sample shows one of the trials.</p>
+							<p>Each trial starts by initializing a random starting cylinder and resetting counters. Then, for each of the 10,000 accesses, I find the request in the queue (<i>dq[]</i>) which is closest to the current cylinder. After finding the request that is closest, I get a seek time corresponding to the distance from the current cylinder to the closest cylinder using the given exponential model implemented in the <i>seekTime(int x)</i> function. I record this distance and time; then I replace the finished request in queue with a new request after updating the new current cylinder. Finally, I average out the 10,000 accesses to find the average seek distance and the average seek time for each trial.</p>
+<pre>//start trial
+	int currentCyl = rand() % xmax + 1;
+	double totalDistance = 0;
+	double totalTime = 0;
+	for (int i = 0; i < numAccesses; i++)
+	{
+		int closestDistance = xmax;
+		int closestIndex;
+		//find closest
+		for (int j = 0; j < Q; j++)
+		{
+			if ( abs(dq[j] - currentCyl) <= closestDistance)
+			{
+				closestDistance = abs(dq[j] - currentCyl);
+				closestIndex = j;
+			}
+		}
+
+		//add to totals
+		totalDistance += closestDistance;
+		if (closestDistance != 0)
+			totalTime += seekTime(closestDistance);
+		//update
+		currentCyl = dq[closestIndex];
+		dq[closestIndex] = rand() % xmax + 1;
+
+		
+	}
+	//averages
+	double avgDistance = totalDistance/double(numAccesses);
+	double avgTime = totalTime/double(numAccesses);
+
+	cout << "Q: " << Q << " avgDistance: " << avgDistance << " avgTime: " <<
+		avgTime << "\n";
+}
+
+double seekTime(int x)
+{
+	double result;
+	if ( x <= xprime )
+		result =  t + (c * pow((x-1),r));
+	else
+		result =  ((c * r * (x - xprime))/pow(xprime - 1,1-r)) + t + (c * pow(xprime-1,r));
+
+ 	return result;
+}</pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-output">Sample Output: diskSim.cpp<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-output" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
+							<p>The simulator displays the average seek distance and average seek time of 10,000 disk accesses for each queue length from 1 to 20.</p>
+<pre>$ ./a
+Q: 1 avgDistance: 2684.68 avgTime: 8.30747
+Q: 2 avgDistance: 1777.52 avgTime: 6.9728
+Q: 3 avgDistance: 1362.61 avgTime: 6.28959
+Q: 4 avgDistance: 1118.4 avgTime: 5.86896
+Q: 5 avgDistance: 932.974 avgTime: 5.52851
+Q: 6 avgDistance: 806.198 avgTime: 5.27849
+Q: 7 avgDistance: 721.035 avgTime: 5.09761
+Q: 8 avgDistance: 639.539 avgTime: 4.91929
+Q: 9 avgDistance: 575.413 avgTime: 4.76452
+Q: 10 avgDistance: 531.12 avgTime: 4.65485
+Q: 11 avgDistance: 485.976 avgTime: 4.55203
+Q: 12 avgDistance: 459.31 avgTime: 4.46836
+Q: 13 avgDistance: 413.055 avgTime: 4.34805
+Q: 14 avgDistance: 387.919 avgTime: 4.2717
+Q: 15 avgDistance: 363.062 avgTime: 4.1905
+Q: 16 avgDistance: 343.508 avgTime: 4.14059
+Q: 17 avgDistance: 327.647 avgTime: 4.07745
+Q: 18 avgDistance: 315.672 avgTime: 4.03994
+Q: 19 avgDistance: 296.42 avgTime: 3.98817
+Q: 20 avgDistance: 286.736 avgTime: 3.94039
 </pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>

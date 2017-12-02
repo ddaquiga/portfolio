@@ -51,14 +51,14 @@
 		</div>
 		<div id="mainbody" class="col-sm-10">
 			<h3>Open-Queue Server System Analysis <small>C++</small></h3>
-			<p><big>Computer Performance Evaluation - San Francisco State University</big> Date</p>
+			<p><big>Computer Performance Evaluation - San Francisco State University</big> Fall 2016</p>
 			<p>Get Source Code:</p>
 			<ul>
 				<li>.zip File: <a href="***.zip">Download</a></li>
 				<li>git url: <a href="https://github.com/ddaquiga/open-queue.git">https://github.com/ddaquiga/open-queue.git</a></li>
 				<li>git SSH key: git@github.com:ddaquiga/open-queue.git</li>
 			</ul>
-			<p>Project Description</p>
+			<p>In this project, I developed a simulator to model an open single server system. The simulator provides options to choose the random distributions of interarrival time and service time; which can be constant, exponential, or uniform. For each of the nine combinations of interarrival and service times distributions, I compute the average value and standard deviation of these parameters: <b>interarrival time</b>, <b>service time</b>, <b>wait time</b>, <b>response time</b>, <b>queue length</b>, and <b>utilization</b>.</p>
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -68,35 +68,351 @@
 					</div>
 					<div id="results" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Results Explanation</p>
+							<p>These tables compare analytical and simulated values for processor utilization(<b>U</b>), queue length(<b>Q</b>), and response time(<b>R</b>) for different combinations of interarrival and service time distributions. The simulated values were all within <i>6%</i> relative error.</p>
+							<table class="table table-responsive table-hover">
+								<thead>
+									<tr>
+										<th><big>#</big></th>
+										<th><big>Distribution of Interarrival Time</big></th>
+										<th></th>
+										<th><big>#</big></th>
+										<th><big>Disrtribution of Service Time</big></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>Constant Value: 2 sec</td>
+										<td></td>
+										<td>1</td>
+										<td>Constant Value: 1 sec</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>Exponential with Mean Value of 2 sec</td>
+										<td></td>
+										<td>2</td>
+										<td>Exponential with mean value of 1 sec</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>Uniform from 1 to 3 sec</td>
+										<td></td>
+										<td>3</td>
+										<td>Uniform from 1 to 2 sec</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="table table-responsive table-hover">
+								<thead>
+									<tr>
+										<th><big>a dist</big></th>
+										<th><big>s dist</big></th>
+										<th><big>Uan</big></th>
+										<th><big>Usim</big></th>
+										<th><big>E[%]</big></th>
+										<th><big>Qan</big></th>
+										<th><big>Qsim</big></th>
+										<th><big>E[%]</big></th>
+										<th><big>Ran</big></th>
+										<th><big>Rsim</big></th>
+										<th><big>E[%]</big></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>1</td>
+										<td>.5</td>
+										<td>.5</td>
+										<td>0</td>
+										<td>.5</td>
+										<td>.5</td>
+										<td>0</td>
+										<td>1</td>
+										<td>1</td>
+										<td>0</td>
+									</tr>
+									<tr>
+										<td>1</td>
+										<td>2</td>
+										<td>.5</td>
+										<td>.499908</td>
+										<td>-0.0184</td>
+										<td>.6</td>
+										<td>.627547</td>
+										<td>4.591</td>
+										<td>1.2</td>
+										<td>1.2509</td>
+										<td>4.5908</td>
+									</tr>
+									<tr>
+										<td>1</td>
+										<td>3</td>
+										<td>.75</td>
+										<td>.749863</td>
+										<td>-0.1826</td>
+										<td>.774</td>
+										<td>.749863</td>
+										<td>-3.1184</td>
+										<td>1.548</td>
+										<td>1.49973</td>
+										<td>-3.112</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>1</td>
+										<td>.5</td>
+										<td>.501182</td>
+										<td>.2364</td>
+										<td>.75</td>
+										<td>.757493</td>
+										<td>.99906</td>
+										<td>1.5</td>
+										<td>1.51141</td>
+										<td>1.141</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>2</td>
+										<td>.5</td>
+										<td>.500236</td>
+										<td>.0472</td>
+										<td>1</td>
+										<td>1.00031</td>
+										<td>.031</td>
+										<td>2</td>
+										<td>2.00294</td>
+										<td>.147</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>3</td>
+										<td>.75</td>
+										<td>.749523</td>
+										<td>-.0636</td>
+										<td>2</td>
+										<td>1.91871</td>
+										<td>-4.0645</td>
+										<td>3.9375</td>
+										<td>3.83936</td>
+										<td>-2.4924</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>1</td>
+										<td>.5</td>
+										<td>.500237</td>
+										<td>.0474</td>
+										<td>.521</td>
+										<td>.500237</td>
+										<td>-3.9852</td>
+										<td>1.042</td>
+										<td>1</td>
+										<td>-4.0307</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>2</td>
+										<td>.501351</td>
+										<td>.2702</td>
+										<td>.633</td>
+										<td>.662992</td>
+										<td>4.738</td>
+										<td>1.267</td>
+										<td>1.32435</td>
+										<td>4.52644</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>3</td>
+										<td>.75</td>
+										<td>.750196</td>
+										<td>.0392</td>
+										<td>.869</td>
+										<td>.824678</td>
+										<td>+5.1003</td>
+										<td>1.738</td>
+										<td>1.6896</td>
+										<td>-5.1231</td>
+									</tr>
+								</tbody>
+							</table>
+							<p><i>a dist</i> = distribution type # of interarrival time, <i>s dist</i> = distribution type # of service time, <i>an</i> = analytic result, <i>sim</i> = result obtained from simulator, <i>E</i> = relative error (<i>E</i>=100*(<i>sim</i> – <i>an</i>)/<i>an</i>)</p>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-code">Sample Code: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-code">Sample Code: openQueuing.cpp<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-code" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
-</pre>
+							<p>This sample shows the main loop of the program, running until the specified number of jobs are finished. <i>Job</i> structs are given an arrival and service time according to the given interarrival and service time distributions. Each <i>Job</i> has a wait time counter initialized at <i>0</i>. These structs fill the <i>jobs</i> vector. The <i>queue</i> vector represents the server queue. It gets filled up and emptied out depending on the time remaining until the next job arrives (<i>currA</i>), and the remaining service time of the current job (<i>currS</i>). The <i>queue</i> vector holds id numbers which index to the corresponding <i>Job</i> in the <i>job</i> vector. The user specifies <i>totalJobs</i>, the number of jobs that will run through the server. <i>jobsDone</i> counts the number of jobs that have been serviced and <i>jobsStart</i> counts the number of jobs that have arrived in queue. <i>numJobsTime[k]</i> is the time spent when the queue has a length of <i>k</i>.</p>
+							<p>At each iteration of this loop, the simulator can be in one of four states: the queue is empty (<i>queue.size() == 0</i>), the next job will arrive in queue before the current job's service is finished (<i>currA < currS</i>), the current job will be serviced before the next job arrives in queue (<i>currS < currA</i>), or the current job finishes as the next job arrives (<i>currS == currA</i>). The timers, counters, and queue are updated according to each case. This loop is repeated until all jobs have been serviced.</p>
+<pre class="pre-scrollable">while (jobsDone < totalJobs){
+	if (queue.size() == 0){
+		totalTime += currA;
+		numJobsTime[0] += currA;
+		if (jobsStarted < totalJobs){
+			queue.push_back(jobsStarted);
+			jobsStarted++;
+			currA = jobs[queue[0]].arrival;
+			currS = jobs[queue[0]].service;
+		}
+	}
+	else if(currA < currS){
+		totalTime += currA;
+		currS -= currA;
+
+		if (numJobsTime.size() < queue.size())
+			numJobsTime.push_back(currA);
+		else
+			numJobsTime[queue.size()] += currA;
+
+		for(int i=0; i<queue.size()-1; i++){
+			jobs[queue[i+1]].wait += currA;
+		}
+
+		if (jobsStarted < totalJobs){
+			queue.push_back(jobsStarted);
+			jobsStarted++;
+			currA = jobs[queue.back()].arrival;
+		}
+		else currA = 99;
+	}
+
+	else if(currS < currA){
+		totalTime += currS;
+		currA -= currS;
+		if (numJobsTime.size() < queue.size())
+			numJobsTime.push_back(currS);
+		else
+			numJobsTime[queue.size()] += currS;
+
+		for (int i= 0; i < queue.size()-1; i++){
+			jobs[queue[i+1]].wait += currS;
+		}
+
+		queue.erase(queue.begin());
+		jobsDone++;
+		currS = jobs[queue[0]].service;
+	}
+	else if(currS == currA){
+		totalTime += currS;
+		if (numJobsTime.size() < queue.size())
+			numJobsTime.push_back(currS);
+		else
+			numJobsTime[queue.size()] += currS;
+
+		for (int i= 0; i < queue.size()-1; i++){
+			jobs[queue[i+1]].wait += currS;
+		}
+
+		if (jobsStarted < totalJobs){
+			queue.push_back(jobsStarted);
+			jobsStarted++;
+			currA = jobs[queue.back()].arrival;
+		}
+		else currA = 99;
+		queue.erase(queue.begin());
+		jobsDone++;
+
+		if(queue.size() > 0 )
+			currS = jobs[queue[0]].service;
+		else currS = 98;
+	}</pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-output">Sample Output: openQueuing.cpp<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-output" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
+							<p>When this program is run, the user chooses options for interarrival and service time distributions. After setting the total number of jobs and the update interval, the simulation starts running. In this example I set the interarrival time distribution to be exponential with a mean of 2 seconds, and I set the service time distribution to be uniform between 1 and 2 seconds. I simulate 100000 jobs, showing an update at 50000 job intervals. At the end I display the processor utilization - <i>U</i>, the average queue length - <i>Q</i>, and the average response time - <i>R</i>.</p>
+<pre>$ ./openQueueing
+start initialize.....
+        1- Constant Value : 2sec
+        2- Exponential with mean value of 2 sec
+        3- Uniform from 1 to 3 sec
+Choose an interarrival time distribtion: 2
+        1- Constant Value : 1sec
+        2- Exponential with mean value of 1 sec
+        3- Uniform from 1 to 2 sec
+Choose an service time distribtion: 3
+Enter total number of jobs: 100000
+Enter update interval: 50000
+end initialize......
+---------------------------------
+jobs started: 50004
+jobs finished: 50000
+queue size: 4
+interarrival time mean: 1.99839sec
+interarrival standard deviation:1.99139sec
+service time mean: 1.49845sec
+service time standard deviation: 0.287981sec
+wait time mean: 2.32868sec
+wait time standard deviation: 2.8496sec
+response time mean: 3.82713sec
+response time standard deviation: 3.39856sec
+queue length mean: 1.91333
+queue length standard deviation: 2.05056
+utilization: 0.749796
+---------------------------------
+---------------------------------
+jobs started: 50005
+jobs finished: 50000
+queue size: 5
+interarrival time mean: 1.99839sec
+interarrival standard deviation:1.99139sec
+service time mean: 1.49845sec
+service time standard deviation: 0.287981sec
+wait time mean: 2.32868sec
+wait time standard deviation: 2.8496sec
+response time mean: 3.82713sec
+response time standard deviation: 3.39856sec
+queue length mean: 1.91334
+queue length standard deviation: 2.05056
+utilization: 0.749796
+---------------------------------
+---------------------------------
+jobs started: 100000
+jobs finished: 100000
+queue size: 0
+interarrival time mean: 2.00152sec
+interarrival standard deviation:1.99749sec
+service time mean: 1.50059sec
+service time standard deviation: 0.287756sec
+wait time mean: 2.33336sec
+wait time standard deviation: 2.84265sec
+response time mean: 3.83396sec
+response time standard deviation: 3.39383sec
+queue length mean: 1.91447
+queue length standard deviation: 2.04765
+utilization: 0.749718
+---------------------------------
+---------------------------------
+U = 0.749718
+Q = 1.91447
+R = 3.83396
+---------------------------------
+
 </pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>

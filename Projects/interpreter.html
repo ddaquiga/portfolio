@@ -51,57 +51,645 @@
 		</div>
 		<div id="mainbody" class="col-sm-10">
 			<h3>X Interpreter/Debugger <small>java</small></h3>
-			<p><big>Software Engineering - San Francisco State University</big> Date</p>
+			<p><big>Software Engineering - San Francisco State University</big> Spring 2016</p>
 			<p>Get Source Code:</p>
 			<ul>
-				<li>.zip File: <a href="***.zip">Download</a></li>
+				<li>.zip File: <a href="xxx.zip">Download</a></li>
 				<li>git url: <a href="https://github.com/ddaquiga/interpreter.git">https://github.com/ddaquiga/interpreter.git</a></li>
 				<li>git SSH key: git@github.com:ddaquiga/interpreter.git</li>
 			</ul>
-			<p>Project Description</p>
+			<p>In this project, I developed an interpreter and debugger which runs programs written in a made up language, <i>X</i>. The grammar for <i>X</i> is shown below. I was given a lexer and parser to translate raw <i>x</i> code into bytecode. The interpreter performs all initializations, loads the bytecodes from the file, and runs the code in the virtual machine. On top of the interpreter, I also developed a debugger to navigate the code. The debugger includes commands to set breakpoints, clear breakpoints, step out, step into, step over, display the current function, display local variables, and quit the interpreter.</p>
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#results">Results<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#grammar">Grammar for X<span class="caret"></span></a>
 						</p>
 					</div>
-					<div id="results" class="panel-collapse collapse">
+					<div id="grammar" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Results Explanation</p>
+<pre>PROGRAM -> ‘program’ BLOCK              ==> program
+
+BLOCK -> ‘{‘ D* S* ‘}’                  ==> block
+
+D -> TYPE NAME                          ==> decl
+  -> TYPE NAME FUNHEAD BLOCK            ==> functionDecl
+
+TYPE -> ‘int’
+     -> ‘boolean’
+
+FUNHEAD -> '(' (D list ',')? ')'        ==> formals
+
+S -> ‘if’ E ‘then’ BLOCK ‘else’ BLOCK   ==> if
+  -> ‘while’ E BLOCK                    ==> while
+  -> ‘return’ E                         ==> return
+  -> BLOCK
+  -> NAME ’=’ E                         ==> assign
+
+E -> SE
+  -> SE ‘==’ SE                         ==> =
+  -> SE ‘!=’ SE                         ==> !=
+  -> SE ‘<’ SE                          ==> <
+  -> SE ‘<=’ SE                         ==> <=
+
+SE -> T
+   -> SE ‘+’ T                          ==> +
+   -> SE’ –‘ T                          ==> -
+   -> SE ‘|’ T                          ==> or
+
+T -> F
+  -> T ‘*’ F                            ==> *
+  -> T ‘/’ F                            ==> /
+  -> T ‘&’ F                            ==> and
+
+F -> ‘(‘ E ‘)’
+  -> NAME
+  -> <int>
+  -> NAME '(' (E list ',')? ')'         ==> call
+
+NAME -> <id>
+
+
+Notes:
+• <id> stands for any valid identifier
+• <int> stands for any integer
+• rules without the tree description (e.g. F->(E) ) indicate the corresponding tree is the tree
+built for the subpart on the right-hand-side - the E in this case
+• items in single quotes are tokens</pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
-				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-code">Sample Code: ***<span class="caret"></span></a>
-						</p>
+						<p class="panel-title">Sample Code:</p>
 					</div>
-					<div id="sample-code" class="panel-collapse collapse">
+					<div id="sample-code">
 						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
+							<div class="panel-group">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<p><a data-toggle="collapse" href="#byte-code-loader">ByteCodeLoader.java<span class="caret"></span></a></p>
+									</div>
+									<div id="byte-code-loader" class="panel-collapse collapse">
+										<p>In the <i>ByteCodeLoader</i> class, I read in the next line of the <i>x</i> program. I use this line as a key to get the corresponding bytecode from the code table. Then I initialize the bytecode with any arguments given. The initialized bytecode is then added to the program. This is done for each line of the source code. After all lines are loaded, I resolve the addresses.</p>
+<pre>try{
+    nextLine = source.readLine();
+    
+    while(nextLine != null){
+        StringTokenizer st = new StringTokenizer(nextLine);
+        hashKey = st.nextToken();
+        hashValue = CodeTable.get(hashKey);
+        byteCode = (ByteCode) (Class.forName("interpreter.ByteCode." +
+                hashValue).newInstance());
+        
+        argArray.clear();
+        while(st.hasMoreTokens()){
+            argArray.add(st.nextToken());
+        }
+        byteCode.init(argArray);
+        program.addCode(byteCode);
+        nextLine = source.readLine();
+        
+    }
+    program.resolveAddresses();
+}
+catch(Exception e){}
+
+return program;</pre>
+										<div class="panel-footer">
+											<p class="text-right"><a data-toggle="collapse" href="#byte-code-loader">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<p><a data-toggle="collapse" href="#program">Program.java<span class="caret"></span></a></p>
+									</div>
+									<div id="program" class="panel-collapse collapse">
+										<div class="panel-body">
+											<p>The <i>Program</i> class holds an array of bytecodes loaded by the bytecode loader. This is a sample showing the <i>resolveAddress</i> and <i>getAddress</i> methods. The bytecodes <i>FalseBranchCode</i>, <i>GoToCode</i>, and <i>CallCode</i> have arguments pointing to a label in the program. These methods link the labels to the actual address of the label.</p>
+<pre>public void resolveAddresses(){
+    for (int i = 0; i < codes.size(); i++){
+        if ( codes.get(i) instanceof FalseBranchCode ||
+                codes.get(i) instanceof GoToCode ||
+                codes.get(i) instanceof CallCode){
+        
+        String address = getAddress(codes.get(i).getArg(0));
+        codes.get(i).setArg(0, address);
+        codes.get(i).resolveAddress();
+        }
+    }
+}
+
+public String getAddress(String label){
+    for (int i = 0; i < codes.size(); i++){
+        if ( codes.get(i) instanceof LabelCode ){
+            if ( label.equals(codes.get(i).getArg(0))){
+                return Integer.toString(i);
+            }
+        }
+    }
+    return "error"; //missing the arg, should not happen with good code
+}</pre>
+										</div>
+										<div class="panel-footer">
+											<p class="text-right"><a data-toggle="collapse" href="#program">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<p><a data-toggle="collapse" href="#virtual-machine">VirtualMachine.java<span class="caret"></span></a></p>
+									</div>
+									<div id="virtual-machine" class="panel-collapse collapse">
+										<div class="panel-body">
+											<p>In this loop, the virtual machine retreives the correct ByteCode corresponding to the current <i>pc</i>. The current code is then executed. If the code is flagged for dumping, a data dump is displayed. Finally, the <i>pc</i> is incremented and the loop is run again.</p>
+<pre>public void executeProgram(){
+    while(isRunning){
+        ByteCode code = program.getCode(pc);
+        code.execute(this);
+        
+        if (!(code instanceof DumpCode) && dumpFlag == true){
+            code.print();
+            runStack.dump();
+        }
+        pc++;
+    }
+}</pre>
+										</div>
+										<div class="panel-footer">
+											<p class="text-right"><a data-toggle="collapse" href="#program">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<p><a data-toggle="collapse" href="#bytecode">ByteCode.java<span class="caret"></span></a></p>
+									</div>
+									<div id="bytecode" class="panel-collapse collapse">
+										<div class="panel-body">
+											<p>This sample shows the abstract <i>ByteCode</i> class. The individual bytecode classes extend the <i>ByteCode</i> class inheriting all the methods shown.</p>
+<pre>public abstract class ByteCode {
+    public abstract void execute(VirtualMachine vm);
+    public abstract void init(java.util.ArrayList&lt;String&gt; args);
+    public abstract String getArg(int index);
+    public abstract void setArg(int index, String value);
+    public abstract void resolveAddress();
+    public abstract void print();
+}
 </pre>
+										</div>
+										<div class="panel-footer">
+											<p class="text-right"><a data-toggle="collapse" href="#bytecode">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<p><a data-toggle="collapse" href="#store-code">StoreCode.java<span class="caret"></span></a></p>
+									</div>
+									<div id="store-code" class="panel-collapse collapse">
+										<div class="panel-body">
+											<p>Here is a sample of the <i>StoreCode</i> class which is a subclass of the <i>ByteCode</i> class. The StoreCode is called using <i>STORE n &lt;id&gt;</i>. This pops the top of the runtime stack and stores the value into the offset <i>n</i> from the start of the frame. <i>&lt;id&gt;</i> is used as a comment; it's the variable name where the data is stored. The <i>StoreCode</i> class holds the arguments of the instruction as data members. The execute method calls on the virtual machine, which in turn calls on the RunTimeStack to perform the instruction using the corresponding arguments.</p>
+<pre>public class StoreCode extends ByteCode {
+    ArrayList&lt;String&gt; args;
+    int offset;
+    int topOfStack;
+    String id;
+    public void execute(VirtualMachine vm){
+        topOfStack = vm.storeRunStack(offset);
+    }
+    public void init(ArrayList&lt;String&gt; newArgs){
+        args = new ArrayList&lt;String&gt;(newArgs);
+        offset = Integer.valueOf(args.get(0));
+        id = args.get(0);
+    }
+    
+    public String getArg(int index){
+        return args.get(index);
+    }
+    
+    public void setArg(int index, String value){
+        args.set(index, value);
+    }
+    
+    public void resolveAddress(){}
+    
+    public void print(){
+        System.out.print("STORE ");
+        for (int i = 0; i < args.size(); i++){
+            System.out.print(args.get(i) + " ");
+        }
+        if (args.size() == 2){
+            System.out.print(" " + id + " " + topOfStack);
+        }
+        System.out.println();
+    }
+}</pre>
+										</div>
+										<div class="panel-footer">
+											<p class="text-right"><a data-toggle="collapse" href="#store-code">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<p><a data-toggle="collapse" href="#run-time-stack">RunTimeStack.java<span class="caret"></span></a></p>
+									</div>
+									<div id="run-time-stack" class="panel-collapse collapse">
+										<div class="panel-body">
+											<p>When the <i>StoreCode</i> ByteCode is executed, it calls on the <i>VirtualMachine</i>, which then calls on the <i>RunTimeStack</i>, which finally calls this store method. This method takes the value at the top of the stack, and stores it into the frame according to the offset argument. The top of the stack is then popped.</p>
+<pre>public int store(int offset){
+    int value = runTimeStack.peek();
+    runTimeStack.set(framePointers.peek() + offset, runTimeStack.pop());
+    return value;
+}</pre>
+										</div>
+										<div class="panel-footer">
+											<p class="text-right"><a data-toggle="collapse" href="#run-time-stack">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<p><a data-toggle="collapse" href="#dvm">DebuggerVM.java<span class="caret"></span></a></p>
+									</div>
+									<div id="dvm" class="panel-collapse collapse">
+										<div class="panel-body">
+											<p>This is the virtual machine class for the debugger. It extends the <i>VirtualMachine</i> class. Like its parent class, the debugger virtual machine retrieves the current <i>ByteCode</i> according to the current <i>pc</i> and calls on the <i>ByteCode</i>'s execute method. Additionally this virtual machine retreives the next <i>ByteCode</i>, for reference. Then, the virtual machine checks if the debugger UI should be displayed and executed depending on the current code and the next code.</p>
+<pre>while(super.isRunning()){
+    ByteCode code = super.program().getCode(super.pc());
+    ByteCode nextCode;
+    if (super.pc() + 1 < super.program().numCodes())
+        nextCode = super.program().getCode(super.pc() + 1);
+    else 
+        nextCode = null;
+    code.execute(this);
+    
+    if(!(code instanceof DumpCode) && super.dumpFlag() == true){
+        code.print();
+        super.runStack().dump();
+    }
+    
+    
+    if(shouldPrompt(code, nextCode)){
+        ui.displayFunction(1, entries.size(), envStack.peek().currentLine);
+        if (firstRun){
+            firstRun = false;
+            System.out.println("Type '?' for help");
+        }
+        do{
+            ui.prompt();
+        }
+        while (ui.execute());
+    }
+    
+    super.incPC();
+}
+</pre>
+										</div>
+										<div class="panel-footer">
+											<p class="text-right"><a data-toggle="collapse" href="#dvm">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<p><a data-toggle="collapse" href="#ui">UI.java<span class="caret"></span></a></p>
+									</div>
+									<div id="ui" class="panel-collapse collapse">
+										<div class="panel-body">
+											<p>This is a sample of the debugger user interface code. The <i>prompt</i> method prompts the user to enter a command. It then stores the command and any arguments. The execute method first instantiates a <i>CommandCode</i> according to the prompted user. After initializing the arguments, the command is executed.</p>
+<pre>public void prompt(){
+    args.clear();
+    System.out.print(">");
+    StringTokenizer st = new StringTokenizer(s.nextLine());
+    command = st.nextToken();
+    while(st.hasMoreTokens()){
+        args.add(st.nextToken());
+    }
+}
+
+public boolean execute(){
+    CommandCode cmdCode;
+    switch (command){
+        case "?":
+            cmdCode = new HelpCode();
+            break;
+        case "sb":
+            cmdCode = new SetBPCode();
+            break;
+        case "cb":
+            cmdCode = new ClearBPCode();
+            break;
+        case "df":
+            cmdCode = new DisFuncCode();
+            break;
+        case "dv":
+            cmdCode = new DisVarCode();
+            break;
+        case "c":
+            cmdCode = new ContinueCode();
+            break;
+        case "q":
+            cmdCode = new QuitCode();
+            break;
+        case "out":
+            cmdCode = new StepOutCode();
+            break;
+        case "in":
+            cmdCode = new StepIntoCode();
+            break;
+        case "ov":
+            cmdCode = new StepOverCode();
+            break;
+        
+        default:
+            cmdCode = new InvalidCode();
+            break;
+    }
+    cmdCode.init(args);
+    return cmdCode.execute(dvm);
+}</pre>
+										</div>
+										<div class="panel-footer">
+											<p class="text-right"><a data-toggle="collapse" href="#ui">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<p><a data-toggle="collapse" href="#disvar">DisVarCode.java<span class="caret"></span></a></p>
+									</div>
+									<div id="disvar" class="panel-collapse collapse">
+										<div class="panel-body">
+											<p>Here is one of the debugger command codes. The <i>DisVar</i> command displays the local variables from the current function. <i>offsets</i> is a HashMap that links variable names to the location of the variable's value, using the offset from the top of the stack. The <i>keys</i> array gets the variable IDs. For each key, I display the variable ID and the value held at the matching offset on the runtime stack.</p>
+<pre>public class DisVarCode extends CommandCode{
+    public boolean execute(DebuggerVM dvm){
+        HashMap&lt;String,Integer> offsets = dvm.peekEnvStack().varOffsets();
+        String [] keys = dvm.peekEnvStack().getVarIds();
+        if(keys.length == 0){
+            System.out.println("no local variables");
+        }
+        for (int i = 0; i < keys.length; i++){
+            System.out.println(keys[i] + ": " +
+                    dvm.runStack().get(dvm.runStack().peekFrame() +
+                            offsets.get(keys[i])));
+        }
+        return true;
+    }
+    public void init(Vector&lt;String&gt; newArgs){
+    }
+}</pre>
+										</div>
+										<div class="panel-footer">
+											<p class="text-right"><a data-toggle="collapse" href="#disvar">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<p><a data-toggle="collapse" href="#func-env-record">FunctionEnvironmentRecord.java<span class="caret"></span></a></p>
+									</div>
+									<div id="func-env-record" class="panel-collapse collapse">
+										<div class="panel-body">
+											<p>The <i>FunctionEnvironmentRecord</i> class holds the function's name as well as the start, end, and current line numbers. <i>symtab</i> is the symbol table linking the local variables with the location of their values. The <i>varOffsets</i> method creates a HashMap which includes all the variable keys and their corresponding offsets from the top of the runtime stack.</p>
+<pre>public class FunctionEnvironmentRecord {
+    public Table symtab;
+    int startLine;
+    int endLine;
+    int currentLine;
+    String name;
+
+...
+
+    public HashMap&lt;String,Integer> varOffsets(){
+        HashMap&lt;String,Integer> varOff = new HashMap&lt;String,Integer>();
+        String[] keys = new String[symtab.size()];
+        int [] offsets = new int[symtab.size()];
+        symtab.keys().toArray(keys);
+        
+        for (int i = 0; i < symtab.size(); i++){
+            varOff.put(keys[i],symtab.get(keys[i]));
+            
+        }
+        return varOff;
+    }
+</pre>
+										</div>
+										<div class="panel-footer">
+											<p class="text-right"><a data-toggle="collapse" href="#func-env-record">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-output">Sample Output:<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-output" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
+							<p>In this sample, I run the interpreter in debug mode on the <i>fib.x</i> file. This short program uses recursion to find the <i>n</i>'th fibonacci number. In the sample, I manipulate breakpoints, display local variables, display current functions, and navigate with steps.</p>
+<pre>$ java -jar Interpreter.jar -d fib
+Function: main
+  1.  program { int x         <----
+  2.    int fib(int n) {
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+ 13.    k = write(fib(read()))
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+Type '?' for help
+>?
+? - display help menu
+sb <lineNumber> - sets a breakpoint at the line number
+cb - clears all breakpoints
+cb <lineNumber> - clears any breakpoint at the line number
+df - displays the current function
+dv - display local variables
+c - Continue execution
+out - step out
+in - step into
+ov - step over
+q - Quit execution
+>sb 3 13
+Breakpoint set at line 3
+Breakpoint set at line 13
+>c
+Function: main
+  1.  program { int x
+  2.    int fib(int n) {
+* 3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))         <----
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>cb 3
+Cleared breakpoint at line 3
+>dv
+x: 5
+k: 0
+>in
+Function: Read
+  1.  program { int x
+  2.    int fib(int n) {
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>df
+In Read function
+>out
+Enter a number: 4
+Function: main
+  1.  program { int x
+  2.    int fib(int n) {
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))         <----
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>in
+Function: fib
+  1.  program { int x
+  2.    int fib(int n) {          <----
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>dv
+no local variables
+>ov
+Function: fib
+  1.  program { int x
+  2.    int fib(int n) {
+  3.        if (n <= 1) then         <----
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>out
+Function: main
+  1.  program { int x
+  2.    int fib(int n) {
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))         <----
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>sb 16
+Breakpoint set at line 16
+>c
+3
+Function: main
+  1.  program { int x
+  2.    int fib(int n) {
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))
+ 14.    { int x
+ 15.      x = 7
+*16.      x = 8         <----
+ 17.    }
+>dv
+x: 7
+k: 3
+>c
 </pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </div>
