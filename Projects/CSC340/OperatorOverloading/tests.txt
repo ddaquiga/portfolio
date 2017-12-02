@@ -1,0 +1,15 @@
+void OperatorOverloadingTest::run_tests() {
+  check_map_item_default_constructor();
+  check_map_item_constructor();
+  check_map_item_get_type();
+  check_map_item_set_type();
+  check_map_item_ostream_insertion_implemented();
+  check_map_item_ifstream_ofstream_implemented();
+
+  check_map_size();
+  check_map_default_building();
+  check_map_build();
+  check_map_coordinates_correct();
+  check_map_ostream_insertion_implemented();
+  check_map_ifstream_ofstream_implemented();
+}

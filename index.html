@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>Darrel Daquigan</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="site.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar.nav">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Darrel Daquigan</a>
+		</div>
+	</div>
+	<div class="container">
+		<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+			<ul class="nav">
+				<li><a href="CSC656/BranchPrediction/branch.html">Branch Prediction Simulation</a></li>
+				<li><a href="#">Data Cache Simulation</a></li>
+				<li><a href="#">Newton's Method Implementaton</a></li>
+				<li><a href="#">Principal Component Analysis</a></li>
+				<li><a href="#">Disk Performance Analysis</a></li>
+				<li><a href="#">Open Queue Server Analysis</a></li>
+				<li><a href="#">Closed Queue Server Analysis</a></li>
+				<li><a href="#">Mean Value Analysis</a></li>
+				<li><a href="#">Interpreter/ Debugger</a></li>
+				<li><a href="#">Operating System Principles</a></li>
+				<li><a href="#">Operator Overloading</a></li>
+				<li><a href="#">Inheritance</a></li>
+				<li><a href="#">Binary Tree</a></li>
+				<li><a href="#">Graph</a></li>
+			</ul>
+		</div>
+		<div class="col-xs-12 col-sm-9">
+			<h1>Programming Portflio</h1>
+			<div>
+				<h3>Computer Organization</h3>
+				<p>San Francisco State University Spring 2017</p>
+				<ul>
+					<li>
+						<h4>Branch Prediction - C++</h4>
+						<a href="Projects/CSC656/BranchPrediction/DaquiganBranchPrediction.zip">Download Source Files</a>
+						<p>In this project I developed two branch prediction simulators to study their impacts on pipeline efficiency. <b>System 1</b> executes a <b>static</b> prediction scheme. Forward branches are predictied not taken, and backward branches are predicted taken. <b>System 2</b> uses a <b>2-bit saturating counter</b> predictor with a branch target buffer where <i>n</i> is the size of the prediction buffer and <i>m</i> is the size of the branch target buffer.
+						</p>
+						<ul>
+							<li>
+								<h5>Results:</h5>
+								<p>Here are statistics gathered for three different trace files on three different prediction configurations</p>
+								<img src="Projects/CSC656/BranchPrediction/ResultsTables.png" width=600px>
+							</li>
+							<li>
+								<h5>Sample Code: sys2.cpp:</h5>
+								<embed src="Projects/CSC656/BranchPrediction/sampleCode.txt" width = 100%>
+								<p>Here is a section of code from <i>sys2.cpp</i>, my dynamic 2-bit branch predictor. First I create the predictor and branch target buffer vectors. The prediction vector holds the current branch prediction for each entry. Each entry of the branch target buffer(<i>btb</i>) holds a tag, a valid bit, and the branch target address. For each line of the given trace file, I extract the indeces and tag. Then, I update the entries in the prediction buffer and branch target buffer. Throughout the loop, I collect various branch and prediction statistics and fill up a stringstream to display if verbose mode is active.</p>
+							</li>
+							<li>
+								<h5>Sample Output: sys2.cpp</h5>
+								<embed src="Projects/CSC656/BranchPrediction/sampleOutput.txt"
+								width=100%>
+								<p>The <i>sys2</i> program is called on the <i>li2.trace</i> file with a 1024-entry prediction array and a 2048-entry branch target buffer array. The program outputs various branch and prediction data gathered throughout the trace.</p>
+							</li>
+						</ul>
+
+					</li>
+					<li>
+						<h4>Cache Simulation - C++</h4>
+						<a href="Projects/CSC656/CacheSimulation/DaquiganCacheSimulation.zip">Download Source Files</a>
+						<p>For this project, I developed two cache simulator systems. For each system, I allocate  vectors to represent the cache, read each line of a trace file, and update the cache arrays accordingly. <b>System 1</b> simulates a <b>direct-mapped</b> data cache. <b>System 2</b> simulates a <b>k-way set associative</b> data-cache.</p>
+						<ul>
+							<li>
+								<h5>Results:</h5>
+								<p>Here is a table showing the miss rate and total access time for different cache configurations on the <i>FFT.xex</i> and <i>mad.xex</i> trace files.</p>
+								<img src="Projects/CSC656/CacheSimulation/Results.png" width=600px>
+							</li>
+							<li>
+								<h5>Sample Code: sys1.cpp</h5>
+								<embed src="Projects/CSC656/CacheSimulation/sampleCode.txt" width=100%>
+								<p>Here is a sample from my direct-mapped data cache, <i>sys1.cpp</i>. I start by initializing the vectors that will represent the cache. The <i>cacheBlock</i> vector will hold the cached data. The <i>cacheMeta</i> vector will hold the tag, valid, and dirty bits. <i>cacheMeta[i][0]</i> holds the <b>tag</b> of the <i>i</i>'th element of the cache. <i>cacheMeta[i][1]</i> holds the <b>valid bit</b> of the <i>i</i>'th element. And <i>cacheMeta[i][2]</i> holds the <b>dirty bit</b> of the <i>i</i>'th element.</p>
+								<p>Using this data, I classify each instruction into either a cache hit, a clean cache miss, or a dirty cache miss. Then I adjust the cache entries depending on its classification. Throughout the loop, I record statistics on the cache accesses and also fill a stringstream for the verbose mode display.</p>
+							</li>
+							<li>
+								<h5>Sample Output: sys1.cpp</h5>
+								<embed src="Projects/CSC656/CacheSimulation/sampleOutput.txt"
+								width=100%>
+								<p>The sys1 program is called on the <i>mad.xex</i> trace file using a 1kb direct-mapped cache. The verbose mode is called to display cache data at each line of the tracefile between 1 and 10. The verbose mode display is formatted to show, respectively, the instruction order, the cache index calculated from the memory address, the tag calculated from the memory address, the valid bit of the cache block accessed, the tag stored in the cache block accessed (0 if invalid), dirty bit of the block accessed, hit(0) or miss(1), and whether it is a cache hit(1), a clean miss(2a), or a dirty miss(2b). After the verbose stringstream is displayed, the program outputs various cache statistics. </p>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h3>Numerical Analysis</h3>
+				<p>San Francisco State University Spring 2017</p>
+				<ul>
+					<li>
+						<h4>Newton's Method Implementation - MATLAB</h4>
+						<p>This assignment involves using MATLAB to implement Newton's Method for solving a system of nonlinear equations. In this case, <i>f<sub>1</sub>(x,y) = x<sup>2</sup> - y + sin(x - y) - 2</i> and <i>f<sub>2</sub>(x,y) = y<sup>2</sup> - x - 3</i>.</p>
+						<ul>
+							<li>
+								<h5>Results:</h5>
+								<p>These tables show the values of <i>f<sub>1</sub>(x,y)</i>, <i>f<sub>2</sub>(x,y)</i>, <i>x</i>, and <i>y</i> at each iteration of Newton's Method for solving a system of nonlinear equations. The program converges on a confirmed solution for the system in only five iterations. <i>x</i> and <i>y</i> both reach values with 16-digit precision. <i>f1</i> and <i>f2</i> both converge to 0, within the machine epsilon. </p>
+								<img src="Projects/Math400/Newton/Results.png" width=600px>
+							</li>
+							<li>
+								<h5>Code and Output:</h5>
+								<embed src="Projects/Math400/Newton/sampleOutput.txt" width=100%>
+								<p>I initialize <i>x</i> and <i>y</i> as symbols. <i>f1</i> and <i>f2</i> make up the system of nonlinear equations. I also create the <i>f</i> vector, which holds <i>f1</i> and <i>f2</i>. At every iteration of the loop, I find a <i>deltaX</i> by solving the system <i>jacobian(f) * deltaX = -f</i> using the current values for <i>x</i> and <i>y</i>. This is done with the <i>linsolve(A,B)</i> function which uses LU factorization to solve the linear system <i>AX = B</i>.It is important to subsitute the values for the <i>x</i> and <i>y</i> symbols by using the <i>subs(A)</i> function. Then I add <i>deltaX</i> to <i>x</i> and <i>y</i> updating their values for the next iteration. The loop exits when the 2-norm of either <i>f</i> or <i>deltaX</i> is less than the machine epsilon, which means the program has converged on a solution to the system of nonlinear equations/.</p>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h4>Principal Component Analysis - MATLAB</h4>
+						<a href="Projects/Math400/PCA/DaquiganPCA.zip">Download Source Files</a>
+						<p>This code is an implementation of a principal component analysis(PCA) using a singular value decomposition(SVD) to reduce the dimensionality of a data set. In this example, I run the PCA on iris data consisting of the sepal length, sepal width, petal length, and petal width of 150 different species of iris. The PCA will calculate the principal components, the principal component scores, and the variances of the principal components.</p>
+
+						<p>The <b>principal components</b> are vectors giving the direction along the variables where the data varies the most; it shows the combinations of variables which give the highest variation.</p>
+
+						<p>The <b>principal component scores</b> shows the projection of each sample onto each principal component.</p>
+						
+						<p><b>Variances</b> show the variances along the different principal components.</p>
+
+						<ul>
+							<li>
+								<h5>Sample Code: pcaSVD.m</h5>
+								<embed src="Projects/Math400/PCA/sampleCode.txt" width=100%>
+								<p>The most informative data related to PCA is the covariance matrix <i>C</i> of the data, which shows how each sample differs from every other sample. To perform PCA, I first center the data around the means of the variables, creating the <i>centered</i> matrix. Since <i>C</i> is symmetric, it can be written as <i>C = Y<sup>T</sup>Y</i>. Furthermore, <i>C = centered<sup>T</sup>centered/(n-1)</i>. So <i>Y = centered<sup>T</sup>/sqrt(n-1)</i>. SVD finds the <b>prinicipal component scores</b> by factoring <i>Y</i> into <i>U</i>, <i>S</i>, and <i>scores</i>. I format the <i>scores</i> matrix into its reduced form. Then, using <i>S</i> from the SVD, I find <i>V</i>, the <b>variances</b> of the principal components. Finally, using <i>scores</i> and <i>centered</i> we find the <i>PC</i>, the <b>principal components</b>.</p>
+							</li>
+							<li>
+								<h5>Sample Output:</h5>
+								<embed src="Projects/Math400/PCA/sampleOutput.txt" width=100%>
+								<p>In this sample, I run my function, <i>pcaSVD</i>, on the 150x4 <i>irisData</i> matrix; each row represents an iris species. The sepal length, sepal width, petal length, and petal width of each species is recorded in the first, second, third, and fourth columns, respectively. The <i>pcaSVD</i> function takes in a dataset and outputs the <b>principal component scores</b> - <i>scores</i>, the <b>principal components</b> - <i>PC</i>, and the <b>variances</b> of each principal component - <i>V</i>.</p>
+
+								<p><i>scores</i> is a 150x4 matrix where <i>scores[i,j]</i> is the <i>i</i>'th iris species projected onto the <i>j</i>'th principal component. In other words, <i>scores[i,j]</i> is the <b>principal component score</b> of the <i>i</i>'th iris species along the <i>j</i>'th principal component.</p>
+
+								<p><i>PC</i> is a 4x4 matrix where the vector in th <i>j</i>'th column is the <i>j</i>'th <b>principal component</b>. Each vector is made up of coordinates for each variable, giving a direction for the principal component.</p>
+
+								<p><i>V</i> is a 4-vector showing the <b>variances</b> of each principal component. Here, it shows the variances of <i>559.8206</i>, <i>96.5285</i>, <i>1.4859</i>, and <i>0</i> for the first, second, third, and fourth principal components, respectively. This shows that the first principal component can account for the bulk of the variation. The second principal component has some variance, but not on the same magnitude as the first. The third and fourth principal components are negligible.</p>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h3>Computer Performance Evaluation</h3>
+				<p>San Francisco State University Fall 2016</p>
+				<ul>
+					<li>
+						<h4>Disk Seeking Simulation - C++</h4>
+						<a href="Projects/CSC642/Disk/DaquiganDiskSeek.zip">Download Source Files</a>
+						<p>In this project, I study the <b>average seek time</b>, <i>Sd(Q)</i>, for the Quantum Atlas III disk in regards to the <b>disk queue length</b>, <i>Q</i>. I write a disk simulator program to calculate <i>Sd(Q)</i> using the specifications of the Quantum Atlas III. To optimize the system, I use the shortest seek time first scheme where the I/O mechanism always serves the request that is closest to the current position of the I/O head. Furthermore, I used an exponential model for calculating seek time.</p>
+						<ul>
+							<li>
+								<h5>Results:</h5>
+								<p>This graph shows the relationshp between the <b>average seek time(ms)</b> and the <b>queue length</b> of the Quantum Atlas III. It shows exponential decay, with the seek time reducing significantly at first, but it eventually shows diminishing returns, leveling out at about a <i>4ms</i> average seek time.</p>
+								<img src="Projects/CSC642/Disk/Results.png" width=600px>
+							</li>
+							<li>
+								<h5>Sample Code: DiskSim.cpp</h5>
+								<embed src="Projects/CSC642/Disk/sampleCode.txt" width=100%>
+								<p>In my simulator, I run a trial for each queue length from 1 to 20. Each trial involves 10,000 disk accesses each, and the average seek distance and seek time are recorded. This sample shows one of the trials.</p>
+								<p>Each trial starts by initializing a random starting cylinder and resetting counters. Then, for each of the 10,000 accesses, I find the request in the queue (<i>dq[]</i>) which is closest to the current cylinder. After finding the request that is closest, I get a seek time corresponding to the distance from the current cylinder to the closest cylinder using the given exponential model implemented in the <i>seekTime(int x)</i> function. I record this distance and time; then I replace the finished request in queue with a new request after updating the new current cylinder. Finally, I average out the 10,000 accesses to find the average seek distance and the average seek time for each trial.</p>
+							</li>
+							<li>
+								<h5>Sample Output: DiskSim.cpp</h5>
+								<embed src="Projects/CSC642/Disk/sampleOutput.txt" width=100%>
+								<p>The simulator displays the average seek distance and average seek time of 10,000 disk accesses for each queue length from 1 to 20.</p>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h4>Open Queue Server Model - C++</h4>
+						<a href="Projects/CSC642/OpenQueueing/DaquiganOpenQueueing.zip">Download Source Files</a>
+						<p>In this project, I developed a simulator to model an open single server system. The simulator provides options to choose the random distributions of interarrival time and service time; which can be constant, exponential, or uniform. For each of the nine combinations of interarrival and service times distributions, I compute the average value and standard deviation of these parameters: <b>interarrival time</b>, <b>service time</b>, <b>wait time</b>, <b>response time</b>, <b>queue length</b>, and <b>utilization</b>.</p>
+						<ul>
+							<li>
+								<h5>Results:</h5>
+								<p>This table compares analytical and simulated values for processor utilization(<i>U</i>), queue length(<i>Q</i>), and response time(<i>R</i>) for different combinations of interarrival and service time distributions. The simulated values were all within <i>6%</i> relative error.</p>
+								<img src="Projects/CSC642/OpenQueueing/Distributions.png" width=100%>
+								<img src="Projects/CSC642/OpenQueueing/Results.png" width=100%>
+								<p><i>a dist</i> = distribution type # of interarrival time, <i>s dist</i> = distribution type # of service time, <i>an</i> = analytic result, <i>sim</i> = result obtained from simulator, <i>E</i> = relative error (<i>E</i>=100*(<i>sim</i> – <i>an</i>)/<i>an</i>)</p>
+							</li>
+							<li>
+								<h5>Sample Code: openQueueing.cpp</h5>
+								<embed src="Projects/CSC642/OpenQueueing/sampleCode.txt" width=100%>
+								<p>This sample shows the main loop of the program, running until the specified number of jobs are finished. <i>Job</i> structs are given an arrival and service time according to the given interarrival and service time distributions. Each <i>Job</i> has a wait time counter initialized at <i>0</i>. These structs fill the <i>jobs</i> vector. The <i>queue</i> vector represents the server queue. It gets filled up and emptied out depending on the time remaining until the next job arrives (<i>currA</i>), and the remaining service time of the current job (<i>currS</i>). The <i>queue</i> vector holds id numbers which index to the corresponding <i>Job</i> in the <i>job</i> vector. The user specifies <i>totalJobs</i>, the number of jobs that will run through the server. <i>jobsDone</i> counts the number of jobs that have been serviced and <i>jobsStart</i> counts the number of jobs that have arrived in queue. <i>numJobsTime[k]</i> is the time spent when the queue has a length of <i>k</i>.</p>
+								<p>At each iteration of this loop, the simulator can be in one of four states: the queue is empty (<i>queue.size() == 0</i>), the next job will arrive in queue before the current job's service is finished (<i>currA < currS</i>), the current job will be serviced before the next job arrives in queue (<i>currS < currA</i>), or the current job finishes as the next job arrives (<i>currS == currA</i>). The timers, counters, and queue are updated according to each case. This loop is repeated until all jobs have been serviced.</p>		
+							</li>
+							<li>
+								<h5>Sample Output: openQueueing.cpp</h5>
+								<embed src="Projects/CSC642/OpenQueueing/sampleOutput.txt" width=100%>
+								<p>When this program is run, the user chooses options for interarrival and service time distributions. After setting the total number of jobs and the update interval, the simulation starts running. In this example I set the interarrival time distribution to be exponential with a mean of 2 seconds, and I set the service time distribution to be uniform between 1 and 2 seconds. I simulate 100000 jobs, showing an update at 50000 job intervals. At the end I display the processor utilization - <i>U</i>, the average queue length - <i>Q</i>, and the average response time - <i>R</i>.</p>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h4>Closed Queue Server Models</h4>
+						<a href="Projects/CSC642/ClosedQueueing/DaquiganClosedQueueing.zip">Download Source Files</a>
+						<p>In this project, I study queuing models of closed systems. In this sample, I calculate the processor utilization and the response time for the system given in figure 1 below. This multiprogrammed computer system, with 2 processors and 3 disks, processes 4 identical programs. Each program needs 10 CPU minutes. Also the disk service time is twice as long as the processor servce time, <i>S<sub>d</sub> = 2S<sub>p</sub></i>.</p>
+						<img src="Projects/CSC642/ClosedQueueing/queueModel.png" width=600px>
+						<ul>
+							<li>
+								<h5>Results:</h5>
+								<p>With the given information, I calculate processor utilization and response time for two cases. I first look at the case where both processors are working. Then, I look at the case where one of the processors goes offline leaving only one active processor in the system. This table shows the <b>Processor Utilization</b> and <b>Response Time (CPU minutes)</b> for each case.</p>
+								<img src="Projects/CSC642/ClosedQueueing/Results.png" width = 600px>
+							</li>
+							<li>
+								<h5>State Transition Diagram:</h5>
+								<img src="Projects/CSC642/ClosedQueueing/StateDiagram.png" width=600px>
+								<p>This diagram shows the different states of this system. In state <i>p<sub>0</sub></i>, all four programs are either being served by one of the two central processors(CP) or they are waiting in the <i>CP</i> queue. In state <i>p<sub>4</sub></i>, all four programs are either being serviced by one of the three disks or waiting in the disk queue. In states <i>p<sub>1</sub></i>, <i>p<sub>2</sub></i>, and <i>p<sub>3</sub></i>, the programs are distributed between the CP's and disks in some combination according to the diagram. <i>&lambda;</i> is the rate of a single CP finishing a job. And <i>&mu;</i> is the rate of a single disk finishing a job. I use this state transition diagram to create the system of balanced equations used in the following calculations.</p>
+							</li>
+							<li>
+								<h5>Calculations:</h5>
+								<embed src="Projects/CSC642/ClosedQueueing/calculationSample.txt" width=100%>
+								<p>In this calculation, I first derive <i>&lambda;</i> and <i>&mu;</i> from the given service times, <i>S<sub>p</sub></i> and <i>S<sub>d</sub></i>. From <i>&lambda;</i> and <i>&mu;</i> I get <i>&rho;</i>, the ratio of CP to disk service rates. In this case, <i>&rho;</i> is 2.</p>
+								<p>Now using the state transition diagram above, I make a system of balanced equations to find the probabilities of being in each of the five states. I express the probabilities of each state in terms of <i>p<sub>0</sub></i>. Then after solving for <i>p<sub>0</sub></i>, I calculate the probabilities of being in each other state.</p>
+								<p>Using the state transition diagram, I determine the states where the CP's are active. Using the probabilities of being in each state, I find the <b>processor utilization</b> (<i>U<sub>p</sub></i> = 0.5957). The total processor time required by 4 jobs is <i>4T<sub>p</sub></i> where <i>T<sub>p</sub></i> is the processor time required by one of the programs. The total processor time delivered by two processors is <i>2RU<sub>p</sub></i>, where <i>R</i> is the response time. The total processor time delivered is equal to the total processor time required by the 4 jobs, <i>2RU<sub>p</sub> = 4T<sub>p</sub></i>. Using this equality, I find the <b>response time</b> (<i>R</i> &asymp; 33.5758 CPU minutes).</p>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h4>Mean Value Analysis Models - C++</h4>
+						<a href="Projects/CSC642/MVA/DaquiganMVA.zip">Download Source Files</a>
+						<p>In this project, I study the closed batch server system shown below. The system has one processor with average service time <i>S<sub>p</sub></i> = 3ms, and 4 disk units with average service time <i>S<sub>d</sub></i> = 10ms. There are 8 jobs total with the average transaction generates 40 visits to disk units. I calculate the <b>throughput</b> - <i>X</i> (transactions per second), <b>server utilizations</b> - <i>U</i>, <b>queue lengths</b> - <i>Q</i>, and the <b>system response time</b> - <i>R</i> in two cases: when the load is balanced and each disk receives 25% of disk traffic, and when the load is not balanced and the traffic to individual disks is distributed nonuniformly: 40%, 30%, 20%, and 10%. To make these calculations, I developed a program which implements the mean value analysis method.</p>
+						<img src="Projects/CSC642/MVA/SystemModel.png" width=600px>
+						<ul>
+							<li>
+								<h5>Results:</h5>
+								<p>The table below compares response times of the system with a balanced load and the system with an unbalanced load in relation to the number of jobs in the system. Response times of the balanced system are shorter than the response times of the unbalanced system. The difference between the two increases as more jobs are put in the system.</p>
+								<img src="Projects/CSC642/MVA/Results1.png" width=600px>
+								<p>The next table shows the throughputs of the two systems. The balanced system has a higher throughput than the unbalanced system. The difference between the two also increases as more jobs are put into the system.</p>
+								<img src="Projects/CSC642/MVA/Results2.png" width=600px>
+							</li>
+							<li>
+								<h5>Sample Code: MVA.cpp</h5>
+								<embed src="Projects/CSC642/MVA/sampleCode.txt" width=100%>
+								<p>I use the mean value analysis method to find <i>X</i>, <i>Q</i>, <i>U</i>, and <i>R</i> of the system. I first examine the system when only one job is active in the system. Using the given <b>demand time</b> for each resource, I calculate the <b>residence time</b> of each resource. Then, using the residence times, I find the <b>response times</b>. Next, with the response times of each resource, I find the <b>throughputs</b>. Finally, I use the residence times and throughputs of each resource to calculate the <b>queue length</b> of each resource.</p>
+								<p>This process is repeated as another job is added to the system. This time, I calculate the residence time based on the queue lengths from the previous iteration. With these new residence times, I find the response times, throughputs, and queue lengths of each resource when there are two jobs in the system. Using the data from this two-job system, I calculate the data for a three-job system. Then, I use the three-job information to find the four-job information, and so on until I finally have the data for desired number of jobs.</p>
+								<p>In this code sample, I implement the mean value analysis method iteratively. <i>i</i> represents the number of jobs. <i>j</i> represents the identification number of each resource. <i>residence[i][j]</i> is the residence time of the <i>j</i>'th resource with <i>i</i> jobs in the system. <i>demand[j]</i> is the total demand per transaction (seconds) for the <i>j</i>'th resource. <i>queueLength[i][j]</i> is the queue length of the <i>j</i>'th resource with <i>i</i> jobs in the system. <i>numResources[j]</i> shows the number of copies of the <i>j</i>'th resource. <i>throughput[i]</i> is the throughput of the system with <i>i</i> jobs.</p>
+								<p>With this program, I can use the mean value analysis method for either interactive or batch systems. Calculations for throughput for interactive systems also involves a user think time. For batch systems, think time is 0.</p>
+							</li>
+							<li>
+								<h5>Sample Output: MVA.cpp</h5>
+								<embed src="Projects/CSC642/MVA/sampleOutput1.txt" width=100%>
+								<p>Here I use my mean value analysis program to find data for the system when the loads are balanced.</p>
+								<embed src="Projects/CSC642/MVA/sampleOutput2.txt" width=100%>
+								<p>I run the program again, but this time the loads are unbalanced.</p>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h3>Software Development</h3>
+				<p>San Francisco State University Spring 2016</p>
+				<ul>
+					<li>
+						<h4>Interpreter/Debugger</h4>
+						<a href="Projects/CSC413/Interpreter/DaquiganInterpreter.zip">Download Source Files</a>
+						<p>In this project, I developed an interpreter and debugger which runs programs written in a made up language, <i>X</i>. The grammar for <i>X</i> is shown below. I was given a lexer and parser to translate raw <i>x</i> code into bytecode. The interpreter performs all initializations, loads the bytecodes from the file, and runs the code in the virtual machine. On top of the interpreter, I also developed a debugger to navigate the code. The debugger includes commands to set breakpoints, clear breakpoints, step out, step into, step over, display the current function, display local variables, and quit the interpreter.</p>
+						<h5>Grammar for X:</h5>
+						<embed src="Projects/CSC413/Interpreter/XGrammar.txt" width=100% height=600px>
+						<ul>
+							<li>
+								<h5>Sample Code: ByteCodeLoader.java</h5>
+								<embed src="Projects/CSC413/Interpreter/CodeSamples/BCLSample.txt" width=100%>
+								<p>In the <i>ByteCodeLoader</i> class, I read in the next line of the <i>x</i> program. I use this line as a key to get the corresponding bytecode from the code table. Then I initialize the bytecode with any arguments given. The initialized bytecode is then added to the program. This is done for each line of the source code. After all lines are loaded, I resolve the addresses.</p>
+							</li>
+							<li>
+								<h5>Sample Code: Program.java</h5>
+								<embed src="Projects/CSC413/Interpreter/CodeSamples/ProgramSample.txt" width=100%>
+								<p>The <i>Program</i> class holds an array of bytecodes loaded by the bytecode loader. This is a sample showing the <i>resolveAddress</i> and <i>getAddress</i> methods. The bytecodes <i>FalseBranchCode</i>, <i>GoToCode</i>, and <i>CallCode</i> have arguments pointing to a label in the program. These methods link the labels to the actual address of the label.</p>
+							</li>
+							<li>
+								<h5>Sample Code: VirtualMachine.java</h5>
+								<embed src="Projects/CSC413/Interpreter/CodeSamples/VMSample.txt" width=100%>
+								<p>In this loop, the virtual machine retreives the correct ByteCode corresponding to the current <i>pc</i>. The current code is then executed. If the code is flagged for dumping, a data dump is displayed. Finally, the <i>pc</i> is incremented and the loop is run again.</p>
+							<li>
+								<h5>Sample Code: ByteCode.java</h5>
+								<embed src="Projects/CSC413/Interpreter/CodeSamples/BCSample.txt" width=100%>
+								<p>This sample shows the abstract <i>ByteCode</i> class. The individual bytecode classes extend the <i>ByteCode</i> class inheriting all the methods shown.</p>
+							</li>
+							<li>
+								<h5>Sample Code: StoreCode.java</h5>
+								<embed src="Projects/CSC413/Interpreter/CodeSamples/SCSample.txt" width=100%>
+								<p>Here is a sample of the <i>StoreCode</i> class which is a subclass of the <i>ByteCode</i> class. The StoreCode is called using <i>STORE n &lt;id&gt;</i>. This pops the top of the runtime stack and stores the value into the offset <i>n</i> from the start of the frame. <i>&lt;id&gt;</i> is used as a comment; it's the variable name where the data is stored. The <i>StoreCode</i> class holds the arguments of the instruction as data members. The execute method calls on the virtual machine, which in turn calls on the RunTimeStack to perform the instruction using the corresponding arguments.</p> 
+							</li>
+							<li>
+								<h5>Sample Code: RunTimeStack.java</h5>
+								<embed src="Projects/CSC413/Interpreter/CodeSamples/RTSSample.txt" width=100%>
+								<p>When the <i>StoreCode</i> ByteCode is executed, it calls on the <i>VirtualMachine</i>, which then calls on the <i>RunTimeStack</i>, which finally calls this store method. This method takes the value at the top of the stack, and stores it into the frame according to the offset argument. The top of the stack is then popped.</p>
+							</li>
+							<li>
+								<h5>Sample Code: DebuggerVM.java</h5>
+								<embed src="Projects/CSC413/Interpreter/CodeSamples/DVMSample.txt" width=100%>
+								<p>This is the virtual machine class for the debugger. It extends the <i>VirtualMachine</i> class. Like its parent class, the debugger virtual machine retrieves the current <i>ByteCode</i> according to the current <i>pc</i> and calls on the <i>ByteCode</i>'s execute method. Additionally this virtual machine retreives the next <i>ByteCode</i>, for reference. Then, the virtual machine checks if the debugger UI should be displayed and executed depending on the current code and the next code.</p>
+							</li>
+							<li>
+								<h5>Sample Code: UI.java</h5>
+								<embed src="Projects/CSC413/Interpreter/CodeSamples/UISample.txt" width=100%>
+								<p>This is a sample of the debugger user interface code. The <i>prompt</i> method prompts the user to enter a command. It then stores the command and any arguments. The execute method first instantiates a <i>CommandCode</i> according to the prompted user. After initializing the arguments, the command is executed.</p>
+							</li>
+								<h5>Sample Code: DisVarCode.java</h5>
+								<embed src="Projects/CSC413/Interpreter/CodeSamples/DVSample.txt" width=100%>
+								<p>Here is one of the debugger command codes. The <i>DisVar</i> command displays the local variables from the current function. <i>offsets</i> is a HashMap that links variable names to the location of the variable's value, using the offset from the top of the stack. The <i>keys</i> array gets the variable IDs. For each key, I display the variable ID and the value held at the matching offset on the runtime stack.</p>
+							</li>
+							<li>
+								<h5>Sample Code: FunctionEnvironmentRecord.java</h5>
+								<embed src="Projects/CSC413/Interpreter/CodeSamples/FERSample.txt" width=100%>
+								<p>The <i>FunctionEnvironmentRecord</i> class holds the function's name as well as the start, end, and current line numbers. <i>symtab</i> is the symbol table linking the local variables with the location of their values. The <i>varOffsets</i> method creates a HashMap which includes all the variable keys and their corresponding offsets from the top of the runtime stack.</p>
+							</li>
+							<li>
+								<h5>Sample Output: Interpreter.jar</h5>
+								<embed src="Projects/CSC413/Interpreter/sampleOutput.txt" width=100%>
+								<p>In this sample, I run the interpreter in debug mode on the <i>fib.x</i> file. This short program uses recursion to find the <i>n</i>'th fibonacci number. In the sample, I manipulate breakpoints, display local variables, display current functions, and navigate with steps.</p>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h3>Operating System Principles</h3>
+				<p>San Francisco State University Spring 2016</p>
+				<ul>
+					<li>
+						<h4>Operating System - JavaScript</h4>
+						<p><a href="Projects/CSC415/OperatingSystem/DaquiganOperatingSystem.zip">Download Source Files</a></p>
+						<p><a href="Projects/CSC415/OperatingSystem/DaquiganOperatingSystem/index.html">Link to Operating System</a></p>
+						<p>In this project, I developed programs to run on a custom operating system. These programs were formatted to support parallel processing on the operating system. Each process is divided into smaller blocks, which gives the processor convenient places to pause and resume processing. At the end of each block, the process returns callback information telling the operating system where to resume processing. Everytime the process is called, the processor refers to the callback data to know where to resume processing.</p>
+						<ul>
+							<li>
+								<h4>GetInitials(Filesystem)</h4>
+								<p>This <i>GetInitials</i> program reads in a file holding a list of names. Then it writes to a file which will hold a list of initials corresponding to the names.</p>
+								<ul>
+									<li>
+										<h5>Sample Code: GetInitials.js</h5>
+										<embed src="Projects/CSC415/OperatingSystem/GetInitSample.txt" width=100%>
+										<p>This process is broken up into seven segments: get input file length, open input file, read input file, get output file data, open output file, write to output file, and close files. The process can safely pause execution at the end of any of these segments. When reading the input file, the processor will only read 100 characters before pushing the process back into the processor queue. Everytime this happens, the process keeps track of its current position on the file. This way, the process knows where to resume if it is interrupted during a read. The same thing is done when writing the output file. The <i>createInitials</i> function pulls the initials from names in the input file. It is called when getting output file data.</p>
+									</li>
+									<li>
+										<h5>Sample Output: GetInitials.js</h5>
+										<embed src="Projects/CSC415/OperatingSystem/GetInitSampleOutput.txt" width=100%>
+										<p>Here is a sample of the command line of the operating system. In this sample, I run the <i>GetInitials</i> process on <i>rapper_names.csv</i>, a list of rapper names. I display the files in the filesystem, showing that the <i>GetInitials</i> process created the output file, <i>rapper_initials.csv</i>.</p>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h4>StatsCalc(Threads/Semaphores)</h4>
+								<p>This <i>StatsCalc</i> process is designed to read in a list of integers and display the mean and standard deviation onto an output file. To do this efficiently, I divide the integers into five parts and create five threads to process each part simultaneously. Each thread share the same <i>stats</i> object. I use semaphores to keep the different threads from interfering with each other and corrupting the <i>stats</i> object. I allow a single thread to lock <i>stats</i>, preventing any other thread from accessing and possibly corrupting the object. When a thread is finished processing, the semaphore is unlocked, allowing the other threads to access <i>stats</i>. When all the threads are finished, the data is consolidated and is further processed.</p>
+								<ul>
+									<li>
+										<h5>Sample Code: StatsCalc.js</h5>
+										<embed src="Projects/CSC415/OperatingSystem/StatsCalcSample.txt" width=100%>
+										<p>In this section of the <i>StatsCalc</i> process, I calculate the mean of the list of integers. To implement this, I create 5 threads to process the <i>stats</i> object simultaneously. The list of integers is divided into 5 segments; one for each thread. Each thread directly accesses the <i>stats</i> object, adding their segment of integers into <i>stats.sum</i>. Before accessing the <i>stats</i> object, a thread must use a semaphore to lock out the other threads from accessing the <i>stats</i> object. After adjusting the <i>stats</i> object, the thread unlocks the semaphore allowing other threads to access the <i>stats</i> object. Other threads can not access the <i>stats</i> object until it is unlocked.</p>
+									</li>
+									<li>
+										<h5>Sample Output: StatsCalc.js</h5>
+										<embed src="Projects/CSC415/OperatingSystem/StatsCalcSampleOutput.txt" width=100%>
+										<p>Here a sample of <i>StatsCalc</i> being used on the <i>more_integers.csv</i> file. It creates the file <i>integerStats.csv</i> which shows the statistics of <i>more_integers.csv</i>.</p>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h3>Programming Methodology</h3>
+				<p>San Francisco State University Fall 2015</p>
+				<ul>
+					<li>
+						<h4>Operator Overloading - C++</h4>
+						<a href="Projects/CSC340/OperatorOverloading/DaquiganOperatorOverloading.zip">Download Source Files</a>
+						<p>In this project, I created a <i>map</i> and <i>map_item</i> class for a simple city building game. I run these classes against unit tests given by the instructor.</p>
+						<ul>
+							<li>
+								<h5>Sample Code: map.cpp</h5>
+								<embed src="Projects/CSC340/OperatorOverloading/sampleCode.txt" width=100%>
+								<p>Here is my implementation of the <i>map</i> class. It includes a default constructor, a constructor taking an <i>int</i> argument, and a destructor. The <i>build</i> and <i>getMapItem</i> methods set and get a <i>mapItem</i> from the <i>map</i>. Additionally, I overloaded the stream operators to stream instances of a <i>map</i> in a readable format.</p>
+							</li>
+							<li>
+								<h5>Test:</h5>
+								<embed src="Projects/CSC340/OperatorOverloading/tests.txt" width=100%>
+								<p>Here is a list of the unit tests from the <i>op_overloading_test</i> class.</p>
+							</li>
+							<li>
+								<h5>Sample Output:</h5>
+								<embed src="Projects/CSC340/OperatorOverloading/sampleOutput.txt" width=100%>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h4>Inheritance - C++</h4>
+						<a href="Projects/CSC340/Inheritance/DaquiganInheritance.zip">Download Source Files</a>
+						<p>This project is an extension of the city building game. I created the <i>factory</i>, <i>residential</i>, and <i>no_op</i> classes which are subclasses of the <i>map_item</i> class. I run these classes against unit tests given y the instructor.</p>
+						<ul>
+							<li>
+								<h5>Sample Code: factory.cpp</h5>
+								<embed src="Projects/CSC340/Inheritance/sampleCode.txt" width=100%>
+								<p>The <i>factory</i> class is a subclass of the <i>map_item</i> virtual class; it takes production requests into its <i>production</i> queue and produces the items into its <i>produced</i> queue. It extends the <i>constructor</i>, <i>destructor</i>, and <i>tick</i> methods declared in the <i>map_item</i> class. In addition to extending the superclass methods, I included the <i>produceItem</i>, <i>getProducedItem</i>, <i>productionCount</i>, and <i> producedCount</i> methods. These manipulate the <i>production</i>, and <i>produced</i> queues.</p>
+							</li>
+							<li>
+								<h5>Test:</h5>
+								<embed src="Projects/CSC340/Inheritance/tests.txt" width=100%>
+								<p>Here is a list of the unit tests from the <i>inheritance_test</i> class.</p>
+							</li>
+							<li>
+								<h5>Sample Output:</h5>
+								<embed src="Projects/CSC340/Inheritance/sampleOutput.txt" width=100%>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h4>Binary Tree - C++</h4>
+						<a href="Projects/CSC340/BinaryTree/DaquiganBinaryTree.zip">Download Source Files</a>
+						<p>In this project, I implement a binary tree class. This class is run against unit tests given by the instructor.</p>
+						<ul>
+							<li>
+								<h5>Sample Code: tree.h</h5>
+								<embed src="Projects/CSC340/BinaryTree/sampleCode.txt" width=100%>
+								<p>This sample includes the <i>removeMatch</i> method. This removes a node from the binary tree while maintaining the binary tree structure. The <i>node</i> argument is a pointer to the node to be removed. The <i>parent</i> argment is a pointer to the parent node of <i>node</i>. <i>left</i> is true if <i>node</i> is the left child of <i>parent</i>. There are four cases to consider: <i>node</i> has no children, <i>node</i> only has a right child, <i>node</i> only has a left child, and <i>node</i> has both left and right children. In each case, <i>node</i> is properly deleted and the tree is relinked appropriately.</p>
+							</li>
+							<li>
+								<h5>Tests:</h5>
+								<embed src="Projects/CSC340/BinaryTree/tests.txt" width=100%>
+								<p>Here is a list of the unit tests from the <i>binary_tree_test</i> class.</p>
+							</li>
+							<li>
+								<h5>Sample Output:</h5>
+								<embed src="Projects/CSC340/BinaryTree/sampleOutput.txt" width=100%>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h4>Graph - C++</h4>
+						<a href="Projects/CSC340/Graph/DaquiganGraph.zip">Download Source Files</a>
+						<p>In this project, I implement a graph class. This class is run against unit tests given by the instructor.</p>
+						<ul>
+							<li>
+								<h5>Sample Code: graph.cpp</h5>
+								<embed src="Projects/CSC340/Graph/sampleCode.txt" width=100%>
+								<p>This sample includes the <i>pathExists</i> method. This method returns <i>true</i> if a path exists between the <i>src</i> vertex and <i>dest</i> vertex. The <i>vertices</i> vector holds <i>vertex</i> instances. Each <i>vertex</i> holds a <i>label</i> and an <i>edges</i> vector. <i>edges</i> holds a list of other <i>vertex</i> instances which are connected to this <i>vertex</i>. I use a depth-first algorithm to check if there is a path between <i>src</i> and <i>dest</i> checking each edge until there is a match with <i>dest</i>. The <i>visited</i> array shows which vertices have been visited so far in the search; this prevents the search from traversing through a closed loop forever.</p>
+							</li>
+							<li>
+								<h5>Tests:</h5>
+								<embed src="Projects/CSC340/Graph/tests.txt" width=100%>
+								<p>Here is a list of the unit tests from the <i>graph_test</i> class.</p>
+							</li>
+							<li>
+								<h5>Sample Output:</h5>
+								<embed src="Projects/CSC340/Graph/sampleOutput.txt" width=100%>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+

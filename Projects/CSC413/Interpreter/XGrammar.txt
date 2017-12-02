@@ -1,0 +1,48 @@
+PROGRAM -> ‘program’ BLOCK              ==> program
+
+BLOCK -> ‘{‘ D* S* ‘}’                  ==> block
+
+D -> TYPE NAME                          ==> decl
+  -> TYPE NAME FUNHEAD BLOCK            ==> functionDecl
+
+TYPE -> ‘int’
+     -> ‘boolean’
+
+FUNHEAD -> '(' (D list ',')? ')'        ==> formals
+
+S -> ‘if’ E ‘then’ BLOCK ‘else’ BLOCK   ==> if
+  -> ‘while’ E BLOCK                    ==> while
+  -> ‘return’ E                         ==> return
+  -> BLOCK
+  -> NAME ’=’ E                         ==> assign
+
+E -> SE
+  -> SE ‘==’ SE                         ==> =
+  -> SE ‘!=’ SE                         ==> !=
+  -> SE ‘<’ SE                          ==> <
+  -> SE ‘<=’ SE                         ==> <=
+
+SE -> T
+   -> SE ‘+’ T                          ==> +
+   -> SE’ –‘ T                          ==> -
+   -> SE ‘|’ T                          ==> or
+
+T -> F
+  -> T ‘*’ F                            ==> *
+  -> T ‘/’ F                            ==> /
+  -> T ‘&’ F                            ==> and
+
+F -> ‘(‘ E ‘)’
+  -> NAME
+  -> <int>
+  -> NAME '(' (E list ',')? ')'         ==> call
+
+NAME -> <id>
+
+
+Notes:
+• <id> stands for any valid identifier
+• <int> stands for any integer
+• rules without the tree description (e.g. F->(E) ) indicate the corresponding tree is the tree
+built for the subpart on the right-hand-side - the E in this case
+• items in single quotes are tokens

@@ -1,0 +1,170 @@
+syms x y
+
+f1 = x^2 - y + sin(x-y) - 2
+f2 = y^2 - x - 3
+f = [f1;f2]
+
+x = 2 %initial value for x
+y = 2 %initial value for y
+
+deltaX = [1;1]
+
+while ((double(subs(norm(f))) >= eps) & (norm(deltaX) >= eps))
+	double(subs(f))
+	deltaX = linsolve(double(subs(jacobian(f))), double(subs(-f)))
+	x = x + deltaX(1,1)
+	y= y + deltaX(2,1)
+end
+ 
+f1 =
+ 
+sin(x - y) - y + x^2 - 2
+ 
+ 
+f2 =
+ 
+y^2 - x - 3
+ 
+ 
+f =
+ 
+ sin(x - y) - y + x^2 - 2
+              y^2 - x - 3
+ 
+
+x =
+
+     2
+
+
+y =
+
+     2
+
+
+deltaX =
+
+     1
+     1
+
+
+ans =
+
+     0
+    -1
+
+
+deltaX =
+
+    0.1111
+    0.2778
+
+
+x =
+
+    2.1111
+
+
+y =
+
+    2.2778
+
+
+ans =
+
+    0.0131
+    0.0772
+
+
+deltaX =
+
+   -0.0098
+   -0.0191
+
+
+x =
+
+    2.1013
+
+
+y =
+
+    2.2587
+
+
+ans =
+
+   1.0e-03 *
+
+    0.1030
+    0.3644
+
+
+deltaX =
+
+   1.0e-04 *
+
+   -0.5544
+   -0.9293
+
+
+x =
+
+    2.1013
+
+
+y =
+
+    2.2586
+
+
+ans =
+
+   1.0e-08 *
+
+    0.3183
+    0.8636
+
+
+deltaX =
+
+   1.0e-08 *
+
+   -0.1470
+   -0.2237
+
+
+x =
+
+    2.1013
+
+
+y =
+
+    2.2586
+
+
+ans =
+
+   1.0e-15 *
+
+   -0.1002
+    0.5844
+
+
+deltaX =
+
+   1.0e-15 *
+
+   -0.0330
+   -0.1367
+
+
+x =
+
+    2.1013
+
+
+y =
+
+    2.2586

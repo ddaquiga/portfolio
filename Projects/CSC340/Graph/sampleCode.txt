@@ -1,0 +1,40 @@
+bool Graph::pathExists( char src, char dest ){
+  if ( !vertexExists( src ) | !vertexExists( dest ) ){
+    return false;
+  }
+
+  if ( src == dest ){
+    return true;
+  }
+
+  bool *visited = new bool[ vertices.size() ];
+
+  for ( unsigned i = 0; i < vertices.size(); i++ ){
+    visited[i] = false;
+  }
+
+  list<char> queue;
+
+  visited[ getVertexIndex( src ) ] = true;
+  queue.push_back( src);
+
+  while ( !queue.empty() ){
+    src = queue.front();
+    queue.pop_front();
+
+    for ( unsigned i = 0; i < vertices[ getVertexIndex( src ) ].getEdges().size(); i++ ){
+      if ( vertices[ getVertexIndex( src ) ].getEdges()[i] == dest ){
+        return true;
+      }
+
+      if ( !visited[ getVertexIndex( vertices[ getVertexIndex( src ) ].getEdges()[i] ) ] ){
+        
+        visited[ getVertexIndex( vertices[ getVertexIndex( src ) ].getEdges()[i] ) ] = true;
+        queue.push_back( vertices[ getVertexIndex( src ) ].getEdges()[i] );
+      }
+    }
+  }
+
+  return false;
+
+}

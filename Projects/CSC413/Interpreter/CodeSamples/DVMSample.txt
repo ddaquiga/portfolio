@@ -1,0 +1,29 @@
+while(super.isRunning()){
+    ByteCode code = super.program().getCode(super.pc());
+    ByteCode nextCode;
+    if (super.pc() + 1 < super.program().numCodes())
+        nextCode = super.program().getCode(super.pc() + 1);
+    else 
+        nextCode = null;
+    code.execute(this);
+    
+    if(!(code instanceof DumpCode) && super.dumpFlag() == true){
+        code.print();
+        super.runStack().dump();
+    }
+    
+    
+    if(shouldPrompt(code, nextCode)){
+        ui.displayFunction(1, entries.size(), envStack.peek().currentLine);
+        if (firstRun){
+            firstRun = false;
+            System.out.println("Type '?' for help");
+        }
+        do{
+            ui.prompt();
+        }
+        while (ui.execute());
+    }
+    
+    super.incPC();
+}

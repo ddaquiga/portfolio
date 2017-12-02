@@ -1,0 +1,12 @@
+public void executeProgram(){
+    while(isRunning){
+        ByteCode code = program.getCode(pc);
+        code.execute(this);
+        
+        if (!(code instanceof DumpCode) && dumpFlag == true){
+            code.print();
+            runStack.dump();
+        }
+        pc++;
+    }
+}  

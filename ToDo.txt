@@ -1,0 +1,39 @@
+TO DO:
+
+PROJECT LIST
+	Branch
+	Cache
+	Newton
+	PCA
+	Disk
+	Open Server	
+	Closed Queueing
+	Interactive
+	Interpreter
+	OS
+	op-overloading
+	inheritance
+	tree
+	graph
+
+***************************************
+	Clean up:
+		CUDA
+		Newton
+		PCA
+		Disk
+		Single Server	
+		Closed Queueing
+		MVA
+		Interpreter
+		OS
+		SimCity
+**********************************
+
+	CSS
+
+	Javascript
+
+	Get Online
+
+	Media

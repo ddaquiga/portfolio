@@ -1,0 +1,58 @@
+//calculate mean
+    function (fullData, fh, callback) {
+        //console.log("start mean block, fullData: " + fullData);
+        var samplesString = fullData.split(',');
+        var samplesInt = []
+        for (var i = 0; i < samplesString.length; i++){
+            samplesInt[i] = Number(samplesString[i]);
+        }
+        var stats = {
+            samples: samplesInt,
+            n: samplesInt.length,
+            sum: 0,
+            mean: 0,
+            stdDev: 0,
+            diffSumm: 0,
+            range: Math.ceil(samplesInt.length/5),
+            print: function(){
+                console.log("sum: " + this.sum + ", n: " + this.n + ", mean: " + this.mean + ", diffSumm: " + this.diffSumm + ", stdDev: " + this.stdDev + ", range: " + this.range );
+            }
+        };
+        var threadsDoneCalc = 0;
+        for (var i = 0; i < 5; i++){
+            (function(i) {
+                os.ps.createThread(
+                    function (){
+                        console.log("thread " + i + " created");
+                        os.ps.pthread_semaphore_lock(
+                            'meanLock',
+                            function (){
+                                console.log("thread " + i + " lock");
+                                
+                                for (var j = 0; j < stats.range; j++){
+                                    if (i < 4 || j < stats.n%stats.range){
+                                        //console.log("counting pos " + ((i*stats.range)+j) + ": " + stats.samples[(i*stats.range)+j]);
+                                        stats.sum += stats.samples[(i*stats.range)+j];
+                                    }
+                                }
+
+                                threadsDoneCalc++;
+
+                                os.ps.pthread_semaphore_unlock(
+                                    'meanLock',
+                                    function(){
+
+                                        console.log("Thread " + i + " unlock");
+                                        stats.mean = stats.sum/stats.n;
+                                        stats.print();
+                                        callback(null, stats, threadsDoneCalc, fh);
+                                    }
+                                );
+                            }
+                        );
+                    },
+                    threadsDone
+                );
+            })(i)
+        }
+    },

@@ -1,0 +1,12 @@
+$ ./sys2 li2.trace 1024 2048
+
+
+Number of branches = 64903
+Number of forward branches = 44624
+Number of forward taken branches = 29310
+Number of backward branches = 20279
+Number of backward taken branches = 14688
+Number of mispredictions = 6593
+Misprediction rate = 0.101582
+Number of BTB misses = 210
+BTB miss rate = 0.00470778

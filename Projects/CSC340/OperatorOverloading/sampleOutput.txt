@@ -1,0 +1,53 @@
+$ ./driver
+--- Testing map_item default constructor initializes to E ---
+PASS
+--- Testing map_item constructor accepts char ---
+PASS
+--- Testing map_item sets type correctly ---
+PASS
+--- Testing map_item gets type correctly ---
+PASS
+--- Testing map_item implements ostream << (visual comparison required) ---
+EXPECTED:
+K
+
+IMPLEMENTED:
+K
+--- Testing map_item implements ifstream/ofstream ---
+PASS
+--- Testing map size is correct ---
+PASS
+--- Testing map default buidling is 'E' ---
+PASS
+--- Testing map builds correctly ---
+PASS
+--- Testing map builds correctly (inverted coordinates) ---
+PASS
+--- Testing map implements ostream << (visual comparison required) ---
+EXPECTED:
+E O E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+
+IMPLEMENTED:
+E O E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+
+--- Testing map implements ifstream/ofstream ---
+PASS
+

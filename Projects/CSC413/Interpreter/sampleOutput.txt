@@ -1,0 +1,185 @@
+$ java -jar Interpreter.jar -d fib
+Function: main
+  1.  program { int x         <----
+  2.    int fib(int n) {
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+ 13.    k = write(fib(read()))
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+Type '?' for help
+>?
+? - display help menu
+sb <lineNumber> - sets a breakpoint at the line number
+cb - clears all breakpoints
+cb <lineNumber> - clears any breakpoint at the line number
+df - displays the current function
+dv - display local variables
+c - Continue execution
+out - step out
+in - step into
+ov - step over
+q - Quit execution
+>sb 3 13
+Breakpoint set at line 3
+Breakpoint set at line 13
+>c
+Function: main
+  1.  program { int x
+  2.    int fib(int n) {
+* 3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))         <----
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>cb 3
+Cleared breakpoint at line 3
+>dv
+x: 5
+k: 0
+>in
+Function: Read
+  1.  program { int x
+  2.    int fib(int n) {
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>df
+In Read function
+>out
+Enter a number: 4
+Function: main
+  1.  program { int x
+  2.    int fib(int n) {
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))         <----
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>in
+Function: fib
+  1.  program { int x
+  2.    int fib(int n) {          <----
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>dv
+no local variables
+>ov
+Function: fib
+  1.  program { int x
+  2.    int fib(int n) {
+  3.        if (n <= 1) then         <----
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>out
+Function: main
+  1.  program { int x
+  2.    int fib(int n) {
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))         <----
+ 14.    { int x
+ 15.      x = 7
+ 16.      x = 8
+ 17.    }
+>sb 16
+Breakpoint set at line 16
+>c
+3
+Function: main
+  1.  program { int x
+  2.    int fib(int n) {
+  3.        if (n <= 1) then
+  4.           { return 1 }
+  5.        else
+  6.            { if (n == 2) then
+  7.                 { return 1 }
+  8.              else
+  9.                 { return fib(n-2) + fib(n-1) }
+ 10.            }
+ 11.    }
+ 12.    int k    x = 5
+*13.    k = write(fib(read()))
+ 14.    { int x
+ 15.      x = 7
+*16.      x = 8         <----
+ 17.    }
+>dv
+x: 7
+k: 3
+>c

@@ -1,0 +1,21 @@
+$ ./a
+Q: 1 avgDistance: 2684.68 avgTime: 8.30747
+Q: 2 avgDistance: 1777.52 avgTime: 6.9728
+Q: 3 avgDistance: 1362.61 avgTime: 6.28959
+Q: 4 avgDistance: 1118.4 avgTime: 5.86896
+Q: 5 avgDistance: 932.974 avgTime: 5.52851
+Q: 6 avgDistance: 806.198 avgTime: 5.27849
+Q: 7 avgDistance: 721.035 avgTime: 5.09761
+Q: 8 avgDistance: 639.539 avgTime: 4.91929
+Q: 9 avgDistance: 575.413 avgTime: 4.76452
+Q: 10 avgDistance: 531.12 avgTime: 4.65485
+Q: 11 avgDistance: 485.976 avgTime: 4.55203
+Q: 12 avgDistance: 459.31 avgTime: 4.46836
+Q: 13 avgDistance: 413.055 avgTime: 4.34805
+Q: 14 avgDistance: 387.919 avgTime: 4.2717
+Q: 15 avgDistance: 363.062 avgTime: 4.1905
+Q: 16 avgDistance: 343.508 avgTime: 4.14059
+Q: 17 avgDistance: 327.647 avgTime: 4.07745
+Q: 18 avgDistance: 315.672 avgTime: 4.03994
+Q: 19 avgDistance: 296.42 avgTime: 3.98817
+Q: 20 avgDistance: 286.736 avgTime: 3.94039

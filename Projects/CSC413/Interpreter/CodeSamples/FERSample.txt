@@ -1,0 +1,21 @@
+public class FunctionEnvironmentRecord {
+    public Table symtab;
+    int startLine;
+    int endLine;
+    int currentLine;
+    String name;
+
+...
+
+    public HashMap<String,Integer> varOffsets(){
+        HashMap<String,Integer> varOff = new HashMap<String,Integer>();
+        String[] keys = new String[symtab.size()];
+        int [] offsets = new int[symtab.size()];
+        symtab.keys().toArray(keys);
+        
+        for (int i = 0; i < symtab.size(); i++){
+            varOff.put(keys[i],symtab.get(keys[i]));
+            
+        }
+        return varOff;
+    }
