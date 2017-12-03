@@ -51,14 +51,14 @@
 		</div>
 		<div id="mainbody" class="col-sm-10">
 			<h3>Operator Overloading <small>C++</small></h3>
-			<p><big>Programming Methodology - San Francisco State University</big> Date</p>
+			<p><big>Programming Methodology - San Francisco State University</big> Fall 2016</p>
 			<p>Get Source Code:</p>
 			<ul>
 				<li>.zip File: <a href="***.zip">Download</a></li>
 				<li>git url: <a href="https://github.com/ddaquiga/operator-overloading.git">https://github.com/ddaquiga/operator-overloading.git</a></li>
 				<li>git SSH key: git@github.com:ddaquiga/operator-overloading.git</li>
 			</ul>
-			<p>Project Description</p>
+			<p>In this project, I created a <i>map</i> and <i>map_item</i> class for a simple city building game. I run these classes against unit tests given by the instructor.</p>
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -68,7 +68,113 @@
 					</div>
 					<div id="results" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Results Explanation</p>
+							<p>Here is the output of the op_overloading_test class showing all the different tests for my map and map_item classes</p>
+<pre>$ ./driver
+--- Testing map_item default constructor initializes to E ---
+PASS
+--- Testing map_item constructor accepts char ---
+PASS
+--- Testing map_item sets type correctly ---
+PASS
+--- Testing map_item gets type correctly ---
+PASS
+--- Testing map_item implements ostream << (visual comparison required) ---
+EXPECTED:
+K
+
+IMPLEMENTED:
+K
+--- Testing map_item implements ifstream/ofstream ---
+PASS
+--- Testing map size is correct ---
+PASS
+--- Testing map default buidling is 'E' ---
+PASS
+--- Testing map builds correctly ---
+PASS
+--- Testing map builds correctly (inverted coordinates) ---
+PASS
+--- Testing map implements ostream << (visual comparison required) ---
+EXPECTED:
+E O E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+
+IMPLEMENTED:
+E O E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+E E E E E E E E E E
+
+--- Testing map implements ifstream/ofstream ---
+PASS
+
+</pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<p class="panel-title"><a data-toggle="collapse" href="#sample-test">Sample Test<span class="caret"></span></a></p>
+					</div>
+					<div id="sample-test" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p>Here is a sample of one of the tests from the op_overloading_test class</p>
+<pre>void OperatorOverloadingTest::check_map_ifstream_ofstream_implemented() {
+  print_header( "map implements ifstream/ofstream" );
+
+  int test_size = MAP_TEST_SIZE / 2;
+  Map * pretty_map = make_pretty_map( test_size );
+
+  // Create file from map
+  ofstream outputFile;
+  outputFile.open( "kedavra");
+
+  outputFile << *(pretty_map);
+  outputFile.close();
+
+  // Read it back in
+  ifstream inFile;
+  inFile.open( "kedavra" );
+
+  Map next_map;
+  inFile >> next_map;
+  inFile.close();
+
+  // Check a few things in the new next_map:
+  bool result = true;
+
+  result = result && ( next_map.getSize() == test_size );
+
+  for( int i = 0; i < test_size; i++ ) {
+    for( int j = 0; j < test_size; j++ ) {
+      char pretty_type = pretty_map->getMapItem( i, j ).getType();
+      char new_type = next_map.getMapItem( i, j ).getType();
+
+      result = result && pretty_type == new_type;
+    }
+  }
+
+  print_test( result );
+
+  delete pretty_map;
+}</pre>
 						</div>
 						<div class="panel-footer">
 							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
@@ -78,39 +184,107 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-code">Sample Code: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-code">Sample Code: map.cpp<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-code" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
-</pre>
+							<p>Here is my implementation of the <i>map</i> class. It includes a default constructor, a constructor taking an <i>int</i> argument, and a destructor. The <i>build</i> and <i>getMapItem</i> methods set and get a <i>mapItem</i> from the <i>map</i>. Additionally, I overloaded the stream operators to stream instances of a <i>map</i> in a readable format.</p>
+<pre>Map::Map()
+{
+  size = 0;
+  items = NULL;
+}
+
+Map::Map( int newSize )
+{
+  size = newSize;
+  items = new MapItem[ size * size ];
+
+  for ( int i = 0; i < size * size; i++ )
+  {
+    items[i].setType( 'E' );
+  }
+}
+
+Map::~Map()
+{
+  delete [] items;
+  size = 0;
+}
+
+int Map::getSize()
+{
+  return size;
+}
+
+void Map::build( int y, int x, char type )
+{
+  int mapItemIndex = ( y * size ) + x;
+  items[ mapItemIndex ].setType( type );
+}
+
+MapItem Map::getMapItem( int y, int x)
+{
+  int mapItemIndex = ( y * size ) + x;
+
+  return items[ mapItemIndex ];
+}
+
+ifstream& operator >> ( ifstream& in, Map& map )
+{
+  delete [] map.items;
+
+  in >> map.size;
+  map.items = new MapItem[ map.size * map.size ];
+
+  char type;
+
+  for ( int i = 0; i < map.size * map.size; i++ )
+  {
+    in >> type;
+    map.items[ i ].setType( type );
+  }
+
+  return in;
+}
+
+ofstream& operator << ( ofstream& out, const Map& map )
+{
+  out << map.size << '\n';
+
+  for ( int i = 0; i < map.size * map.size; i++ )
+  {
+    out << map.items[ i ].getType() << ' ';
+  }
+
+  return out;
+}
+
+ostream& operator << ( ostream& out, const Map& map )
+{
+  char code;
+
+  for ( int y = 0; y < map.size; y++ )
+  {
+    for ( int x = 0; x < map.size; x++)
+    {
+      code =  map.items[ y * map.size + x ].getType();
+      out << code << ' ';
+    }
+    
+    out << '\n';
+  }
+
+  return out;
+}</pre>
 						</div>
 						<div class="panel-footer">
 							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
-						</p>
-					</div>
-					<div id="sample-output" class="panel-collapse collapse">
-						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
-</pre>
-						</div>
-						<div class="panel-footer">
-							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
-						</div>
-					</div>
-				</div>
 			</div>
-
 		</div>
 	</div>
 </div>

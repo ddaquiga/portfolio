@@ -58,7 +58,7 @@
 				<li>git url: <a href="https://github.com/ddaquiga/graph.git">https://github.com/ddaquiga/graph.git</a></li>
 				<li>git SSH key: git@github.com:ddaquiga/graph.git</li>
 			</ul>
-			<p>Project Description</p>
+			<p>In this project, I implement a graph class. This class is run against unit tests given by the instructor.</p>
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -68,7 +68,114 @@
 					</div>
 					<div id="results" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Results Explanation</p>
+							<p>Here is the output of the graph_test class showing all the different tests for my vertex and graph classes</p>
+<pre>$ ./driver
+--- Testing Checking add edges to Vertex ---
+PASS
+--- Testing Checking if vertices exist ---
+--- Testing Checking for vertex P ---
+PASS
+--- Testing Checking for vertex Q ---
+PASS
+--- Testing Checking for vertex R ---
+PASS
+--- Testing Checking for vertex S ---
+PASS
+--- Testing Checking for vertex T ---
+PASS
+--- Testing Checking for vertex W ---
+PASS
+--- Testing Checking for vertex X ---
+PASS
+--- Testing Checking for vertex Y ---
+PASS
+--- Testing Checking for vertex Z ---
+PASS
+--- Testing Checking for correct vertex count ---
+PASS
+--- Testing Checking if path exists from P to T ---
+PASS
+--- Testing Checking if path exists from Q to T ---
+PASS
+</pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<p class="panel-title"><a data-toggle="collapse" href="#sample-test">Sample Test<span class="caret"></span></a></p>
+					</div>
+					<div id="sample-test" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p>Here is a sample of some of the tests from the graph_test class</p>
+<pre>void GraphTest::check_vertex_add_edge() {
+  print_header( "Checking add edges to Vertex" );
+
+  Vertex v( 'V' );
+
+  v.addEdge( 'A' );
+  v.addEdge( 'B' );
+
+  vector<char> edges = v.getEdges();
+  bool hasA = false, hasB = false;
+
+  for( int i = 0; i < edges.size(); i++ ) {
+    if( edges[ i ] == 'A' ) {
+      hasA = true;
+    }
+    if( edges[ i ] == 'B' ) {
+      hasB = true;
+    }
+  }
+
+  print_test( edges.size() == 2 && hasA && hasB );
+}
+
+void GraphTest::check_vertex_exists() {
+  print_header( "Checking if vertices exist" );
+
+  print_header( "Checking for vertex P" );
+  print_test( graph->vertexExists( 'P' ) );
+
+  print_header( "Checking for vertex Q" );
+  print_test( graph->vertexExists( 'Q' ) );
+
+  print_header( "Checking for vertex R" );
+  print_test( graph->vertexExists( 'R' ) );
+
+  print_header( "Checking for vertex S" );
+  print_test( graph->vertexExists( 'S' ) );
+
+  print_header( "Checking for vertex T" );
+  print_test( graph->vertexExists( 'T' ) );
+
+  print_header( "Checking for vertex W" );
+  print_test( graph->vertexExists( 'W' ) );
+
+  print_header( "Checking for vertex X" );
+  print_test( graph->vertexExists( 'X' ) );
+
+  print_header( "Checking for vertex Y" );
+  print_test( graph->vertexExists( 'Y' ) );
+
+  print_header( "Checking for vertex Z" );
+  print_test( graph->vertexExists( 'Z' ) );
+}
+
+void GraphTest::check_correct_vertex_count() {
+  print_header( "Checking for correct vertex count" );
+
+  print_test( graph->vertexCount() == 9 );
+}
+
+void GraphTest::check_if_path_exists_true() {
+  print_header( "Checking if path exists from P to T");
+
+  print_test( graph->pathExists( 'P', 'T') );
+}</pre>
 						</div>
 						<div class="panel-footer">
 							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
@@ -78,39 +185,59 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-code">Sample Code: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-code">Sample Code: graph.cpp<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-code" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
-</pre>
+							<p>This sample includes the <i>pathExists</i> method. This method returns <i>true</i> if a path exists between the <i>src</i> vertex and <i>dest</i> vertex. The <i>vertices</i> vector holds <i>vertex</i> instances. Each <i>vertex</i> holds a <i>label</i> and an <i>edges</i> vector. <i>edges</i> holds a list of other <i>vertex</i> instances which are connected to this <i>vertex</i>. I use a depth-first algorithm to check if there is a path between <i>src</i> and <i>dest</i> checking each edge until there is a match with <i>dest</i>. The <i>visited</i> array shows which vertices have been visited so far in the search; this prevents the search from traversing through a closed loop forever.</p>
+<pre>bool Graph::pathExists( char src, char dest ){
+  if ( !vertexExists( src ) | !vertexExists( dest ) ){
+    return false;
+  }
+
+  if ( src == dest ){
+    return true;
+  }
+
+  bool *visited = new bool[ vertices.size() ];
+
+  for ( unsigned i = 0; i < vertices.size(); i++ ){
+    visited[i] = false;
+  }
+
+  list<char> queue;
+
+  visited[ getVertexIndex( src ) ] = true;
+  queue.push_back( src);
+
+  while ( !queue.empty() ){
+    src = queue.front();
+    queue.pop_front();
+
+    for ( unsigned i = 0; i < vertices[ getVertexIndex( src ) ].getEdges().size(); i++ ){
+      if ( vertices[ getVertexIndex( src ) ].getEdges()[i] == dest ){
+        return true;
+      }
+
+      if ( !visited[ getVertexIndex( vertices[ getVertexIndex( src ) ].getEdges()[i] ) ] ){
+        
+        visited[ getVertexIndex( vertices[ getVertexIndex( src ) ].getEdges()[i] ) ] = true;
+        queue.push_back( vertices[ getVertexIndex( src ) ].getEdges()[i] );
+      }
+    }
+  }
+
+  return false;
+
+}</pre>
 						</div>
 						<div class="panel-footer">
 							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
-						</p>
-					</div>
-					<div id="sample-output" class="panel-collapse collapse">
-						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
-</pre>
-						</div>
-						<div class="panel-footer">
-							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
-						</div>
-					</div>
-				</div>
 			</div>
-
 		</div>
 	</div>
 </div>

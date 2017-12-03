@@ -51,14 +51,14 @@
 		</div>
 		<div id="mainbody" class="col-sm-10">
 			<h3>Inheritance <small>C++</small></h3>
-			<p><big>Programming Methodology - San Francisco State University</big> Date</p>
+			<p><big>Programming Methodology - San Francisco State University</big> Fall 2016</p>
 			<p>Get Source Code:</p>
 			<ul>
 				<li>.zip File: <a href="***.zip">Download</a></li>
 				<li>git url: <a href="https://github.com/ddaquiga/inheritance.git">https://github.com/ddaquiga/inheritance.git</a></li>
 				<li>git SSH key: git@github.com:ddaquiga/inheritance.git</li>
 			</ul>
-			<p>Project Description</p>
+			<p>This project is an extension of the city building game. I created the <i>factory</i>, <i>residential</i>, and <i>no_op</i> classes which are subclasses of the <i>map_item</i> class. I run these classes against unit tests given by the instructor.</p>
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -68,7 +68,68 @@
 					</div>
 					<div id="results" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Results Explanation</p>
+							<p>Here is the output of the inheritance_test class showing all the different tests for my map, map_item, factory, residential, and no-op classes</p>
+<pre>$ ./driver
+--- Testing Checking if NoOpItem is instantiable ---
+PASS
+--- Testing Checking if Factory is instantiable ---
+PASS
+--- Testing Checking Factory::produceItem() and Factory::productionCount() ---
+PASS
+--- Testing Checking Factory::tick(), Factory::producedCount(), and Factory::getProducedItem() ---
+PASS
+--- Testing Checking Factory::tick() for empty production queue ---
+PASS
+--- Testing Checking Factory::getProducedItem() returns -1 when empty ---
+PASS
+--- Testing Checking if Residential is instantiable ---
+PASS
+--- Testing Checking Residential::collectTaxes() at time 0 ---
+PASS
+--- Testing Checking Residential::tick() ---
+PASS
+</pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<p class="panel-title"><a data-toggle="collapse" href="#sample-test">Sample Test<span class="caret"></span></a></p>
+					</div>
+					<div id="sample-test" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p>Here is a sample of some of the tests from the inheritance_test class</p>
+<pre>void InheritanceTest::check_no_op_item() {
+  print_header( "Checking if NoOpItem is instantiable" );
+
+  // This will fail if the NoOpItem is not implemented correctly
+  MapItem * item = new NoOpItem();
+  delete item;
+
+  print_test( true );
+}
+
+void InheritanceTest::check_factory() {
+  print_header( "Checking if Factory is instantiable" );
+
+  // This will fail if the Factory is not implemented correctly
+  MapItem * item = new Factory();
+  delete item;
+
+  print_test( true );
+}
+
+void InheritanceTest::check_factory_can_produce() {
+  print_header( "Checking Factory::produceItem() and Factory::productionCount()" );
+
+  Factory factory;
+  factory.produceItem( 1 );
+
+  print_test( factory.productionCount() == 1 );
+}</pre>
 						</div>
 						<div class="panel-footer">
 							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
@@ -78,39 +139,73 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-code">Sample Code: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-code">Sample Code: factory.cpp<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-code" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
-</pre>
+							<p>The <i>factory</i> class is a subclass of the <i>map_item</i> virtual class; it takes production requests into its <i>production</i> queue and produces the items into its <i>produced</i> queue. It extends the <i>constructor</i>, <i>destructor</i>, and <i>tick</i> methods declared in the <i>map_item</i> class. In addition to extending the superclass methods, I included the <i>produceItem</i>, <i>getProducedItem</i>, <i>productionCount</i>, and <i> producedCount</i> methods. These manipulate the <i>production</i>, and <i>produced</i> queues.</p>
+<pre>#include "factory.h"
+
+Factory::Factory()
+{
+  countSinceLastProduced = 0;
+  production = new Queue();
+  produced = new Queue();
+}
+
+Factory::~Factory()
+{
+  delete production;
+  delete produced;
+}
+
+void Factory::tick()
+{ 
+  if ( production->isEmpty() ){
+    countSinceLastProduced = 0;
+  }
+  
+  else{
+    while ( countSinceLastProduced != production->size() ){
+      countSinceLastProduced++;
+    }
+    
+    produced->enqueue( production->dequeue() );
+    countSinceLastProduced--;
+  }
+}
+
+void Factory::produceItem( int item )
+{
+  production->enqueue( item );
+}
+
+int Factory::getProducedItem()
+{
+  if ( produced->isEmpty() ){
+    return -1;
+  }
+  
+  return produced->dequeue();
+}
+
+int Factory::productionCount()
+{
+  return production->size();
+}
+
+int Factory::producedCount()
+{
+  return produced->size();
+}</pre>
 						</div>
 						<div class="panel-footer">
 							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
-						</p>
-					</div>
-					<div id="sample-output" class="panel-collapse collapse">
-						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
-</pre>
-						</div>
-						<div class="panel-footer">
-							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
-						</div>
-					</div>
-				</div>
 			</div>
-
 		</div>
 	</div>
 </div>

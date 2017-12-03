@@ -51,14 +51,14 @@
 		</div>
 		<div id="mainbody" class="col-sm-10">
 			<h3>Binary Tree <small>C++</small></h3>
-			<p><big>Programming Methodology - San Francisco State University</big> Date</p>
+			<p><big>Programming Methodology - San Francisco State University</big> Fall 2016</p>
 			<p>Get Source Code:</p>
 			<ul>
 				<li>.zip File: <a href="***.zip">Download</a></li>
 				<li>git url: <a href="https://github.com/ddaquiga/binary-tree.git">https://github.com/ddaquiga/binary-tree.git</a></li>
 				<li>git SSH key: git@github.com:ddaquiga/binary-tree.git</li>
 			</ul>
-			<p>Project Description</p>
+			<p>In this project, I implement a binary tree class. This class is run against unit tests given by the instructor.</p>
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -68,7 +68,91 @@
 					</div>
 					<div id="results" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Results Explanation</p>
+							<p>Here is the output of the binary_tree_test class showing all the different tests for my node and tree classes</p>
+<pre>$ ./driver
+--- Testing node creation with value ---
+PASS
+
+--- Testing node children are null by default ---
+PASS
+
+--- Testing tree insert and contains ---
+PASS
+
+--- Testing tree remove ---
+PASS
+
+--- Testing tree height ---
+PASS
+
+PASS
+
+PASS
+
+PASS
+
+--- Testing tree is full ---
+PASS
+
+PASS
+
+--- Testing tree traversal: preorder 60 20 10 40 30 50 70 ---
+preorder 60 20 10 40 30 50 70
+--- Testing tree traversal: inorder 10 20 30 40 50 60 70 ---
+inorder 10 20 30 40 50 60 70
+--- Testing tree traversal: postorder 10 30 50 40 20 70 60 ---
+postorder 10 30 50 40 20 70 60
+</pre>
+						</div>
+						<div class="panel-footer">
+							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<p class="panel-title"><a data-toggle="collapse" href="#sample-test">Sample Test<span class="caret"></span></a></p>
+					</div>
+					<div id="sample-test" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p>Here is a sample of some of the tests from the binary_tree_test class</p>
+<pre>void BinaryTreeTest::test_node_creation_with_value() {
+  test_header( "node creation with value" );
+
+  int test_value = 42;
+  Node<int> node( test_value );
+
+  print_test( node.data == test_value );
+}
+
+void BinaryTreeTest::test_node_children_are_null_by_default() {
+  test_header( "node children are null by default" );
+
+  Node<int> node;
+
+  print_test( node.left == NULL && node.right == NULL );
+}
+
+void BinaryTreeTest::test_tree_contains() {
+  test_header( "tree insert and contains" );
+
+  int something = 42;
+  Tree<int> tree;
+  tree.insert( something );
+
+  print_test( tree.contains( something ) == true );
+}
+
+void BinaryTreeTest::test_tree_remove() {
+  test_header( "tree remove" );
+
+  int something = 42;
+  Tree<int> tree;
+  tree.insert( something );
+  tree.remove( something );
+
+  print_test( tree.contains( something ) == false );
+}</pre>
 						</div>
 						<div class="panel-footer">
 							<p class="text-right"><a data-toggle="collapse" href="#results">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
@@ -78,39 +162,77 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-code">Sample Code: ***<span class="caret"></span></a>
+							<a data-toggle="collapse" href="#sample-code">Sample Code: tree.cpp<span class="caret"></span></a>
 						</p>
 					</div>
 					<div id="sample-code" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
-</pre>
+							<p>This sample includes the <i>removeMatch</i> method. This removes a node from the binary tree while maintaining the binary tree structure. The <i>node</i> argument is a pointer to the node to be removed. The <i>parent</i> argment is a pointer to the parent node of <i>node</i>. <i>left</i> is true if <i>node</i> is the left child of <i>parent</i>. There are four cases to consider: <i>node</i> has no children, <i>node</i> only has a right child, <i>node</i> only has a left child, and <i>node</i> has both left and right children. In each case, <i>node</i> is properly deleted and the tree is relinked appropriately.</p>
+<pre>template <typename T>
+void Tree<T>::removeMatch( Node<T>* parent, Node<T>* node, bool left ){
+  if ( root != NULL ){
+    Node<T>* trash;
+    T smallestInRight;
+
+    // no children
+    if ( node->left == NULL && node->right == NULL ){
+      trash = node;
+      if ( left ){
+        parent->left = NULL;
+      }
+      
+      else{
+        parent->right = NULL;
+      }
+
+      delete trash;
+    }
+
+    // right child only
+    else if ( node->left == NULL && node->right != NULL ){
+      if ( left ){
+        parent->left = node->right;
+      }
+
+      else{
+        parent->right = node->right;
+      }
+
+      node->right = NULL;
+      trash = node; 
+      delete trash;
+    }
+
+    //left child only
+    else if ( node->left != NULL && node->right == NULL ){
+      if ( left ){
+        parent->left = node->left;
+      }
+
+      else{
+        parent->right = node->left;
+      }
+
+      node->left = NULL;
+      trash = node; 
+      delete trash;
+    }
+
+    // two children
+    else{
+      smallestInRight = getMinimumValue( node->right );
+      removeHelp( node, smallestInRight );
+      node->data = smallestInRight;
+    }
+  }
+}</pre>
 						</div>
 						<div class="panel-footer">
 							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
-						</p>
-					</div>
-					<div id="sample-output" class="panel-collapse collapse">
-						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
-</pre>
-						</div>
-						<div class="panel-footer">
-							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
-						</div>
-					</div>
-				</div>
 			</div>
-
 		</div>
 	</div>
 </div>

@@ -58,214 +58,95 @@
 				<li>git url: <a href="https://github.com/tomassre/cs-415-os-dev.git">https://github.com/tomassre/cs-415-os-dev.git</a></li>
 				<li>git SSH key: git@github.com:tomassre/cs-415-os-dev.git</li>
 			</ul>
-			<p>In this project, I developed the programs, <b>GetInitials</b> and <b>StatsCalc</b> to run on a custom operating system. These programs were formatted to support parallel processing on the operating system. Each process is divided into smaller blocks, which gives the processor convenient places to pause and resume processing. At the end of each block, the process returns callback information telling the operating system where to resume processing. Everytime the process is called, the processor refers to the callback data to know where to resume processing.</p>
+			<p>In this project, I developed the programs, <b>GetInitials</b> and <b>StatsCalc</b> to run on a custom operating system. These programs were formatted to support parallel processing on the operating system. Each process is divided into smaller blocks, which gives the processor convenient places to pause and resume processing. At the end of each block, the process returns callback information telling the operating system where to resume processing. Everytime the process is called, the processor refers to the callback data to know where to resume processing. With GetInitials, I focus on accessing the filesystem of the operating-system. With StatsCalc, I focus on using threads and semaphores.</p>
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<p class="panel-title">GetInitials</a></p>
 					</div>
 					<div class="panel-body">
+						<p>This <i>GetInitials</i> program reads in a file holding a list of names. Then it writes to a file which will hold a list of initials corresponding to the names.</p>
 						<div class="panel-group">
-							<div class="panel panel-default">
+							<div class="panel panel-info">
 								<div class="panel-heading">
 									<p class="panel-title"><a data-toggle="collapse" href="#gi-code-sample">Code Sample: GetInitials.js<span class="caret"></span></a></p>
 								</div>
 								<div id="gi-code-sample" class="panel-collapse collapse">
 									<div class="panel-body">
-										<p>This process is broken up into seven segments: get input file length, open input file, read input file, get output file data, open output file, write to output file, and close files. The process can safely pause execution at the end of any of these segments. When reading the input file, the processor will only read 100 characters before pushing the process back into the processor queue. Everytime this happens, the process keeps track of its current position on the file. This way, the process knows where to resume if it is interrupted during a read. The same thing is done when writing the output file. The <i>createInitials</i> function pulls the initials from names in the input file. It is called when getting output file data.</p>
-<pre class="pre-scrollable">async.waterfall([
-			//get input file length
-			function (callback) {
-				os.fs.length(inputFile, function (errorLength, length) {
-					if (errorLength === -1){
-						console.log('initials data: error getting file length: ' +
-							os.errno.errorCode + '\n');
-						callback('Error');
-					}
-					else 
-						callback(null, length);
-				});
-			},
+										<p>The GetInitials process is broken up into several sections. The operating system can safely interrupt the process between any of the sections. This code sample includes the process sections involved in reading the input files. The process chooses which section to start processing depending on the callback data given by the process scheduler of the operating system. While a section continues processing it will eventually use the callback or waterfallCallBack funtions to pause execution and give the operating system the callback data. If processing leads to an error, the process will send a callback with an error code; otherwise, the process will send a callback with data required by the next section of the process.</p>
+<pre>async.waterfall([
+	//get input file length
+	function (callback) {
+		os.fs.length(inputFile, function (errorLength, length) {
+			if (errorLength === -1){
+				console.log('initials data: error getting file length: ' +
+					os.errno.errorCode + '\n');
+				callback('Error');
+			}
+			else 
+				callback(null, length);
+		});
+	},
 
-			//open input file
-			function (length, callback){
-				os.fs.open(inputFile, function (errorOpen, fh){
-					if (errorOpen === -1) {
-						console.log(inputFile + ': error opening file:' +
-							errorOpen + '\n');
-						callback(errorOpen);
-					} else {
-						var openMsg = "Opening " + fh.name + " size: " + length;
-						stdout.appendToBuffer(openMsg);
-						callback(null, length, fh);
-					}
-				});
-			},
+	//open input file
+	function (length, callback){
+		os.fs.open(inputFile, function (errorOpen, fh){
+			if (errorOpen === -1) {
+				console.log(inputFile + ': error opening file:' +
+					errorOpen + '\n');
+				callback(errorOpen);
+			} else {
+				var openMsg = "Opening " + fh.name + " size: " + length;
+				stdout.appendToBuffer(openMsg);
+				callback(null, length, fh);
+			}
+		});
+	},
 
-			// read input file
-			function (length, fh, waterfallCallBack) {
-				var CHARS_TO_READ = 100;
-				var currentPosition = 0;
-				var fullFile = '';
+	// read input file
+	function (length, fh, waterfallCallBack) {
+		var CHARS_TO_READ = 100;
+		var currentPosition = 0;
+		var fullFile = '';
 
-				function checkCompleted() {
-					if (currentPosition >= length) 
-						waterfallCallBack( null, length, fh, fullFile);
-					else
-						readNextBlock();
-				}
-				function readNextBlock() {
-					var charCount = currentPosition + CHARS_TO_READ > length ?
-						length - currentPosition : CHARS_TO_READ;
+		function checkCompleted() {
+			if (currentPosition >= length) 
+				waterfallCallBack( null, length, fh, fullFile);
+			else
+				readNextBlock();
+		}
+		function readNextBlock() {
+			var charCount = currentPosition + CHARS_TO_READ > length ?
+				length - currentPosition : CHARS_TO_READ;
 
-					os.fs.read(fh, charCount, function (errorRead, data) {
-						if (errorRead === -1){
-							console.log(inputFile + ": error reading file: \n");
-							waterfallCallBack ('Error Read');
+			os.fs.read(fh, charCount, function (errorRead, data) {
+				if (errorRead === -1){
+					console.log(inputFile + ": error reading file: \n");
+					waterfallCallBack ('Error Read');
+				} else {
+					fullFile += data;
+
+					os.fs.seek(fh, charCount, function (errorSeek) {
+						if (errorSeek === -1) {
+							console.log(inputFile + ": error seeking file:\n");
+							waterfallCallBack('Error Seek');
 						} else {
-							fullFile += data;
-
-							os.fs.seek(fh, charCount, function (errorSeek) {
-								if (errorSeek === -1) {
-									console.log(inputFile + ": error seeking file:\n");
-									waterfallCallBack('Error Seek');
-								} else {
-									currentPosition += charCount;
-									checkCompleted();
-								}
-							});
+							currentPosition += charCount;
+							checkCompleted();
 						}
 					});
 				}
-				checkCompleted();
-			},
-
-			//get output file data
-			function (length, fh, fullData, callback) {
-				var result = createInitials(fullData);
-				var defaulDestination = "newInitials.csv";
-
-				var outputFile; // = "rapper_initials.csv";;
-
-				
-				if(argv.length === 2)
-					outputFile = argv[1];
-				else outputFile = defaulDestination;
-				
-
-				stdout.appendToBuffer("Exporting Initials to " + outputFile);
-
-				async.waterfall([
-					//open output file
-					function (callback) {
-						os.fs.create(outputFile, function (errCreate, newFile){
-							if (errCreate === -1) {
-								console.log("error on create");
-								callback("Error");
-							} else {
-								console.log('Success -------- new file created: ' + 
-									newFile + os._internals.fs.disk);
-								callback(null, newFile);
-							}
-						});
-					},
-
-					//write to output file
-					function (writeTarget, recursivecallback) {
-						var fullResult = result;
-						var buffer = '';
-						var CHARS_TO_WRITE = 5;
-						var writeSize = result.length;
-						var fileName;
-						var writePosition = 0;
-
-						function writeCompleted() {
-							if (writePosition >= writeSize) 
-								 recursivecallback(null, writeTarget, fileName);
-							else
-								writeNextBlock();
-						}
-
-						function writeNextBlock(){
-							var writeEnd;
-							if (writePosition + CHARS_TO_WRITE < writeSize)
-								writeEnd = writePosition  + CHARS_TO_WRITE;
-							else 
-								writeEnd = writeSize;
-							buffer = fullResult.substring(writePosition,writeEnd);
-
-							os.fs.write(writeTarget, buffer, function (error, fileName) {
-								if (error === -1){
-									console.log(fileName + ': error writing' + error + '\n');
-									callback('Error');
-								} else {
-									console.log("Write at Position: " + writePosition);
-									writePosition = writePosition + CHARS_TO_WRITE;
-									writeCompleted();
-								}
-							});
-						}
-						writeCompleted();
-					},
-
-					//close files
-					function (writeTarget,fileName,callback){
-						os.fs.close(inputFile, function (errClose, msg){
-							if (errClose === -1)
-								console.log(msg);
-							else
-								callback(null);
-						});
-						os.fs.close(outputFile, function (errClose, msg){
-							if (errClose === -1)
-								console.log(msg);
-							else
-								callback(null);
-						});
-
-					}
-				],
-
-				function (err, writeResult) {
-					if (err === -1) 
-						console.log('Write Async Block failure');
-					else 
-						console.log('Write Async Block Success');
-				});
-			}
-		],
-
-		function (error, result) {
-			if (error === -1) 
-				console.log('GetInitials: ERROR in execution. exited early');
-			else {
-				stdout.appendToBuffer("Finished");
-				console.log('Get Initials Done');
-			}
-		});
-	}
-
-	function createInitials(fullData) {
-		var initials = "";
-		var initialsArray = fullData.split(",");
-
-		for (var i = 0; i < initialsArray.length; i++){
-			initials += initialsArray[i].split(' ').map(
-				function (s){
-					return s.charAt(0);
-				}).join('');
-			if ( i !== initialsArray.length -1) initials += ',';
+			});
 		}
-		console.log(initials);
-		return initials;
-	}</pre>
+		checkCompleted();
+	},</pre>
 									</div>
 									<div class="panel-footer">
 										<p class="text-right"><a data-toggle="collapse" href="#gi-code-sample">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 									</div>
 								</div>
 							</div>
-							<div class="panel panel-default">
+							<div class="panel panel-info">
 								<div class="panel-heading">
 									<p class="panel-title"><a data-toggle="collapse" href="#gi-output">Sample Output<span class="caret"></span></a></p>
 								</div>
@@ -305,45 +186,127 @@ end of file reached; more process closed</pre>
 										<p class="text-right"><a data-toggle="collapse" href="#gi-sample-output">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 									</div>
 								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<p class="panel-title">
-							<a data-toggle="collapse" href="#stats-calc">StatsCalc<span class="caret"></span></a>
-						</p>
+						<p class="panel-title">StatsCalc</p>
 					</div>
-					<div id="sample-code" class="panel-collapse collapse">
-						<div class="panel-body">
-							<p>Code Explanation</p>
-<pre class="pre-scrollable">	Code Sample
-</pre>
-						</div>
-						<div class="panel-footer">
-							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
-						</div>
-					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<p class="panel-title">
-							<a data-toggle="collapse" href="#sample-output">Sample Output: ***<span class="caret"></span></a>
-						</p>
-					</div>
-					<div id="sample-output" class="panel-collapse collapse">
-						<div class="panel-body">
-							<p>Output Explanation</p>
-<pre> Output
-</pre>
-						</div>
-						<div class="panel-footer">
-							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
-						</div>
-					</div>
+					<div class="panel-body">
+						<p>This <i>StatsCalc</i> process is designed to read in a list of integers and display the mean and standard deviation onto an output file. To do this efficiently, I divide the integers into five parts and create five threads to process each part simultaneously. Each thread share the same <i>stats</i> object. I use semaphores to keep the different threads from interfering with each other and corrupting the <i>stats</i> object. I allow a single thread to lock <i>stats</i>, preventing any other thread from accessing and possibly corrupting the object. When a thread is finished processing, the semaphore is unlocked, allowing the other threads to access <i>stats</i>. When all the threads are finished, the data is consolidated and is further processed.</p>
+						<div class="panel-group">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<p class="panel-title"><a data-toggle="collapse" href="#sc-sample-code">Sample Code StatsCalc.csv<span class="caret"></span></a></p>
+								</div>
+								<div id="sc-sample-code" class="panel-collapse collapse">
+									<div class="panel-body">
+										<p>In this section of the <i>StatsCalc</i> process, I calculate the mean of the list of integers. To implement this, I create 5 threads to process the <i>stats</i> object simultaneously. The list of integers is divided into 5 segments; one for each thread. Each thread directly accesses the <i>stats</i> object, adding their segment of integers into <i>stats.sum</i>. Before accessing the <i>stats</i> object, a thread must use a semaphore to lock out the other threads from accessing the <i>stats</i> object. After adjusting the <i>stats</i> object, the thread unlocks the semaphore allowing other threads to access the <i>stats</i> object. Other threads can not access the <i>stats</i> object until it is unlocked.</p>
+<pre>//calculate mean
+    function (fullData, fh, callback) {
+        //console.log("start mean block, fullData: " + fullData);
+        var samplesString = fullData.split(',');
+        var samplesInt = []
+        for (var i = 0; i < samplesString.length; i++){
+            samplesInt[i] = Number(samplesString[i]);
+        }
+        var stats = {
+            samples: samplesInt,
+            n: samplesInt.length,
+            sum: 0,
+            mean: 0,
+            stdDev: 0,
+            diffSumm: 0,
+            range: Math.ceil(samplesInt.length/5),
+            print: function(){
+                console.log("sum: " + this.sum + ", n: " + this.n + ", mean: " + this.mean + ", diffSumm: " + this.diffSumm + ", stdDev: " + this.stdDev + ", range: " + this.range );
+            }
+        };
+        var threadsDoneCalc = 0;
+        for (var i = 0; i < 5; i++){
+            (function(i) {
+                os.ps.createThread(
+                    function (){
+                        console.log("thread " + i + " created");
+                        os.ps.pthread_semaphore_lock(
+                            'meanLock',
+                            function (){
+                                console.log("thread " + i + " lock");
+                                
+                                for (var j = 0; j < stats.range; j++){
+                                    if (i < 4 || j < stats.n%stats.range){
+                                        //console.log("counting pos " + ((i*stats.range)+j) + ": " + stats.samples[(i*stats.range)+j]);
+                                        stats.sum += stats.samples[(i*stats.range)+j];
+                                    }
+                                }
+
+                                threadsDoneCalc++;
+
+                                os.ps.pthread_semaphore_unlock(
+                                    'meanLock',
+                                    function(){
+
+                                        console.log("Thread " + i + " unlock");
+                                        stats.mean = stats.sum/stats.n;
+                                        stats.print();
+                                        callback(null, stats, threadsDoneCalc, fh);
+                                    }
+                                );
+                            }
+                        );
+                    },
+                    threadsDone
+                );
+            })(i)
+        }
+    },</pre>
+    								</div>
+									<div class="panel-footer">
+										<p class="text-right"><a data-toggle="collapse" href="#sc-sample-code">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<p class="panel-title"><a data-toggle="collapse" href="#sc-sample-output">Sample Output<span class="caret"></span></a></p>
+								</div>
+								<div id="sc-sample-output" class="panel-collapse collapse">
+									<div class="panel-body">
+										<p>Here a sample of <i>StatsCalc</i> being used on the <i>more_integers.csv</i> file. It creates the file <i>integerStats.csv</i> which shows the statistics of <i>more_integers.csv</i>.</p>
+<pre>dummy@OS $ ls
+Stats_Data.csv
+integers.csv
+more_integers.csv
+vector_data.csv
+Contact_Data.csv
+rapper_names.csv
+Transaction_Data.csv
+dummy@OS $ more more_integers.csv
+1,14,14,9,3,11,18,1,3,5,4,14,11,11,3,9,4,16,17,13,14,2,2,1,19,14,7,6,19,8,5,13,12,18,9,16,15,20,1,11,2,20,11,6,9,14,10,1,15,2,5,4,19,2,19,19,8,16,19,20,20,3,15,6,14,11,2,18,14,18,18,7,10,7,5,15,1,13,15,11,20,17,16,3,6,4,6,1,7,19,7,2,19,6,5,3,20,15,2,18,3,4,18,17,12,8,17,3,5,5,2,17,6,8,16,11,9,12,15,5,13,14,13,15,5,9,1,20,8,1,15,5,16,11,16,20,1,5,2,3,19,8,1,20,4,5,13,19,5,1,5,3,2,8,4,19,8,7,5,3,7,6,16,11,17,4,16,15,13,19,20,2,7,11,2,1,10,8,2,14,7,18,18,16,2,20,2,13,3,14,6,16,19,10,19,17,11,8,14,18,11,14,2,14,14,7,12,2,11,17,13,4,1,4,10,2,19,17,19,10,8,20,20,13,12,8,9,3,6,12,17,19,12,13,19,6,20,6,1,11,2,14,11,18,19,17,13,1,1,20,11,20,18,20,2,6,4,3,18,5,4,8,1,8,20,6,17,16,17,19,15,11,17,20,7,12,5,17,20,5,19,19,10,7,18,6,14,11,2,7,12,12,1,20,4,12,3,9,6,11
+end of file reached; more process closed
+dummy@OS $ man StatsCalc
+[sourceFile] (optional) [destinationFile] try exec StatsCalc integers.csv
+dummy@OS $ exec StatsCalc more_integers.csv integerStats.csv
+Opening more_integers.csv size: 761
+Exporting Stats data to integerStats.csv
+dummy@OS $ more integerStats.csv
+Statistics for more_integers.csv:
+mean: 8.226666666666667
+standard deviation: 5.817188324268004
+sample size: 300
+end of file reached; more process closed</pre>
+    								</div>
+									<div class="panel-footer">
+										<p class="text-right"><a data-toggle="collapse" href="#sc-sample-output">Close Dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>	
 				</div>
 			</div>
-
 		</div>
 	</div>
 </div>
