@@ -1,5 +1,0 @@
-public int store(int offset){
-    int value = runTimeStack.peek();
-    runTimeStack.set(framePointers.peek() + offset, runTimeStack.pop());
-    return value;
-}

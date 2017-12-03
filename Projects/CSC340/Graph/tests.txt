@@ -1,9 +1,0 @@
-void GraphTest::run_tests() {
-  check_vertex_add_edge();
-
-  check_vertex_exists();
-  check_correct_vertex_count();
-
-  check_if_path_exists_true();
-  check_if_path_exists_false();
-}
