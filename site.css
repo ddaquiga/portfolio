@@ -1,0 +1,51 @@
+#override-bootstrap a.navbar-brand {
+	color: #002F66;
+}
+#override-bootstrap a.nav-item{
+	color: #002F66;
+}
+#override-bootstrap li.active a.nav-item{
+	color: white;
+	background-color: #B27300;
+}
+
+#footer-button {
+	background-color: #002F66;
+}
+
+h3 {
+	color: #002F66;
+}
+
+#override-bootstrap div.panel-heading {
+	background-color: #002F66;
+	color: white;
+}
+
+#override-bootstrap div.panel-footer {
+	background-color: #002F66;
+}
+
+
+#override-bootstrap .language{
+	color: #B27300;
+}
+
+#override-bootstrap .project-data{
+	color: #B27300;
+}
+#override-bootstrap .src {
+	color: #002F66;
+}
+#override-bootstrap .nav-pills>li>a {
+	color: #002F66;
+}
+
+#override-bootstrap .nav-pills>li.active>a {
+	color: white;
+	background-color: #B27300;
+}
+
+#override-bootstrap .nav-pills>li>p{
+	color: #B27300;
+}

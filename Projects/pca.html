@@ -5,32 +5,30 @@
 	<title>Darrel Daquigan</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../site.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
-<body>
+<body id="override-bootstrap">
 <div class="container-fluid">
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="../index.html">Darrel Daquigan</a>
+				<a class="navbar-brand" href="../index.html"><big><b>Darrel Daquigan</b></big></a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="../projects.html">Projects</a></li>
-				<li><a href="../resume.html">Resume</a></li>
-				<li><a href="../about-me.html">About Me</a></li>
-				<li><a href="../contact.html">Contact</a></li>
+				<li class="active"><a class="nav-item" href="../projects.html">Projects</a></li>
+				<li><a class="nav-item" href="../resume.html">Resume</a></li>
+				<li><a class="nav-item" href="../about-me.html">About Me</a></li>
+				<li><a class="nav-item" href="../contact.html">Contact</a></li>
 			</ul>
-			<button class="nav navbar-nav navbar-right">
-				<a href="contact.html"><big><strong>Hire Me</strong></big></a>
-			</button>
 		</div>
 	</nav>
 	<div class="row" style="padding-bottom: 50px;">
 		<div id="sidebar" class="col-sm-2">
 			<ul class="nav nav-pills nav-stacked">
-				<li><big>Projects</big></li>
+				<li><p><big>Projects</big></p></li>
 				<li><a href="branch.html">Branch Prediction Simulation</a></li>
 				<li><a href="cache.html">Data Cache Simulation</a></li>
 				<li><a href="newton.html">Newton's Method Implementaton</a></li>
@@ -45,7 +43,7 @@
 				<li><a href="inheritance.html">Inheritance</a></li>
 				<li><a href="tree.html">Binary Tree</a></li>
 				<li><a href="graph.html">Graph</a></li>
-				<li><big>Site Navigation</big></li>
+				<li><p><big>Site Navigation</big></p></li>
 				<li><a href="../index.html"><strong>Home</strong></a></li>
             <li><a href="../projects.html"><strong>Project Index</strong></a></li>
 				<li><a href="../resume.html"><strong>Resume</strong></a></li>
@@ -54,9 +52,9 @@
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
-			<h3>Principal Component Analysis <small>MATLAB</small></h3>
-			<p><big>Numerical Analysis - San Francisco State University</big> Spring 2017</p>
-			<p>Get Source Code:</p>
+			<h3>Principal Component Analysis <small class="language">MATLAB</small></h3>
+			<p class="project-data"><big>Numerical Analysis - San Francisco State University</big> Spring 2017</p>
+			<p class="src"><strong>Get Source Code:</strong></p>
 			<ul>
 				<li>.zip File: <a href="zip_files/DaquiganPCA.zip">Download</a></li>
 				<li>git url: <a href="https://github.com/ddaquiga/pca.git">https://github.com/ddaquiga/pca.git</a></li>
@@ -308,6 +306,9 @@ Var =
 			</div>
 
 		</div>
+	</div>
+	<div class="footer" style="position: fixed; left: 0; bottom: 0; width: 100%;">
+		<a href="../contact.html"><button id="footer-button"type="button" class="btn btn-primary btn-lg btn-block">Hire Me</button></a>
 	</div>
 </div>
 </body>
