@@ -22,41 +22,41 @@ handlers:
 - url: /resume\.html
   script: resume.html
 
-- url: /projects/branch\.html
-  script: projects/branch.html
+- url: /Projects/branch\.html
+  script: Projects/branch.html
 
-- url: /projects/cache\.html
-  script: projects/cache.html
+- url: /Projects/cache\.html
+  script: Projects/cache.html
 
-- url: /projects/closed-server\.html
-  script: projects/closed-server.html
+- url: /Projects/closed-server\.html
+  script: Projects/closed-server.html
 
-- url: /projects/disk\.html
-  script: projects/disk.html
+- url: /Projects/disk\.html
+  script: Projects/disk.html
 
-- url: /projects/graph\.html
-  script: projects/graph.html
+- url: /Projects/graph\.html
+  script: Projects/graph.html
 
-- url: /projects/inheritance\.html
-  script: projects/inheritance.html
+- url: /Projects/inheritance\.html
+  script: Projects/inheritance.html
 
-- url: /projects/interpreter\.html
-  script: projects/interpreter.html
+- url: /Projects/interpreter\.html
+  script: Projects/interpreter.html
 
-- url: /projects/newton\.html
-  script: projects/newton.html
+- url: /Projects/newton\.html
+  script: Projects/newton.html
 
-- url: /projects/op-overloading\.html
-  script: projects/op-overloading.html
+- url: /Projects/op-overloading\.html
+  script: Projects/op-overloading.html
 
-- url: /projects/open-server\.html
-  script: projects/open-server.html
+- url: /Projects/open-server\.html
+  script: Projects/open-server.html
 
-- url: /projects/operating-system\.html
-  script: projects/operating-system.html
+- url: /Projects/operating-system\.html
+  script: Projects/operating-system.html
 
-- url: /projects/pca\.html
-  script: projects/pca.html
+- url: /Projects/pca\.html
+  script: Projects/pca.html
 
-- url: /projects/tree\.html
-  script: projects/tree.html
+- url: /Projects/tree\.html
+  script: Projects/tree.html
