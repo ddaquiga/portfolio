@@ -2,5 +2,11 @@ runtime: php55
 api_version: 1
 
 handlers:
-- url: /.*
+- url: /
   script: index.html
+
+- url: /index\.html
+  script: index.html
+
+- url: /contact\.html
+  script: contact.html
