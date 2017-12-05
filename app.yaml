@@ -40,6 +40,9 @@ handlers:
 - url: /Projects/inheritance\.html
   script: Projects/inheritance.html
 
+- url: /Projects/interactive\.html
+  script: Projects/interactive.html
+
 - url: /Projects/interpreter\.html
   script: Projects/interpreter.html
 
