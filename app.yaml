@@ -24,50 +24,6 @@ handlers:
 - url: /resume\.html
   script: resume.html
 
-- url: /Projects/branch\.html
-  script: Projects/branch.html
+- url: /Projects
+  static_dir: Projects
 
-- url: /Projects/cache\.html
-  script: Projects/cache.html
-
-- url: /Projects/closed-server\.html
-  script: Projects/closed-server.html
-
-- url: /Projects/disk\.html
-  script: Projects/disk.html
-
-- url: /Projects/graph\.html
-  script: Projects/graph.html
-
-- url: /Projects/inheritance\.html
-  script: Projects/inheritance.html
-
-- url: /Projects/interactive\.html
-  script: Projects/interactive.html
-
-- url: /Projects/interpreter\.html
-  script: Projects/interpreter.html
-
-- url: /Projects/newton\.html
-  script: Projects/newton.html
-
-- url: /Projects/op-overloading\.html
-  script: Projects/op-overloading.html
-
-- url: /Projects/open-server\.html
-  script: Projects/open-server.html
-
-- url: /Projects/operating-system\.html
-  script: Projects/operating-system.html
-
-- url: /Projects/pca\.html
-  script: Projects/pca.html
-
-- url: /Projects/tree\.html
-  script: Projects/tree.html
-
-- url: /Projects/images/batchModel\.png
-  script: /images/batchModel.png
-
-- url: /zip_files
-  static_dir: /zip_files
