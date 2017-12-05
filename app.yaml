@@ -2,9 +2,9 @@ runtime: php55
 api_version: 1
 
 handlers:
-- url: /site\.css
-  script: site.css
-
+- url: site.css
+  static_files: site.css
+  upload: site.css
 
 - url: /
   script: index.html
