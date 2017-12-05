@@ -66,8 +66,8 @@ handlers:
 - url: /Projects/tree\.html
   script: Projects/tree.html
 
-- url: /Projects/images
-  static_dir: /Projects/images
+- url: /images
+  static_dir: /images
 
-- url: /Projects/zip_files
-  static_dir: /Projects/zip_files
+- url: /zip_files
+  static_dir: /zip_files
