@@ -17,13 +17,16 @@ h3 {
 	color: #002F66;
 }
 
-#override-bootstrap div.panel-heading {
+#override-bootstrap .panel-heading {
 	background-color: #002F66;
 	color: white;
 }
 
-#override-bootstrap div.panel-footer {
+#override-bootstrap .panel-footer {
 	background-color: #002F66;
+}
+#override-bootstrap .panel-footer>p>a{
+	color: white;
 }
 
 
