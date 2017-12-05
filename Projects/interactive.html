@@ -74,7 +74,7 @@
 							<img class="img-responsive" src="images/batchModel.png">
 						</div>
 						<div class="panel-footer">
-							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+							<p class="text-right"><a data-toggle="collapse" href="#system-model">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
@@ -150,8 +150,14 @@
 					</div>
 					<div id="sample-output" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>Here I use my mean value analysis program to find data for the system when the loads are balanced.</p>
-<pre class="pre-scrollable">Enter system type:
+                                                        <p>I use my mean value analysis program to analyze the batch system shown above. In this example, the average transaction requires 40 visits. The average service time for the central processor is 3ms. Using this, I calculate the demand per transaction of the central processor to be 0.120sec. I run the program for two cases: balanced and unbalanced loads on the disk servers. The balanced system distributes the 40 visits evenly between the 4 disks; the demand per transaction for each disk when loads are balanced is 0.100sec. The unbalanced system gives the disk servers a visit distribution of 40%, 30%, 20%, and 10%; the demand per transaction for the unbalanced disks are 0.160sec, 0.120sec, 0.080sec, and 0.040 sec. In each case I enter the given information into the program, and it calculates and displays various performance statistics. Each category gives an ordered list for each resource corresponding to the number of jobs in the system. For example, the system response time when there are 3 jobs in the system is displayed as number 3 under the System Response Times category.</p>
+                                                        <div class="panel panel-default">
+                                                                <div class="panel-heading">
+                                                                        <p class="panel-title"><a data-toggle="collapse" href="#balanced">Balanced Loads<span class="caret"></span></a></p>
+                                                                </div>
+                                                                <div id="balanced" class="panel-collapse collapse">
+                                                                        <div class="panel-body">
+<pre>Enter system type:
         1 - interactive
         2 - batch
 
@@ -172,7 +178,7 @@ Enter demand per transaction [sec]:
 
 
 Maximum degree of multiprogramming is 8
-Resource identifier - Resource type, Number of resources, Total demand per trans             action[sec]
+Resource identifier - Resource type, Number of resources, Total demand per transaction[sec]
 1 - CentralProcessor, 1, 0.12
 2 - Disk, 4, 0.1
 
@@ -256,8 +262,19 @@ Utilitizations -
                 7 - 0.608008
                 8 - 0.636218
 </pre>
-							<p>I run the program again, but this time the loads are unbalanced.</p>
-<pre class="pre-scrollable">$ ./a
+                                                                        </div>
+                                                                        <div class="panel-footer">
+                                                                                <p class="text-right"><a data-toggle="collapse" href="#balanced">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="panel panel-default">
+                                                                <div class="panel-heading">
+                                                                        <p class="panel-title"><a data-toggle="collapse" href="#unbalanced">Unbalanced Loads<span class="caret"></span></a></p>
+                                                                </div>
+                                                                <div id="unbalanced" class="panel-collapse collapse">
+                                                                        <div class="panel-body">
+<pre>$ ./a
 Enter system type:
         1 - interactive
         2 - batch
@@ -461,6 +478,12 @@ Utilitizations -
                 7 - 0.216978
                 8 - 0.223988
 </pre>
+                                                                        </div>
+                                                                        <div class="panel-footer">
+                                                                                <p class="text-right"><a data-toggle="collapse" href="#unbalanced">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
 						</div>
 						<div class="panel-footer">
 							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>

@@ -115,10 +115,10 @@
 					<div id="state-transition-diagram" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p>This diagram shows the different states of this system. In state <i>p<sub>0</sub></i>, all four programs are either being served by one of the two central processors(CP) or they are waiting in the <i>CP</i> queue. In state <i>p<sub>4</sub></i>, all four programs are either being serviced by one of the three disks or waiting in the disk queue. In states <i>p<sub>1</sub></i>, <i>p<sub>2</sub></i>, and <i>p<sub>3</sub></i>, the programs are distributed between the CP's and disks in some combination according to the diagram. <i>&lambda;</i> is the rate of a single CP finishing a job. And <i>&mu;</i> is the rate of a single disk finishing a job. I use this state transition diagram to create the system of balanced equations used in the following calculations.</p>
-							<img class="img-responsive" src="images/stateDiagram.png">
+							<img class="img-responsive" src="images/StateDiagram.png">
 						</div>
 						<div class="panel-footer">
-							<p class="text-right"><a data-toggle="collapse" href="#sample-code">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+							<p class="text-right"><a data-toggle="collapse" href="#state-transition-diagram">Close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
@@ -171,7 +171,7 @@ Up = p0 + p1 + p2 + (1/2)p3
 							<p>Using the state transition diagram, I determine the states where the CP's are active. Using the probabilities of being in each state, I find the <b>processor utilization</b> (<i>U<sub>p</sub></i> = 0.5957). The total processor time required by 4 jobs is <i>4T<sub>p</sub></i> where <i>T<sub>p</sub></i> is the processor time required by one of the programs. The total processor time delivered by two processors is <i>2RU<sub>p</sub></i>, where <i>R</i> is the response time. The total processor time delivered is equal to the total processor time required by the 4 jobs, <i>2RU<sub>p</sub> = 4T<sub>p</sub></i>. Using this equality, I find the <b>response time</b> (<i>R</i> &asymp; 33.5758 CPU minutes).</p>
 						</div>
 						<div class="panel-footer">
-							<p class="text-right"><a data-toggle="collapse" href="#sample-output">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
+							<p class="text-right"><a data-toggle="collapse" href="#calculations">close dropdown<span class="dropup"><span class="caret"></span></span></a></p>
 						</div>
 					</div>
 				</div>
