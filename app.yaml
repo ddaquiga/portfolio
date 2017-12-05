@@ -2,8 +2,8 @@ runtime: php55
 api_version: 1
 
 handlers:
-- url: /stylesheet
-  static_dir: stylesheet
+- url: /site.css
+  script: site.css
 
 - url: /
   script: index.html
@@ -23,3 +23,41 @@ handlers:
 - url: /resume\.html
   script: resume.html
 
+- url: /projects/branch\.html
+  script: projects/branch.html
+
+- url: /projects/cache\.html
+  script: projects/cache.html
+
+- url: /projects/closed-server\.html
+  script: projects/closed-server.html
+
+- url: /projects/disk\.html
+  script: projects/disk.html
+
+- url: /projects/graph\.html
+  script: projects/graph.html
+
+- url: /projects/inheritance\.html
+  script: projects/inheritance.html
+
+- url: /projects/interpreter\.html
+  script: projects/interpreter.html
+
+- url: /projects/newton\.html
+  script: projects/newton.html
+
+- url: /projects/op-overloading\.html
+  script: projects/op-overloading.html
+
+- url: /projects/open-server\.html
+  script: projects/open-server.html
+
+- url: /projects/operating-system\.html
+  script: projects/operating-system.html
+
+- url: /projects/pca\.html
+  script: projects/pca.html
+
+- url: /projects/tree\.html
+  script: projects/tree.html
