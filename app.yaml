@@ -2,8 +2,10 @@ runtime: php55
 api_version: 1
 
 handlers:
-- url: /stylesheet
-  static_dir: stylesheet
+- url: /site\.css
+  script: site.css
+
+
 - url: /
   script: index.html
 
@@ -63,3 +65,9 @@ handlers:
 
 - url: /Projects/tree\.html
   script: Projects/tree.html
+
+- url: /Projects/images
+  static_dir: /Projects/images
+
+- url: /Projects/zip_files
+  static_dir: /Projects/zip_files
