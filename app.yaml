@@ -2,6 +2,9 @@ runtime: php55
 api_version: 1
 
 handlers:
+- url: /stylesheet
+  static_dir: stylesheet
+
 - url: /
   script: index.html
 
@@ -10,3 +13,13 @@ handlers:
 
 - url: /contact\.html
   script: contact.html
+
+- url: /about-me\.html
+  script: about-me.html
+
+- url: /projects\.html
+  script: projects.html
+
+- url: /resume\.html
+  script: resume.html
+
