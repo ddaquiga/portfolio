@@ -67,7 +67,7 @@ handlers:
   script: Projects/tree.html
 
 - url: /Projects/images/batchModel\.png
-  static_dir: /images/batchModel.png
+  script: /images/batchModel.png
 
 - url: /zip_files
   static_dir: /zip_files
