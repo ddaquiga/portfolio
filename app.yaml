@@ -27,3 +27,8 @@ handlers:
 - url: /Projects
   static_dir: Projects
 
+- url: /DaquiganResume\.pdf
+  static_files: DaquiganResume.pdf
+
+- url: /DaquiganResume\.docx
+  static_files: DaquiganResume.docx

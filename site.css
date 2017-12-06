@@ -51,6 +51,6 @@
 #override-bootstrap .row{
 	position: absolute;
 	top: 52px;
-	bottom: 46px;
+	padding-bottom: 46px;
 	width: 100%;
 }
