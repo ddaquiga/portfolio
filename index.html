@@ -12,29 +12,32 @@
 </head>
 
 <body id="override-bootstrap">
-<div class="container-fluid">
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="index.html"><big><b>Darrel Daquigan</b></big></a>
-			</div>
-			<ul class="nav navbar-nav">
-				<li><a class="nav-item" href="projects.html">Projects</a></li>
-				<li><a class="nav-item" href="resume.html">Resume</a></li>
-				<li><a class="nav-item" href="about-me.html">About Me</a></li>
-				<li><a class="nav-item" href="contact.html">Contact</a></li>
-			</ul>
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="index.html"><big><b>Darrel Daquigan</b></big></a>
 		</div>
-	</nav>
-	<div id="mainbody" class="col-sm-10">
-		<h3>Homepage</h3>
-		<p class="test">Here is a list the landing page.</p>
+		<ul class="nav navbar-nav">
+			<li><a class="nav-item" href="projects.html">Portfolio</a></li>
+			<li><a class="nav-item" href="resume.html">Resume</a></li>
+			<li><a class="nav-item" href="about-me.html">About Me</a></li>
+			<li><a class="nav-item" href="contact.html">Contact</a></li>
+		</ul>
 	</div>
-	<div class="footer" style="position: fixed; left: 0; bottom: 0; width: 100%;">
-		<a href="contact.html"><button id="footer-button"type="button" class="btn btn-primary btn-lg btn-block">Hire Me</button></a>
+</nav>
+<div class="jumbotron">
+	<div id="mainbody" class="landing">
+		<h1><big><strong>Darrel Daquigan</strong></big></h1>
+		<h2>Software Engineer and Developer</h2>
+		<div class="btn-group">
+			<button type="button" class="btn btn-default"><a href="projects.html">Portfolio</a></button>
+			<button type="button" class="btn btn-default"><a href="resume.html">Resume</a></button>
+			<button type="button" class="btn btn-default"><a href="about-me.html">About Me</a></button>
+			<button type="button" class="btn btn-default"><a href="contact.html">Contact</a></button>
+		</div>
 	</div>
-	<div class="footer" style="position: fixed; left: 0; bottom: 0; width: 100%;">
-		<a href="contact.html"><button id="footer-button"type="button" class="btn btn-primary btn-lg btn-block">Hire Me</button></a>
+	<div class="footer landing" style="width: 30%; margin-top: 10px">
+		<a href="contact.html"><button id="footer-button"type="button" class="btn btn-default btn-lg btn-block">Hire Me</button></a>
 	</div>
 </div>
 </body>

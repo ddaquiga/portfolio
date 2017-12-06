@@ -1,54 +1,56 @@
-#override-bootstrap a.navbar-brand {
+#override-bootstrap a.navbar-brand,
+#override-bootstrap a.nav-item,
+#override-bootstrap h1,
+#override-bootstrap h3,
+#override-bootstrap .src,
+#override-bootstrap .nav-pills>li>a{
 	color: #002F66;
 }
-#override-bootstrap a.nav-item{
-	color: #002F66;
+
+#footer-button  {
+	background-color: #002F66;
+	color: white;
 }
-#override-bootstrap li.active a.nav-item{
+
+#override-bootstrap .language,
+#override-bootstrap .nav-pills>li>p, 
+#override-bootstrap .project-data,
+#override-bootstrap h2{
+	color: #B27300;
+}
+
+#override-bootstrap li.active a.nav-item,
+#override-bootstrap .nav-pills>li.active>a{
 	color: white;
 	background-color: #B27300;
 }
 
-#footer-button {
-	background-color: #002F66;
+#override-bootstrap .landing{
+	margin: auto;
+	text-align: center;
 }
 
-h3 {
-	color: #002F66;
-}
-
-#override-bootstrap .panel-heading {
-	background-color: #002F66;
+#override-bootstrap .panel-heading, 
+#override-bootstrap .panel-footer>p>a, 
+#override-bootstrap .panel-footer,
+#mainbody button>a,
+#mainbody button{
 	color: white;
+	background-color: #065C7D;
 }
 
-#override-bootstrap .panel-footer {
-	background-color: #002F66;
-}
-#override-bootstrap .panel-footer>p>a{
-	color: white;
+#override-bootstrap .navbar{
+	background-color: #E7E7E7;
 }
 
-
-#override-bootstrap .language{
-	color: #B27300;
+#override-bootstrap .jumbotron,
+#sidebar{
+	background-color: #f8f8f8;
 }
 
-#override-bootstrap .project-data{
-	color: #B27300;
-}
-#override-bootstrap .src {
-	color: #002F66;
-}
-#override-bootstrap .nav-pills>li>a {
-	color: #002F66;
-}
-
-#override-bootstrap .nav-pills>li.active>a {
-	color: white;
-	background-color: #B27300;
-}
-
-#override-bootstrap .nav-pills>li>p{
-	color: #B27300;
+#override-bootstrap .row{
+	position: absolute;
+	top: 52px;
+	bottom: 46px;
+	width: 100%;
 }
