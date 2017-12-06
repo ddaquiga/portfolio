@@ -29,6 +29,8 @@ handlers:
 
 - url: /DaquiganResume\.pdf
   static_files: DaquiganResume.pdf
+  upload: DaquiganResume.pdf
 
 - url: /DaquiganResume\.docx
   static_files: DaquiganResume.docx
+  upload: DaquiganResume.docx
