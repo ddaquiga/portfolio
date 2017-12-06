@@ -2,9 +2,6 @@ runtime: php55
 api_version: 1
 
 handlers:
-- url: /site.css
-  static_files: site.css
-  upload: site.css
 
 - url: /
   script: index.html
@@ -26,6 +23,13 @@ handlers:
 
 - url: /Projects
   static_dir: Projects
+
+- url: /site.css
+  static_files: site.css
+  upload: site.css
+
+- url: /animations\.js
+  script: animations.js
 
 - url: /DaquiganResume\.pdf
   static_files: DaquiganResume.pdf
