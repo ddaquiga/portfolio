@@ -43,11 +43,11 @@
 			<p>***Please fill out form or explore my website to learn more***</p>
 			<form>
 				Name*:<br>
-				<input type="text" name="name"><br><br>
+				<input type="text" name="name" required><br><br>
 				Company:<br>
 				<input type="text" name="company"><br><br>
 				Email Address*:<br>
-				<input type="text" name="email"><br><br>
+				<input type="text" name="email" required=""><br><br>
 				Telephone Number:<br>
 				<input type="text" name="phone"><br><br>
 				Your Website:<br>
@@ -61,6 +61,20 @@
 		</div>
 	</div>
 </div>
+
+<?php
+	$servername = "localhost";
+	$username = "root";
+	$password = "password";
+
+	$con = new mysqli($servername, $username, $password);
+
+	if ($conn->connect_error) {
+		die("connection failed: " . $conn->connect_error);
+	}
+
+	echo Connected succesfully";
+?>
 </body>
 </html>
 
