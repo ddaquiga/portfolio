@@ -21,8 +21,8 @@
 			<li><a class="nav-item" href="projects.html">Portfolio</a></li>
 			<li><a class="nav-item" href="resume.html">Resume</a></li>
 			<li><a class="nav-item" href="about-me.html">About Me</a></li>
-			<li class="active"><a class="nav-item" href="contact.html">Contact</a></li>
-			<li><a class="nav-item" href="hire-me.php">Hire Me</a></li>
+			<li><a class="nav-item" href="contact.html">Contact</a></li>
+			<li class="active"><a class="nav-item" href="hire-me.html">Hire Me</a></li>
 		</ul>
 	</div>
 </nav>
@@ -34,24 +34,31 @@
 				<li><a href="projects.html"><strong>Portfolio</strong></a></li>
 				<li><a href="resume.html"><strong>Resume</strong></a></li>
 				<li><a href="about-me.html"><strong>About Me</strong></a></li>
-				<li class="active"><a href="contact.html"><strong>Contact</strong></a></li>
+				<li><a href="contact.html"><strong>Contact</strong></a></li>
+				<li class="active"><a href="hire-me.php"><strong>Hire Me</strong></a></li>
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
-			<h3>Contact</h3>
-			<ul style="list-style: none;">
-				<li><p>Phone/Text: <a href="tel:+14157930531">415-793-0531 <big><span class="glyphicon glyphicon-earphone"></span></big></a></p></li>
-				<li><p>Email: <a href="mailto:darreldaquigan@gmail.com" target="_top">darreldaquigan@gmail.com <big><span class="glyphicon glyphicon-envelope"></span></big></a></p></li>
-			</ul>
-			<h3>Other Links</h3>
-			<ul style="list-style: none;">
-				<li><p>GitHub: <a href="https://github.com/ddaquiga">https://github.com/ddaquiga <img src="logos/GitHub-Mark-32px.png"></a></p></li>
-				<li><p>LinkedIn: <a href="https://www.linkedin.com/in/darreldaquigan/">https://www.linkedin.com/in/darreldaquigan/ <img src="logos/In-2C-34px-R.png"></a></p></li>
-			</ul>
+			<h3>Hire Darrel</h3>
+			<p>***Please fill out form or explore my website to learn more***</p>
+			<form>
+				Name*:<br>
+				<input type="text" name="name"><br><br>
+				Company:<br>
+				<input type="text" name="company"><br><br>
+				Email Address*:<br>
+				<input type="text" name="email"><br><br>
+				Telephone Number:<br>
+				<input type="text" name="phone"><br><br>
+				Your Website:<br>
+				<input type="text" name="website"><br><br>
+				How did you hear about www.ddaquigan.com?<br>
+				<input type="text" name="name"><br><br>
+				Project Details:<br>
+				<input type="text" name="name"><br><br>
+				<input type="submit" value="Submit">
+			</form>
 		</div>
-	</div>
-	<div class="footer" style="position: fixed; left: 0; bottom: 0; width: 100%;">
-		<a href="hire-me.php"><button id="footer-button"type="button" class="btn btn-primary btn-lg btn-block">Hire Me</button></a>
 	</div>
 </div>
 </body>

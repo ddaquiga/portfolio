@@ -24,6 +24,9 @@ handlers:
 - url: /resume\.html
   script: resume.html
 
+- url: /hire-me\.php
+  script: hire-me.php
+
 - url: /Projects
   static_dir: Projects
 

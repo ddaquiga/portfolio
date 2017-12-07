@@ -7,6 +7,7 @@
 	color: #002F66;
 }
 
+#override-bootstrap .panel-heading,
 #footer-button  {
 	background-color: #002F66;
 	color: white;
@@ -29,28 +30,18 @@
 	margin: auto;
 	text-align: center;
 }
-
-#override-bootstrap .panel-heading, 
+ 
 #override-bootstrap .panel-footer>p>a, 
-#override-bootstrap .panel-footer,
-#mainbody button>a,
-#mainbody button{
+#override-bootstrap .panel-footer{
 	color: white;
 	background-color: #065C7D;
 }
 
-#override-bootstrap .navbar{
-	background-color: #E7E7E7;
-}
-
-#override-bootstrap .jumbotron,
-#sidebar{
-	background-color: #f8f8f8;
-}
 
 #override-bootstrap .row{
 	position: absolute;
 	top: 52px;
 	padding-bottom: 46px;
 	width: 100%;
+
 }
