@@ -37,11 +37,3 @@
 	background-color: #065C7D;
 }
 
-
-#override-bootstrap .row{
-	position: absolute;
-	top: 52px;
-	padding-bottom: 46px;
-	width: 100%;
-
-}
