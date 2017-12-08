@@ -61,20 +61,6 @@
 		</div>
 	</div>
 </div>
-
-<?php
-	$servername = "localhost";
-	$username = "root";
-	$password = "password";
-
-	$con = new mysqli($servername, $username, $password);
-
-	if ($conn->connect_error) {
-		die("connection failed: " . $conn->connect_error);
-	}
-
-	echo "Connected succesfully";
-?>
 </body>
 </html>
 
