@@ -73,7 +73,7 @@
 		die("connection failed: " . $conn->connect_error);
 	}
 
-	echo Connected succesfully";
+	echo "Connected succesfully";
 ?>
 </body>
 </html>
