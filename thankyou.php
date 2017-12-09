@@ -14,7 +14,7 @@
 <body id="override-bootstrap">
 
 <?php
-	$dbhost = "localhost";
+	$dbhost = "ddaquigan-188101:us-west1:portfolio-instance";
 	$dbuser = "root";
 	$dbpass = "";
 	$dbname = "responses";
