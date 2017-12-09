@@ -14,7 +14,7 @@
 <body id="override-bootstrap">
 
 <?php
-	$dbhost = "localhost";
+	$dbhost = getenv('MYSQL_DSN');
 	$dbuser = "root";
 	$dbpass = "";
 	$dbname = "responses";
