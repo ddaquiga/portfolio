@@ -27,8 +27,8 @@ handlers:
 - url: /hire-me\.html.twig
   script: hire-me.html.twig
 
-- url: /thankyou\.php
-  script: thankyou.php
+- url: /thankyou\.html.twig
+  script: thankyou.html.twig
 
 - url: /Projects
   static_dir: Projects
