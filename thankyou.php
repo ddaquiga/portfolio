@@ -14,7 +14,7 @@
 <body id="override-bootstrap">
 
 <?php
-	$dbhost = getenv('MYSQL_DSN');
+	$dbhost = "mysql:unix_socket=/cloudsql/ddaquigan-188101:us-west1:portfolio-instance;dbname=responses";
 	$dbuser = "root";
 	$dbpass = "";
 	$dbname = "responses";

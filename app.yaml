@@ -46,10 +46,3 @@ handlers:
 - url: /DaquiganResume\.docx
   static_files: DaquiganResume.docx
   upload: DaquiganResume.docx
-
-env_variables:
-  # Replace USER, PASSWORD, DATABASE, and CONNECTION_NAME with the
-  # values obtained when configuring your Cloud SQL instance.
-  MYSQL_DSN: mysql:unix_socket=/cloudsql/ddaquigan-188101:us-west1:portfolio-instance;dbname=responses
-  MYSQL_USER: root
-  MYSQL_PASSWORD: password
