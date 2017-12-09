@@ -13,29 +13,6 @@
 
 <body id="override-bootstrap">
 
-<?php
-	$dbhost = "35.203.177.219";
-	$dbuser = "root";
-	$dbpass = "";
-	$dbname = "responses";
-
-	// Create connection
-	$conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname) or die($conn->connect_error);
-	$firstname = $conn->real_escape_string($_POST['firstname']);
-	$lastname = $conn->real_escape_string($_POST['lastname']);
-	$company = $conn->real_escape_string($_POST['company']);
-	$email = $conn->real_escape_string($_POST['email']);
-	$phone = $conn->real_escape_string($_POST['phone']);
-	$website = $conn->real_escape_string($_POST['website']);
-	$referred = $conn->real_escape_string($_POST['referred']);
-	$details = $conn->real_escape_string($_POST['details']);
-	$query   = "INSERT into employers (firstname,lastname,company,email,phone,website,referred,details) VALUES('" . $firstname . "','" . $lastname . "','" . $company . "','" . $email . "','" . $phone . "','" . $website . "','" . $referred . "','" . $details . "')";
-	if (!$conn->query($query)) die("Couldn't enter data: ".$conn->error);
-
-?>
-
-
-
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -59,11 +36,42 @@
 				<li><a href="resume.html"><strong>Resume</strong></a></li>
 				<li><a href="about-me.html"><strong>About Me</strong></a></li>
 				<li><a href="contact.html"><strong>Contact</strong></a></li>
-				<li class="active"><a href="hire-me.php"><strong>Hire Me</strong></a></li>
+				<li class="active"><a href="hire-me.html.twig"><strong>Hire Me</strong></a></li>
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
-			<h3>Thank You</h3>
+			{% if results %}
+				<h3>Employers Entries</h3>
+				<table class="table table-responsive table-hover">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>firstname</th>
+							<th>lastname</th>
+							<th>company</th>
+							<th>email</th>
+							<th>phone</th>
+							<th>website</th>
+							<th>referred</th>
+							<th>details</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for row in results %}
+						<tr>
+							<td>{{ row.firstname }}</td>
+							<td>{{ row.lastname }}</td>
+							<td>{{ row.company }}</td>
+							<td>{{ row.email }}</td>
+							<td>{{ row.phone }}</td>
+							<td>{{ row.website }}</td>
+							<td>{{ row.referred }}</td>
+							<td>{{ row.details }}</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			{% endif %}
 		</div>
 	</div>
 </div>

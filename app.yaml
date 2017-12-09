@@ -25,7 +25,7 @@ handlers:
   script: resume.html
 
 - url: /hire-me\.php
-  script: hire-me.php
+  script: hire-me.html.twig
 
 - url: /thankyou\.php
   script: thankyou.php
@@ -46,3 +46,12 @@ handlers:
 - url: /DaquiganResume\.docx
   static_files: DaquiganResume.docx
   upload: DaquiganResume.docx
+
+# [START env]
+env_variables:
+  # Replace USER, PASSWORD, DATABASE, and CONNECTION_NAME with the
+  # values obtained when configuring your Cloud SQL instance.
+  MYSQL_DSN: mysql:unix_socket=/cloudsql/ddaquigan-188101:us-west1:portfolio-instance;dbname=responses
+  MYSQL_USER: root
+  MYSQL_PASSWORD: 
+# [END env]
