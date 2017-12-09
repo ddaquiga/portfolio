@@ -23,7 +23,7 @@
 			<li><a class="nav-item" href="resume.html">Resume</a></li>
 			<li><a class="nav-item" href="about-me.html">About Me</a></li>
 			<li><a class="nav-item" href="contact.html">Contact</a></li>
-			<li class="active"><a class="nav-item" href="hire-me.html">Hire Me</a></li>
+			<li class="active"><a class="nav-item" href="hire-me.php">Hire Me</a></li>
 		</ul>
 	</div>
 </nav>
@@ -36,7 +36,7 @@
 				<li><a href="resume.html"><strong>Resume</strong></a></li>
 				<li><a href="about-me.html"><strong>About Me</strong></a></li>
 				<li><a href="contact.html"><strong>Contact</strong></a></li>
-				<li class="active"><a href="hire-me.html.twig"><strong>Hire Me</strong></a></li>
+				<li class="active"><a href="hire-me.php"><strong>Hire Me</strong></a></li>
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
