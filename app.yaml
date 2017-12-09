@@ -27,6 +27,9 @@ handlers:
 - url: /hire-me\.php
   script: hire-me.php
 
+- url: /thankyou\.php
+  script: thankyou.php
+
 - url: /Projects
   static_dir: Projects
 

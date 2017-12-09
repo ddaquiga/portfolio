@@ -13,6 +13,29 @@
 
 <body id="override-bootstrap">
 
+<?php
+	$dbhost = "localhost";
+	$dbuser = "root";
+	$dbpass = "";
+	$dbname = "responses";
+
+	// Create connection
+	$conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname) or die($conn->connect_error);
+	$firstname = $conn->real_escape_string($_POST['firstname']);
+	$lastname = $conn->real_escape_string($_POST['lastname']);
+	$company = $conn->real_escape_string($_POST['company']);
+	$email = $conn->real_escape_string($_POST['email']);
+	$phone = $conn->real_escape_string($_POST['phone']);
+	$website = $conn->real_escape_string($_POST['website']);
+	$referred = $conn->real_escape_string($_POST['referred']);
+	$details = $conn->real_escape_string($_POST['details']);
+	$query   = "INSERT into employers (firstname,lastname,company,email,phone,website,referred,details) VALUES('" . $firstname . "','" . $lastname . "','" . $company . "','" . $email . "','" . $phone . "','" . $website . "','" . $referred . "','" . $details . "')";
+	if (!$conn->query($query)) die("Couldn't enter data: ".$conn->error);
+
+?>
+
+
+
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -40,27 +63,7 @@
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
-			<h3>Hire Darrel</h3>
-			<p>***Please fill out form or explore my website to learn more***</p>
-			<form action="thankyou.php" method="post">
-				First Name*:<br>
-				<input type="text" name="firstname" required><br><br>
-				Last Name*:<br>
-				<input type="text" name="lastname" required><br><br>
-				Company:<br>
-				<input type="text" name="company"><br><br>
-				Email Address*:<br>
-				<input type="text" name="email" required><br><br>
-				Telephone Number:<br>
-				<input type="text" name="phone"><br><br>
-				Your Website:<br>
-				<input type="text" name="website"><br><br>
-				How did you hear about www.ddaquigan.com?<br>
-				<input type="text" name="referred"><br><br>
-				Project Details:<br>
-				<input type="text" name="details"><br><br>
-				<input type="submit" value="Submit">
-			</form>
+			<h3>Thank You</h3>
 		</div>
 	</div>
 </div>
