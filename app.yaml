@@ -24,7 +24,7 @@ handlers:
 - url: /resume\.html
   script: resume.html
 
-- url: /hire-me\.php
+- url: /hire-me\.html.twig
   script: hire-me.html.twig
 
 - url: /thankyou\.php
