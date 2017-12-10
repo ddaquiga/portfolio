@@ -23,7 +23,7 @@
 			<li><a class="nav-item" href="resume.html">Resume</a></li>
 			<li><a class="nav-item" href="about-me.html">About Me</a></li>
 			<li><a class="nav-item" href="contact.html">Contact</a></li>
-			<li class="active"><a class="nav-item" href="hire-me.php">Hire Me</a></li>
+			<li class="active"><a class="nav-item" href="hire-me.html">Hire Me</a></li>
 		</ul>
 	</div>
 </nav>
@@ -36,11 +36,30 @@
 				<li><a href="resume.html"><strong>Resume</strong></a></li>
 				<li><a href="about-me.html"><strong>About Me</strong></a></li>
 				<li><a href="contact.html"><strong>Contact</strong></a></li>
-				<li class="active"><a href="hire-me.php"><strong>Hire Me</strong></a></li>
+				<li class="active"><a href="hire-me.html"><strong>Hire Me</strong></a></li>
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
-			<h3>Thank You</h3>
+			<h3>Hire Darrel</h3>
+			<p>***Please fill out form or explore my website to learn more***</p>
+			<form action="thank-you.php" method="post">
+				First Name*:<br>
+				<input type="varchar(255)" name="firstname" required><br><br>
+				Last Name*:<br>
+				<input type="varchar(255)" name="lastname" required><br><br>
+				Company:<br>
+				<input type="varchar(255)" name="company"><br><br>
+				Email Address*:<br>
+				<input type="varchar(255)" name="email" required><br><br>
+				Telephone Number:<br>
+				<input type="varchar(255)" name="phone"><br><br>
+				Your Website:<br>
+				<input type="varchar(255)" name="website"><br><br>
+				How did you hear about www.ddaquigan.com?<br>
+				<input type="varchar(255)" name="referred"><br><br>
+				Project Details:<br>
+				<input type="text" name="details"><br><br>
+				<input type="submit" value="Submit">
 			</form>
 		</div>
 	</div>

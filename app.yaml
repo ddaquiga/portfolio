@@ -24,11 +24,11 @@ handlers:
 - url: /resume\.html
   script: resume.html
 
-- url: /hire-me\.php
-  script: hire-me.php
+- url: /hire-me\.html
+  script: hire-me.html
 
-- url: /thankyou\.php
-  script: thankyou.php
+- url: /thank-you\.php
+  script: thank-you.php
 
 - url: /Projects
   static_dir: Projects
