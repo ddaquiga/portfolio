@@ -56,17 +56,26 @@ if (empty($_POST["details"]))
 else
 	$details = test_input($_POST["details"]);
 
-$servername = "35.203.177.219";
+$servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "responses";
 
-$conn = new mysqli($servername, $username, $password, $dbname) or die("Connection failed: " . $conn->connect_error);
+try {
+	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	echo "Connected Successfully";
+}
+catch(PDOException $e){
+	echo "Connection failed: " . $e->getMessage();
+}
 
 $query = "INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values ('" . $firstname . "','" . $lastname . "','" . $company . "','" . $email . "','" . $phone . "','" . $website . "','" . $referred . "','" . $details . "')";
 if ($conn->query($query)){
-	$sql = "SELECT ID, firstname, lastname, company, email, phone, website, referred, details from employers";
-	$result = $conn->query($sql);
+	$stmt = $conn->prepare("SELECT ID, firstname, lastname, company, email, phone, website, referred, details from employers");
+	$stmt->execute();
+
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 }
 else
 	die("Couldn't enter data: " . $conn->error);
@@ -78,6 +87,7 @@ function test_input($data) {
 	$data = htmlspecialchars($data);
 	return $data;
 }
+
 ?>
 
 <nav class="navbar navbar-default">
@@ -109,40 +119,38 @@ function test_input($data) {
 		<div id="mainbody" class="col-sm-10">
 			<h3>Thank You</h3>
 
-			<?php if ($result->num_rows > 0) { ?>
-				<table class="table table-responsive table-hover">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>firstname</th>
-							<th>lastname</th>
-							<th>company</th>
-							<th>email</th>
-							<th>phone</th>
-							<th>website</th>
-							<th>referred</th>
-							<th>details</th>
-						</tr>
-					</thead>
-					<tbody>
-				<?php while($row = $result->fetch_assoc()) { ?>
+		
+			<table class="table table-responsive table-hover">
+				<thead>
 					<tr>
-						<td><?php echo $row["ID"] ?></td>
-						<td><?php echo $row["firstname"] ?></td>
-						<td><?php echo $row["lastname"] ?></td>
-						<td><?php echo $row["company"] ?></td>
-						<td><?php echo $row["email"] ?></td>
-						<td><?php echo $row["phone"] ?></td>
-						<td><?php echo $row["website"] ?></td>
-						<td><?php echo $row["referred"] ?></td>
-						<td><?php echo $row["details"] ?></td>
+						<th>ID</th>
+						<th>firstname</th>
+						<th>lastname</th>
+						<th>company</th>
+						<th>email</th>
+						<th>phone</th>
+						<th>website</th>
+						<th>referred</th>
+						<th>details</th>
 					</tr>
-				<?php } ?>
-					</tbody>
-				</table>
-			<?php }  else { ?>
-				<p>0 results</p>
-			<?php } ?>
+				</thead>
+				<tbody>
+					<?php foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
+					?>
+						<tr>
+							<td><?php echo $v["ID"] ?></td>
+							<td><?php echo $v["firstname"] ?></td>
+							<td><?php echo $v["lastname"] ?></td>
+							<td><?php echo $v["company"] ?></td>
+							<td><?php echo $v["email"] ?></td>
+							<td><?php echo $v["phone"] ?></td>
+							<td><?php echo $v["website"] ?></td>
+							<td><?php echo $v["referred"] ?></td>
+							<td><?php echo $v["details"] ?></td>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>
