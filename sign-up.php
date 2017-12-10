@@ -14,49 +14,25 @@
 <body id="override-bootstrap">
 
 <?php 
-$firstname = $lastname = $company = $email = $phone = $website = $referred = $details = "";
-
-if (empty($_POST["firstname"]))
-	$firstname = "";
+if (empty($_POST["u_name"]))
+	$u_name = "";
 else
-	$firstname = test_input($_POST["firstname"]);
+	$u_name = test_input($_POST["u_name"]);
 
-if (empty($_POST["lastname"]))
-	$lastname = "";
+if (empty($_POST["p_word"]))
+	$p_word = "";
 else
-	$lastname = test_input($_POST["lastname"]);
+	$p_word = test_input($_POST["p_word"]);
 
-if (empty($_POST["company"]))
-	$company = "";
-else
-	$company = test_input($_POST["company"]);
+function test_input($data) {
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data);
+	$data = hash('sha512',$data);
+	return $data;
+}
 
-if (empty($_POST["email"]))
-	$email = "";
-else
-	$email = test_input($_POST["email"]);
-
-if (empty($_POST["phone"]))
-	$phone = "";
-else
-	$phone = test_input($_POST["phone"]);
-
-if (empty($_POST["website"]))
-	$website = "";
-else
-	$website = test_input($_POST["website"]);
-
-if (empty($_POST["referred"]))
-	$referred = "";
-else
-	$referred = test_input($_POST["referred"]);
-
-if (empty($_POST["details"]))
-	$details = "";
-else
-	$details = test_input($_POST["details"]);
-
-$servername = "35.203.177.219";
+$servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "responses";
@@ -65,28 +41,17 @@ try {
 	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$stmt = $conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values (:firstname, :lastname, :company, :email, :phone, :website, :referred, :details)");
-$stmt->bindParam(':firstname',$firstname);
-$stmt->bindParam(':lastname',$lastname);
-$stmt->bindParam(':company',$company);
-$stmt->bindParam(':email',$email);
-$stmt->bindParam(':phone',$phone);
-$stmt->bindParam(':website',$website);
-$stmt->bindParam(':referred',$referred);
-$stmt->bindParam(':details',$details);
-$stmt->execute();
+	$stmt = $conn->prepare("INSERT INTO users (u_name, p_word) values (:u_name, :p_word)");
+	$stmt->bindParam(':u_name',$u_name);
+	$stmt->bindParam(':p_word',$p_word);
+
+	$stmt->execute();
+
 }
 catch(PDOException $e){
 	echo "Connection failed: " . $e->getMessage();
 }
 
-
-function test_input($data) {
-	$data = trim($data);
-	$data = stripslashes($data);
-	$data = htmlspecialchars($data);
-	return $data;
-}
 
 ?>
 

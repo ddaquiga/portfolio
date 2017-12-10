@@ -14,79 +14,50 @@
 <body id="override-bootstrap">
 
 <?php 
-$firstname = $lastname = $company = $email = $phone = $website = $referred = $details = "";
+$un = $pw = "";
 
-if (empty($_POST["firstname"]))
-	$firstname = "";
+if (empty($_POST["un"]))
+	$un = "";
 else
-	$firstname = test_input($_POST["firstname"]);
+	$un = test_input($_POST["un"]);
 
-if (empty($_POST["lastname"]))
-	$lastname = "";
+if (empty($_POST["pw"]))
+	$pw = "";
 else
-	$lastname = test_input($_POST["lastname"]);
-
-if (empty($_POST["company"]))
-	$company = "";
-else
-	$company = test_input($_POST["company"]);
-
-if (empty($_POST["email"]))
-	$email = "";
-else
-	$email = test_input($_POST["email"]);
-
-if (empty($_POST["phone"]))
-	$phone = "";
-else
-	$phone = test_input($_POST["phone"]);
-
-if (empty($_POST["website"]))
-	$website = "";
-else
-	$website = test_input($_POST["website"]);
-
-if (empty($_POST["referred"]))
-	$referred = "";
-else
-	$referred = test_input($_POST["referred"]);
-
-if (empty($_POST["details"]))
-	$details = "";
-else
-	$details = test_input($_POST["details"]);
-
-$servername = "35.203.177.219";
-$username = "root";
-$password = "";
-$dbname = "responses";
-
-try {
-	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-$stmt = $conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values (:firstname, :lastname, :company, :email, :phone, :website, :referred, :details)");
-$stmt->bindParam(':firstname',$firstname);
-$stmt->bindParam(':lastname',$lastname);
-$stmt->bindParam(':company',$company);
-$stmt->bindParam(':email',$email);
-$stmt->bindParam(':phone',$phone);
-$stmt->bindParam(':website',$website);
-$stmt->bindParam(':referred',$referred);
-$stmt->bindParam(':details',$details);
-$stmt->execute();
-}
-catch(PDOException $e){
-	echo "Connection failed: " . $e->getMessage();
-}
-
+	$pw = test_input($_POST["pw"]);
 
 function test_input($data) {
 	$data = trim($data);
 	$data = stripslashes($data);
 	$data = htmlspecialchars($data);
+	$data = hash('sha512',$data);
 	return $data;
 }
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "responses";
+$out = "Login Failed";
+
+try {
+	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+	$stmt = $conn->prepare("SELECT 1 FROM users WHERE u_name = :un AND p_word = :pw");
+	$stmt->bindParam(':un',$un);
+	$stmt->bindParam(':pw',$pw);
+
+	$stmt->execute();
+
+	$msgs = $conn->prepare("SELECT * FROM employers");
+	$msgs->execute();
+
+}
+catch(PDOException $e){
+	echo "Connection failed: " . $e->getMessage();
+}
+
 
 ?>
 
@@ -100,7 +71,7 @@ function test_input($data) {
 			<li><a class="nav-item" href="resume.html">Resume</a></li>
 			<li><a class="nav-item" href="about-me.html">About Me</a></li>
 			<li><a class="nav-item" href="contact.html">Contact</a></li>
-			<li class="active"><a class="nav-item" href="hire-me.html">Hire Me</a></li>
+			<li><a class="nav-item" href="hire-me.html">Hire Me</a></li>
 		</ul>
 	</div>
 </nav>
@@ -117,7 +88,32 @@ function test_input($data) {
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
-			<h3>Thank You</h3>
+
+		<?php if ($stmt->rowCount() > 0) { ?>
+			<h3>Messages</h3>
+			<div class="panel-group">
+			<?php foreach(new RecursiveArrayIterator($msgs->fetchAll()) as $k=>$v) { ?>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<p class="panel-title">Message from <?php echo $v["firstname"] . " " . $v["lastname"] ?></a>
+						</p>
+					</div>
+					<div class="panel-body">
+						<p>Name: <?php echo $v["firstname"] . " " . $v["lastname"] ?><br>
+							Company: <?php echo $v["company"] ?><br>
+							Email: <?php echo $v["email"] ?><br>
+							Phone: <?php echo $v["phone"] ?><br>
+							Website: <?php echo $v["website"] ?><br>
+							Referred: <?php echo $v["referred"] ?><br>
+							Message:<br><?php echo $v["details"] ?><br>
+						</p>
+					</div>
+				</div>
+			<?php } ?>
+			</div>
+		<?php } else { ?>
+			<h3>Not Logged In!!!</h3>
+		<?php } ?>
 		</div>
 	</div>
 </div>
