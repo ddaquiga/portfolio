@@ -56,7 +56,7 @@ if (empty($_POST["details"]))
 else
 	$details = test_input($_POST["details"]);
 
-$servername = "localhost";
+$servername = "ddaquigan-188101:us-west1:portfolio-instance";
 $username = "root";
 $password = "";
 $dbname = "responses";
