@@ -56,7 +56,7 @@ if (empty($_POST["details"]))
 else
 	$details = test_input($_POST["details"]);
 
-$servername = 35.203.177.219;
+$servername = "35.203.177.219";
 $username = "root";
 $password = "";
 $dbname = "responses";
