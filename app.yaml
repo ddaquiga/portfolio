@@ -36,8 +36,8 @@ handlers:
 - url: /sign-up\.php
   script: sign-up.php
 
-- url: /sign-in\.php
-  script: sign-in.php
+- url: /mailbox\.php
+  script: mailbox.php
 
 - url: /Projects
   static_dir: Projects
