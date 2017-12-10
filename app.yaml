@@ -30,6 +30,15 @@ handlers:
 - url: /thank-you\.php
   script: thank-you.php
 
+- url: /login\.html
+  script: login.html
+
+- url: /sign-up\.php
+  script: sign-up.php
+
+- url: /sign-in\.php
+  script: sign-in.php
+
 - url: /Projects
   static_dir: Projects
 
