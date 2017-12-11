@@ -14,6 +14,8 @@
 <body id="override-bootstrap">
 
 <?php 
+$u_name = $p_word = "";
+	
 if (empty($_POST["u_name"]))
 	$u_name = "";
 else
