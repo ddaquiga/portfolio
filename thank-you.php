@@ -64,21 +64,20 @@ $dbname = "responses";
 try {
 	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-$stmt = $conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values (:firstname, :lastname, :company, :email, :phone, :website, :referred, :details)");
-$stmt->bindParam(':firstname',$firstname);
-$stmt->bindParam(':lastname',$lastname);
-$stmt->bindParam(':company',$company);
-$stmt->bindParam(':email',$email);
-$stmt->bindParam(':phone',$phone);
-$stmt->bindParam(':website',$website);
-$stmt->bindParam(':referred',$referred);
-$stmt->bindParam(':details',$details);
-$stmt->execute();
 }
 catch(PDOException $e){
 	echo "Connection failed: " . $e->getMessage();
 }
+
+$query = "INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values ('" . $firstname . "','" . $lastname . "','" . $company . "','" . $email . "','" . $phone . "','" . $website . "','" . $referred . "','" . $details . "')";
+if ($conn->query($query)){
+	$stmt = $conn->prepare("SELECT ID, firstname, lastname, company, email, phone, website, referred, details from employers");
+	$stmt->execute();
+
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+}
+else
+	die("Couldn't enter data: " . $conn->error);
 
 
 function test_input($data) {
@@ -117,10 +116,9 @@ function test_input($data) {
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
-			<h3>Thank You</h3>
+			<h3>Thank You</h3?>
 		</div>
 	</div>
 </div>
 </body>
 </html>
-
