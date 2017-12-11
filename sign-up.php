@@ -14,8 +14,9 @@
 <body id="override-bootstrap">
 
 <?php 
+$out = "Signed Up!!!!";
 $u_name = $p_word = "";
-	
+
 if (empty($_POST["u_name"]))
 	$u_name = "";
 else
@@ -26,14 +27,6 @@ if (empty($_POST["p_word"]))
 else
 	$p_word = test_input($_POST["p_word"]);
 
-function test_input($data) {
-	$data = trim($data);
-	$data = stripslashes($data);
-	$data = htmlspecialchars($data);
-	$data = hash('sha512',$data);
-	return $data;
-}
-
 $servername = "35.203.177.219";
 $username = "root";
 $password = "";
@@ -43,17 +36,24 @@ try {
 	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	$stmt = $conn->prepare("INSERT INTO users (u_name, p_word) values (:u_name, :p_word)");
-	$stmt->bindParam(':u_name',$u_name);
-	$stmt->bindParam(':p_word',$p_word);
-
-	$stmt->execute();
-
+$stmt = $conn->prepare("INSERT INTO users (u_name, p_word) values (:u_name, :p_word)");
+$stmt->bindParam(':u_name',$u_name);
+$stmt->bindParam(':p_word',$p_word);
+$stmt->execute();
 }
 catch(PDOException $e){
 	echo "Connection failed: " . $e->getMessage();
+	$out = "Failed to sign up";
 }
 
+
+function test_input($data) {
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data);
+	$data = hash('sha512',$data);
+	return $data;
+}
 
 ?>
 
@@ -84,7 +84,7 @@ catch(PDOException $e){
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
-			<h3>Successfuly Signed Up</h3>
+			<h3><?php echo $out ?></h3>
 		</div>
 	</div>
 </div>
