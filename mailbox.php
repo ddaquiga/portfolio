@@ -40,16 +40,16 @@ $password = "";
 $dbname = "responses";
 
 try {
-	$su_conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-	$su_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$mb_conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+	$mb_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	$mb_stmt = $su_conn->prepare("SELECT 1 FROM users WHERE u_name = :un AND p_word = :pw");
+	$mb_stmt = $mb_conn->prepare("SELECT 1 FROM users WHERE u_name = :un AND p_word = :pw");
 	$mb_stmt->bindParam(':un',$un);
 	$mb_stmt->bindParam(':pw',$pw);
 
 	$mb_stmt->execute();
 
-	$msgs = $conn->prepare("SELECT * FROM employers");
+	$msgs = $mb_conn->prepare("SELECT * FROM employers");
 	$msgs->execute();
 
 }
