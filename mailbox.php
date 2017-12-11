@@ -38,17 +38,16 @@ $servername = "35.203.177.219";
 $username = "root";
 $password = "";
 $dbname = "responses";
-$out = "Login Failed";
 
 try {
-	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$su_conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+	$su_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	$stmt = $conn->prepare("SELECT 1 FROM users WHERE u_name = :un AND p_word = :pw");
-	$stmt->bindParam(':un',$un);
-	$stmt->bindParam(':pw',$pw);
+	$mb_stmt = $su_conn->prepare("SELECT 1 FROM users WHERE u_name = :un AND p_word = :pw");
+	$mb_stmt->bindParam(':un',$un);
+	$mb_stmt->bindParam(':pw',$pw);
 
-	$stmt->execute();
+	$mb_stmt->execute();
 
 	$msgs = $conn->prepare("SELECT * FROM employers");
 	$msgs->execute();
@@ -89,7 +88,7 @@ catch(PDOException $e){
 		</div>
 		<div id="mainbody" class="col-sm-10">
 
-		<?php if ($stmt->rowCount() > 0) { ?>
+		<?php if ($mb_stmt->rowCount() > 0) { ?>
 			<h3>Messages</h3>
 			<div class="panel-group">
 			<?php foreach(new RecursiveArrayIterator($msgs->fetchAll()) as $k=>$v) { ?>

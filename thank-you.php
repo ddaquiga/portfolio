@@ -62,19 +62,19 @@ $password = "";
 $dbname = "responses";
 
 try {
-	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$ty_conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+	$ty_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$stmt = $conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values (:firstname, :lastname, :company, :email, :phone, :website, :referred, :details)");
-$stmt->bindParam(':firstname',$firstname);
-$stmt->bindParam(':lastname',$lastname);
-$stmt->bindParam(':company',$company);
-$stmt->bindParam(':email',$email);
-$stmt->bindParam(':phone',$phone);
-$stmt->bindParam(':website',$website);
-$stmt->bindParam(':referred',$referred);
-$stmt->bindParam(':details',$details);
-$stmt->execute();
+$ty_stmt = $ty_conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values (:firstname, :lastname, :company, :email, :phone, :website, :referred, :details)");
+$ty_stmt->bindParam(':firstname',$firstname);
+$ty_stmt->bindParam(':lastname',$lastname);
+$ty_stmt->bindParam(':company',$company);
+$ty_stmt->bindParam(':email',$email);
+$ty_stmt->bindParam(':phone',$phone);
+$ty_stmt->bindParam(':website',$website);
+$ty_stmt->bindParam(':referred',$referred);
+$ty_stmt->bindParam(':details',$details);
+$ty_stmt->execute();
 }
 catch(PDOException $e){
 	echo "Connection failed: " . $e->getMessage();

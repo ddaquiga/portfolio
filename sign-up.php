@@ -33,13 +33,13 @@ $password = "";
 $dbname = "responses";
 
 try {
-	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$su_conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+	$su_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$stmt = $conn->prepare("INSERT INTO users (u_name, p_word) values (:u_name, :p_word)");
-$stmt->bindParam(':u_name',$u_name);
-$stmt->bindParam(':p_word',$p_word);
-$stmt->execute();
+$su_stmt = $su_conn->prepare("INSERT INTO users (u_name, p_word) values (:u_name, :p_word)");
+$su_stmt->bindParam(':u_name',$u_name);
+$su_stmt->bindParam(':p_word',$p_word);
+$su_stmt->execute();
 }
 catch(PDOException $e){
 	echo "Connection failed: " . $e->getMessage();
