@@ -84,7 +84,7 @@ catch(PDOException $e){
 				<li><a href="resume.html"><strong>Resume</strong></a></li>
 				<li><a href="about-me.html"><strong>About Me</strong></a></li>
 				<li><a href="contact.html"><strong>Contact</strong></a></li>
-				<li class="active"><a href="hire-me.html"><strong>Hire Me</strong></a></li>
+				<li><a href="hire-me.html"><strong>Hire Me</strong></a></li>
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">

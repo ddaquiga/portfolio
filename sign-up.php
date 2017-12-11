@@ -82,7 +82,7 @@ catch(PDOException $e){
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
-			<h3>Thank You</h3>
+			<h3>Successfuly Signed Up</h3>
 		</div>
 	</div>
 </div>
