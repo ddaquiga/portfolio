@@ -61,6 +61,7 @@ $user = getenv('MYSQL_USER');
 $password = getenv('MYSQL_PASSWORD');
 
 $conn = new PDO($dsn, $user, $password);
+echo "Connected Successfully";
 
 function test_input($data) {
   $data = trim($data);
