@@ -71,9 +71,14 @@ $servername = "35.203.177.219";
  }
  
  $query = "INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values ('" . $firstname . "','" . $lastname . "','" . $company . "','" . $email . "','" . $phone . "','" . $website . "','" . $referred . "','" . $details . "')";
- if (!$conn->query($query)){
-  die("Couldn't enter data: " . $conn->error);
+ if ($conn->query($query)){
+  $stmt = $conn->prepare("SELECT ID, firstname, lastname, company, email, phone, website, referred, details from employers");
+  $stmt->execute();
+ 
+  $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
  }
+ else
+  die("Couldn't enter data: " . $conn->error);
  
  
  function test_input($data) {
@@ -113,6 +118,39 @@ $servername = "35.203.177.219";
     </div>
     <div id="mainbody" class="col-sm-10">
       <h3>Thank You</h3>
+ 
+    
+      <table class="table table-responsive table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>firstname</th>
+            <th>lastname</th>
+            <th>company</th>
+            <th>email</th>
+            <th>phone</th>
+            <th>website</th>
+            <th>referred</th>
+            <th>details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
+          ?>
+            <tr>
+              <td><?php echo $v["ID"] ?></td>
+              <td><?php echo $v["firstname"] ?></td>
+              <td><?php echo $v["lastname"] ?></td>
+              <td><?php echo $v["company"] ?></td>
+              <td><?php echo $v["email"] ?></td>
+              <td><?php echo $v["phone"] ?></td>
+              <td><?php echo $v["website"] ?></td>
+              <td><?php echo $v["referred"] ?></td>
+              <td><?php echo $v["details"] ?></td>
+            </tr>
+          <?php } ?>
+        </tbody>
+      </table>
     </div>
   </div>
  </div>
