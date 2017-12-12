@@ -16,7 +16,7 @@
  <?php
 $server = getenv('MYSQL_DSN');
 $user = getenv('MYSQL_USER');
-$pass = getenb('MYSQL_PASSWORD');
+$pass = getenv('MYSQL_PASSWORD');
 
 $conn = new PDO($server, $user, $pass);
 
