@@ -61,13 +61,14 @@ $username = "root";
 $password = "";
 $dbname = "responses";
 
-$conn= mysqli_connect($servername, $username, $password, $dbname);
-
-if (!$conn){
-	die("Connection failed: " . mysqli_connect_error());
+try {
+	$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	echo "Connected Successfuly";
 }
-echo "Connected Successfully";
-
+catch(PDOException $e){
+	echo "Connection failed: " . $e->getMessage();
+}
 
 
 function test_input($data) {
