@@ -94,12 +94,13 @@ function test_input($data) {
 	return $data;
 }
 
-$dsn = getenv('MYSQL_DSN');
-$user = getenv('MYSQL_USER');
-$password = getenv('MYSQL_PASSWORD');
+$dsn = "35.203.177.219";
+$user = "root";
+$password = "";
+$dbname = "responses";
 
 try {
-	$conn = new PDO($dsn, $user, $password);
+	$conn = new PDO($dsn, $user, $password, $dbname);
 	echo "Connected Successfully";
 }
 catch(PDOException $e){
