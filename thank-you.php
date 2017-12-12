@@ -14,7 +14,7 @@
  <body id="override-bootstrap">
  
  <?php
-  $con = new pdo("mysql:unix_socket=/cloudsql/ddaquigan-188101:us-west1:portfolio-instance;dbname=responses", "root", null);
+  $con = new pdo("mysql:host=35.203.177.219;dbname=responses", "root", null);
   $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
  ?>
