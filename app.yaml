@@ -46,3 +46,9 @@ handlers:
 - url: /DaquiganResume\.docx
   static_files: DaquiganResume.docx
   upload: DaquiganResume.docx
+
+env_variables:
+  MYSQL_DSN: /cloudsql/ddaquigan-188101:us-west1:portfolio-instance
+  MYSQL_USER: root
+  MYSQL_PASSWORD: ''
+  MYSQL_DATABASE: responses

@@ -94,21 +94,11 @@ function test_input($data) {
 	return $data;
 }
 
-$servername = "ddaquigan-188101:us-west1:portfolio-instance";
-$username = "root";
-$password = "";
-$dbName = "responses";
-
-try {
-    $conn = new PDO("mysql:unix_socket=$servername;dbname=$dbName", $username, $password);
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully"; 
-    }
-catch(PDOException $e)
-    {
-    echo "Connection failed: " . $e->getMessage();
-    }
+$servername = getenv('MYSQL_DSN');
+$username = getenv('MYSQL_USER');
+$password = getenv('MYSQL_PASSWORD');
+$dbname = getenv('MYSQL_DATABASE');
+$connection = new mysqli(null, $username, $password, $dbname, null, $servername);
 ?>
 </body>
 </html>
