@@ -84,7 +84,7 @@
 				$details = test_input($_POST["details"]);
 
 			function test_input($data) {
-			  $data = trim($data);
+				$data = trim($data);
 				$data = stripslashes($data);
 				$data = htmlspecialchars($data);
 				return $data;
