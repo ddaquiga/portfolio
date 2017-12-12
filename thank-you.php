@@ -60,9 +60,6 @@ $dsn = getenv('MYSQL_DSN');
 $user = getenv('MYSQL_USER');
 $password = getenv('MYSQL_PASSWORD');
 
-if (!isset($dsn, $user) || false === $password) {
-	throw new Exception('Set environment variables');
-}
 $conn = new PDO($dsn, $user, $password);
 
 function test_input($data) {
