@@ -103,7 +103,7 @@ try {
 	echo "Connected Successfully";
 }
 catch(PDOException $e){
-	echo "Connection Failed" . $e->getMessage();
+	echo "Connection Failed: " . $e->getMessage();
 }
 
 
