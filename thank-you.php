@@ -94,9 +94,9 @@ function test_input($data) {
 	return $data;
 }
 
-$dsn = "35.203.177.219:responses";
-$user = "root";
-$password = "";
+$dsn = getenv('MYSQL_DSN');
+$user = getenv('MYSQL_USER');
+$password = getenv('MYSQL_PASSWORD');
 
 try {
 	$conn = new PDO($dsn, $user, $password);
