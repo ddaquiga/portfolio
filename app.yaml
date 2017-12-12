@@ -47,10 +47,5 @@ handlers:
   static_files: DaquiganResume.docx
   upload: DaquiganResume.docx
 
-env_variables:
-  MYSQL_DSN: "mysql:host=35.203.177.219;dbname=responses"
-  MYSQL_USER: "root"
-  MYSQL_PASSWORD: ""
-
 beta_settings:
     cloud_sql_instances: "ddaquigan-188101:us-west1:portfolio-instance"
