@@ -56,11 +56,14 @@ if (empty($_POST["details"]))
 else
 	$details = test_input($_POST["details"]);
 
-$conn = mysql_connect("35.203.177.219","root", "");
-if(!$conn){
-	die("Connect Error" . mysql_error());
+$dsn = getenv('MYSQL_DSN');
+$user = getenv('MYSQL_USER');
+$password = getenv('MYSQL_PASSWORD');
+
+if (!isset($dsn, $user) || false === $password) {
+	throw new Exception('Set environment variables');
 }
-echo "Connected Successfully";
+$conn = new PDO($dsn, $user, $password);
 
 function test_input($data) {
   $data = trim($data);
