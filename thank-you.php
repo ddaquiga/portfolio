@@ -13,49 +13,7 @@
  
  <body id="override-bootstrap">
  
- <?php 
- $firstname = $lastname = $company = $email = $phone = $website = $referred = $details = "";
- 
- if (empty($_POST["firstname"]))
-  $firstname = "";
- else
-  $firstname = test_input($_POST["firstname"]);
- 
- if (empty($_POST["lastname"]))
-  $lastname = "";
- else
-  $lastname = test_input($_POST["lastname"]);
- 
- if (empty($_POST["company"]))
-  $company = "";
- else
-  $company = test_input($_POST["company"]);
- 
- if (empty($_POST["email"]))
-  $email = "";
- else
-  $email = test_input($_POST["email"]);
- 
- if (empty($_POST["phone"]))
-  $phone = "";
- else
-  $phone = test_input($_POST["phone"]);
- 
- if (empty($_POST["website"]))
-  $website = "";
- else
-  $website = test_input($_POST["website"]);
- 
- if (empty($_POST["referred"]))
-  $referred = "";
- else
-  $referred = test_input($_POST["referred"]);
- 
- if (empty($_POST["details"]))
-  $details = "";
-  else
-    $details = test_input($_POST["details"]);
-  
+ <?php  
 $servername = "35.203.177.219";
   $username = "root";
   $password = "";
@@ -68,24 +26,6 @@ $servername = "35.203.177.219";
  }
  catch(PDOException $e){
   echo "Connection failed: " . $e->getMessage();
- }
- 
- $query = "INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values ('" . $firstname . "','" . $lastname . "','" . $company . "','" . $email . "','" . $phone . "','" . $website . "','" . $referred . "','" . $details . "')";
- if ($conn->query($query)){
-  $stmt = $conn->prepare("SELECT ID, firstname, lastname, company, email, phone, website, referred, details from employers");
-  $stmt->execute();
- 
-  $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
- }
- else
-  die("Couldn't enter data: " . $conn->error);
- 
- 
- function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
  }
  
  ?>
@@ -118,39 +58,6 @@ $servername = "35.203.177.219";
     </div>
     <div id="mainbody" class="col-sm-10">
       <h3>Thank You</h3>
- 
-    
-      <table class="table table-responsive table-hover">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>firstname</th>
-            <th>lastname</th>
-            <th>company</th>
-            <th>email</th>
-            <th>phone</th>
-            <th>website</th>
-            <th>referred</th>
-            <th>details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
-          ?>
-            <tr>
-              <td><?php echo $v["ID"] ?></td>
-              <td><?php echo $v["firstname"] ?></td>
-              <td><?php echo $v["lastname"] ?></td>
-              <td><?php echo $v["company"] ?></td>
-              <td><?php echo $v["email"] ?></td>
-              <td><?php echo $v["phone"] ?></td>
-              <td><?php echo $v["website"] ?></td>
-              <td><?php echo $v["referred"] ?></td>
-              <td><?php echo $v["details"] ?></td>
-            </tr>
-          <?php } ?>
-        </tbody>
-      </table>
     </div>
   </div>
  </div>
