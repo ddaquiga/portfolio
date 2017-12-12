@@ -90,7 +90,7 @@
 				return $data;
 			}
 
-			$servername = "localhost";
+			$servername = 35.203.177.219;
 			$username = "root";
 			$password = "";
 			$dbname = "responses";
