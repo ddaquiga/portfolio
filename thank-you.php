@@ -13,8 +13,8 @@
  
  <body id="override-bootstrap">
  
- <?php  
-$servername = "35.203.177.219";
+ <?php
+ $servername = "35.203.177.219";
   $username = "root";
   $password = '';
   $dbname = "responses";
@@ -26,6 +26,14 @@ $servername = "35.203.177.219";
  }
  catch(PDOException $e){
   echo "Connection failed: " . $e->getMessage();
+ }
+
+ 
+ function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
  }
  
  ?>
