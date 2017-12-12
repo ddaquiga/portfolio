@@ -56,21 +56,11 @@ if (empty($_POST["details"]))
 else
 	$details = test_input($_POST["details"]);
 
-$servername = "35.203.177.219";
-$username = "root";
-$password = "";
-$dbname = "responses";
-
-try {
-	echo "trying connection<br>";
-	$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	echo "Connected Successfuly";
+$conn = mysql_connect(":/cloudsql/ddaquigan-188101:us-west1:portfolio-instance","root", "");
+if(!$conn){
+	die("Connect Error" . mysql_error());
 }
-catch(PDOException $e){
-	echo "Connection failed: " . $e->getMessage();
-}
-
+echo "Connected Successfully";
 
 function test_input($data) {
   $data = trim($data);
