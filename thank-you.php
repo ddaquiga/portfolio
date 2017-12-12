@@ -14,8 +14,15 @@
  <body id="override-bootstrap">
  
  <?php
-  $con = new pdo("mysql:unix_socket=/cloudsql/ddaquigan-188101:us-west1:portfolio-instance;dbname=responses", "root", '');
-  $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+ $dsn = getenv('MYSQL_DSN');
+ $user = getenv('MYSQL_USER');
+ $password = getenv('MYSQL_PASSWORD');
+
+ if (!isset($dsn, $user) || false === $password) {
+  throw new Exception('Set environment variables');
+ }
+
+ $db = new PDO($dsn, $user $password);
 
  ?>
  

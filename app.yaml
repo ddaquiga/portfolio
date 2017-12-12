@@ -46,3 +46,8 @@ handlers:
 - url: /DaquiganResume\.docx
   static_files: DaquiganResume.docx
   upload: DaquiganResume.docx
+
+env_variables:
+  MYSQL_DSN: mysql:unix_socket=/cloudsql/ddaquigan-188101:us-west1:portfolio-instance;dbname=responses
+  MYSQL_USER: root
+  MYSQL_PASSWORD: ''
