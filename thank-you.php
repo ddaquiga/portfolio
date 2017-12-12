@@ -16,7 +16,7 @@
  <?php  
 $servername = "35.203.177.219";
   $username = "root";
-  $password = "";
+  $password = '';
   $dbname = "responses";
  
  try {
