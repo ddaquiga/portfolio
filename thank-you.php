@@ -14,7 +14,7 @@
  <body id="override-bootstrap">
  
  <?php
- $conn = new mysqli(null, "root", null, "responses", null, "/cloudsql/ddaquigan-188101:us-west1:portfolio-instance");
+ $conn = new mysqli(null, "root", null, "responses", null, "35.203.177.219");
  
 
  ?>
