@@ -96,7 +96,7 @@ try {
 	echo "Connected Successfully";
 }
 catch(PDOException $e){
-	echo "Connection Failed: " . $e->getMesage();
+	echo "Connection Failed: " . $e->getMessage();
 }
 function test_input($data) {
   $data = trim($data);
