@@ -14,28 +14,9 @@
  <body id="override-bootstrap">
  
  <?php
- $servername = "35.203.177.219";
-  $username = "root";
-  $password = '';
-  $dbname = "responses";
+ $conn = new mysqli(null, "root", null, "responses", null, "/cloudsql/ddaquigan-188101:us-west1:portfolio-instance");
  
- try {
-  $conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  echo "Connected Successfully";
- }
- catch(PDOException $e){
-  echo "Connection failed: " . $e->getMessage();
- }
 
- 
- function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
- }
- 
  ?>
  
  <nav class="navbar navbar-default">
