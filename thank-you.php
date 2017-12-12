@@ -14,7 +14,7 @@
  <body id="override-bootstrap">
  
  <?php
-  $server = 'mysql:unix_socket=/cloudsql/ddaquigan-188101:us-west1:portfolio-instance;dbname=responses';
+  $server = 'mysql:host=35.203.177.219;dbname=responses';
   $user = 'root';
   $pass = '';
 
