@@ -39,66 +39,74 @@
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
-			<h3>Thank You</h3>
+			<h3>
+			<?php 
+			$firstname = $lastname = $company = $email = $phone = $website = $referred = $details = "";
+
+			if (empty($_POST["firstname"]))
+				$firstname = "";
+			else
+				$firstname = test_input($_POST["firstname"]);
+
+			if (empty($_POST["lastname"]))
+				$lastname = "";
+			else
+				$lastname = test_input($_POST["lastname"]);
+
+			if (empty($_POST["company"]))
+				$company = "";
+			else
+				$company = test_input($_POST["company"]);
+
+			if (empty($_POST["email"]))
+				$email = "";
+			else
+				$email = test_input($_POST["email"]);
+
+			if (empty($_POST["phone"]))
+				$phone = "";
+			else
+				$phone = test_input($_POST["phone"]);
+
+			if (empty($_POST["website"]))
+				$website = "";
+			else
+				$website = test_input($_POST["website"]);
+
+			if (empty($_POST["referred"]))
+				$referred = "";
+			else
+				$referred = test_input($_POST["referred"]);
+
+			if (empty($_POST["details"]))
+				$details = "";
+			else
+				$details = test_input($_POST["details"]);
+
+			function test_input($data) {
+			  $data = trim($data);
+				$data = stripslashes($data);
+				$data = htmlspecialchars($data);
+				return $data;
+			}
+
+			$servername = getenv('MYSQL_DSN');
+			$username = getenv('MYSQL_USER');
+			$password = getenv('MYSQL_PASSWORD');
+			$dbname = getenv('MYSQL_DATABASE');
+
+			try{
+				$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				echo "Connected Successfully";
+			}
+			catch(PDOException $e){
+				echo "Connection failed: " . $e->getMessage();
+			}
+
+			?></h3>
 		</div>
 	</div>
 </div>
-
-<?php 
-$firstname = $lastname = $company = $email = $phone = $website = $referred = $details = "";
-
-if (empty($_POST["firstname"]))
-	$firstname = "";
-else
-	$firstname = test_input($_POST["firstname"]);
-
-if (empty($_POST["lastname"]))
-	$lastname = "";
-else
-	$lastname = test_input($_POST["lastname"]);
-
-if (empty($_POST["company"]))
-	$company = "";
-else
-	$company = test_input($_POST["company"]);
-
-if (empty($_POST["email"]))
-	$email = "";
-else
-	$email = test_input($_POST["email"]);
-
-if (empty($_POST["phone"]))
-	$phone = "";
-else
-	$phone = test_input($_POST["phone"]);
-
-if (empty($_POST["website"]))
-	$website = "";
-else
-	$website = test_input($_POST["website"]);
-
-if (empty($_POST["referred"]))
-	$referred = "";
-else
-	$referred = test_input($_POST["referred"]);
-
-if (empty($_POST["details"]))
-	$details = "";
-else
-	$details = test_input($_POST["details"]);
-
-function test_input($data) {
-  $data = trim($data);
-	$data = stripslashes($data);
-	$data = htmlspecialchars($data);
-	return $data;
-}
-
-$servername = getenv('MYSQL_DSN');
-$username = getenv('MYSQL_USER');
-$password = getenv('MYSQL_PASSWORD');
-$dbname = getenv('MYSQL_DATABASE');
-$connection = new mysqli(null, $username, $password, $dbname, null, $servername);
-?>
 </body>
 </html>
