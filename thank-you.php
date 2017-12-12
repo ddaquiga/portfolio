@@ -61,14 +61,6 @@ $username = "root";
 $password = "";
 $dbname = "responses";
 
-$conn= new mysqli($servername, $username, $password, $dbname);
-
-if (!$conn->connect_error){
-	echo "Connected Successfully";
-}
-else{
-	die("Connection failed: " . $conn->connect_error);
-}
 
 
 function test_input($data) {
