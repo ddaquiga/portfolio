@@ -14,11 +14,11 @@
  <body id="override-bootstrap">
  
  <?php
-$server = ":/cloudsql/ddaquigan-188101:us-west1:portfolio-instance";
-$user = 'root';
-$pass = '';
+$server = getenv('MYSQL_DSN');
+$user = getenv('MYSQL_USER');
+$pass = getenb('MYSQL_PASSWORD');
 
-$conn = mysqli_connect($server, $user, $pass);
+$conn = new PDO($server, $user, $pass);
 
  ?>
  
