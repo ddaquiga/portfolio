@@ -64,16 +64,22 @@ $servername = "35.203.177.219";
  try {
   $conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  echo "Connected Successfully";
  }
  catch(PDOException $e){
   echo "Connection failed: " . $e->getMessage();
  }
  
- $query = "INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values ('" . $firstname . "','" . $lastname . "','" . $company . "','" . $email . "','" . $phone . "','" . $website . "','" . $referred . "','" . $details . "')";
- if (!$conn->query($query)){
-	die("Couldn't enter data: " . $conn->error);
- }
+
+ $stmt = $conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values (:firstname, :lastname, :company, :email, :phone, :website, :referred, :details)");
+ $stmt->bindParam(':firstname',$firstname);
+ $stmt->bindParam(':lastname',$lastname);
+ $stmt->bindParam(':company',$company);
+ $stmt->bindParam(':email',$email);
+ $stmt->bindParam(':phone',$phone);
+ $stmt->bindParam(':website',$website);
+ $stmt->bindParam(':referred',$referred);
+ $stmt->bindParam(':details',$details);
+ $stmt->execute();
  
  
  function test_input($data) {
