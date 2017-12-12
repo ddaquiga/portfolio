@@ -94,13 +94,13 @@ function test_input($data) {
 	return $data;
 }
 
-$servername = "35.203.177.219";
+$servername = "ddaquigan-188101:us-west1:portfolio-instance";
 $username = "root";
 $password = "";
 $dbName = "responses";
 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbName", $username, $password);
+    $conn = new PDO("mysql:unix_socket=$servername;dbname=$dbName", $username, $password);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "Connected successfully"; 
