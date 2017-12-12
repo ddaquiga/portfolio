@@ -95,14 +95,12 @@
 			$password = "";
 			$dbname = "responses";
 
-			try{
-				$conn = new PDO("mysql:unix_socket=$servername;dbname=$dbname", $username, $password);
-				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				echo "Connected Successfully";
-			}
-			catch(PDOException $e){
-				echo "Connection failed: " . $e->getMessage();
-			}
+			$conn = new mysqli($servername, $username, $password, $dbname);
+			if ($conn->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+			} 
+			echo "Connected successfully";
+
 
 			?></h3>
 		</div>
