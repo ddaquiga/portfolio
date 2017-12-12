@@ -87,19 +87,25 @@ if (empty($_POST["details"]))
 else
 	$details = test_input($_POST["details"]);
 
-$dsn = getenv('MYSQL_DSN');
-$user = getenv('MYSQL_USER');
-$password = getenv('MYSQL_PASSWORD');
-
-$conn = new PDO($dsn, $user, $password);
-echo "Connected Successfully";
-
 function test_input($data) {
   $data = trim($data);
 	$data = stripslashes($data);
 	$data = htmlspecialchars($data);
 	return $data;
 }
+
+$dsn = getenv('MYSQL_DSN');
+$user = getenv('MYSQL_USER');
+$password = getenv('MYSQL_PASSWORD');
+
+if (!isset($dsn, $user, $password)|| false === $password) {
+	throw new Exception('Set DSN environment variables');
+}
+
+$conn = new PDO($dsn, $user, $password);
+echo "Connected Successfully";
+
+
 
 ?>
 </body>
