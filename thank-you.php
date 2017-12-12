@@ -102,6 +102,7 @@ if (!isset($dsn, $user, $password)|| false === $password) {
 	throw new Exception('Set DSN environment variables');
 }
 
+echo "attempting connection to db";
 $conn = new PDO($dsn, $user, $password);
 echo "Connected Successfully";
 
