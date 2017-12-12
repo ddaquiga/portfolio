@@ -60,9 +60,13 @@ $dsn = getenv('MYSQL_DSN');
 $user = getenv('MYSQL_USER');
 $password = getenv('MYSQL_PASSWORD');
 
-$conn = new PDO($dsn, $user, $password);
-echo "Connected Successfully";
-
+try {
+	$conn = new PDO($dsn, $user, $password);
+	echo "Connected Successfully";
+}
+catch(PDOException $e){
+	echo "Connection Failed: " . $e->getMesage();
+}
 function test_input($data) {
   $data = trim($data);
 	$data = stripslashes($data);
