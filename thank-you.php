@@ -22,7 +22,7 @@
   throw new Exception('Set environment variables');
  }
 
- $db = new PDO($dsn, $user $password);
+ $db = new PDO($dsn, $user, $password);
 
  ?>
  
