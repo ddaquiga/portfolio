@@ -98,14 +98,13 @@ $dsn = getenv('MYSQL_DSN');
 $user = getenv('MYSQL_USER');
 $password = getenv('MYSQL_PASSWORD');
 
-if (!isset($dsn, $user, $password)|| false === $password) {
-	echo "no dsn set";
-	throw new Exception('Set DSN environment variables');
+try {
+	$conn = new PDO($dsn, $user, $password);
+	echo "Connected Successfully";
 }
-
-$conn = new PDO($dsn, $user, $password);
-echo "Connected Successfully";
-
+catch(PDOException $e){
+	echo "Connection Failed" . $e->getMessage();
+}
 
 
 ?>
