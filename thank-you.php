@@ -90,10 +90,10 @@
 				return $data;
 			}
 
-			$servername = getenv('MYSQL_DSN');
-			$username = getenv('MYSQL_USER');
-			$password = getenv('MYSQL_PASSWORD');
-			$dbname = getenv('MYSQL_DATABASE');
+			$servername = "35.203.177.219";
+			$username = "root";
+			$password = "";
+			$dbname = "responses";
 
 			try{
 				$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
