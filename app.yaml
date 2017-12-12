@@ -48,7 +48,7 @@ handlers:
   upload: DaquiganResume.docx
 
 env_variables:
-  MYSQL_DSN: "mysql:host=35.203.177.219;dbname=responses"
+  MYSQL_DSN: "mysql:unix_socket=35.203.177.219;dbname=responses"
   MYSQL_USER: "root"
   MYSQL_PASSWORD: ""
 
