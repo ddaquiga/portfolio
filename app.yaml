@@ -46,3 +46,6 @@ handlers:
 - url: /DaquiganResume\.docx
   static_files: DaquiganResume.docx
   upload: DaquiganResume.docx
+
+beta_settings:
+      cloud_sql_instances: "ddaquigan-188101:us-west1:portfolio-instance"
