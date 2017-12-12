@@ -64,6 +64,11 @@ $dbname = "responses";
 try {
 	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch(PDOException $e){
+	echo "Connection failed: " . $e->getMessage();
+}
+
 
 $stmt = $conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) VALUES (:firstname, :lastname, :company, :email, :phone, :website, :referred, :details)");
 $stmt->bindParam(':firstname',$firstname);
@@ -75,12 +80,6 @@ $stmt->bindParam(':website',$website);
 $stmt->bindParam(':referred',$referred);
 $stmt->bindParam(':details',$details);
 $stmt->execute();
-$stmt->close();
-$conn->close();
-}
-catch(PDOException $e){
-	echo "Connection failed: " . $e->getMessage();
-}
 
 function test_input($data) {
   $data = trim($data);
