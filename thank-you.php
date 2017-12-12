@@ -61,25 +61,15 @@ $username = "root";
 $password = "";
 $dbname = "responses";
 
-try {
-	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn= new mysqli($servername, $username, $password, $dbname);
+
+if (!$conn->connect_error){
+	echo "Connected Successfully";
 }
-catch(PDOException $e){
-	echo "Connection failed: " . $e->getMessage();
+else{
+	die("Connection failed: " . $conn->connect_error);
 }
 
-
-$stmt = $conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) VALUES (:firstname, :lastname, :company, :email, :phone, :website, :referred, :details)");
-$stmt->bindParam(':firstname',$firstname);
-$stmt->bindParam(':lastname',$lastname);
-$stmt->bindParam(':company',$company);
-$stmt->bindParam(':email',$email);
-$stmt->bindParam(':phone',$phone);
-$stmt->bindParam(':website',$website);
-$stmt->bindParam(':referred',$referred);
-$stmt->bindParam(':details',$details);
-$stmt->execute();
 
 function test_input($data) {
   $data = trim($data);
