@@ -56,7 +56,7 @@ if (empty($_POST["details"]))
 else
 	$details = test_input($_POST["details"]);
 
-$conn = mysql_connect(":/cloudsql/ddaquigan-188101:us-west1:portfolio-instance","root", "");
+$conn = mysql_connect("35.203.177.219","root", "");
 if(!$conn){
 	die("Connect Error" . mysql_error());
 }
