@@ -65,7 +65,7 @@ $dbname = "responses";
     	$conn= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   
-$stmt = $conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values (':firstname', ':lastname', ':company', ':email', ':phone', ':website', ':referred', ':details')");
+$stmt = $conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, referred, details) values (:firstname, :lastname, :company, :email, :phone, :website, :referred, :details)");
 $stmt->bindParam(':firstname',$firstname);
 $stmt->bindParam(':lastname',$lastname);
 $stmt->bindParam(':company',$company);
