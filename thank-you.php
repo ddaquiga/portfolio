@@ -94,11 +94,21 @@ function test_input($data) {
 	return $data;
 }
 
+$servername = "35.203.177.219";
+$username = "root";
+$password = "";
+$dbName = "responses";
 
-$conn = new mysqli(null, "root", null, "responses", null, "/cloudsql/ddaquigan-188101:us-west1:portfolio-instance");
-echo "Connected";
-
-
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbName", $username, $password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected successfully"; 
+    }
+catch(PDOException $e)
+    {
+    echo "Connection failed: " . $e->getMessage();
+    }
 ?>
 </body>
 </html>
