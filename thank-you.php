@@ -14,9 +14,9 @@
  <body id="override-bootstrap">
  
  <?php
-$server = getenv('MYSQL_DSN');
-$user = getenv('MYSQL_USER');
-$pass = getenv('MYSQL_PASSWORD');
+  $server = 'mysql:unix_socket=/cloudsql/ddaquigan-188101:us-west1:portfolio-instance;dbname=responses';
+  $user = 'root';
+  $pass = '';
 
 $conn = new PDO($server, $user, $pass);
 
