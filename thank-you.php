@@ -94,17 +94,9 @@ function test_input($data) {
 	return $data;
 }
 
-$dsn = getenv('MYSQL_DSN');
-$user = getenv('MYSQL_USER');
-$password = getenv('MYSQL_PASSWORD');
 
-try {
-	$conn = new PDO($dsn, $user, $password);
-	echo "Connected Successfully";
-}
-catch(PDOException $e){
-	echo "Connection Failed: " . $e->getMessage();
-}
+$conn = new mysqli(null, "root", null, "responses", null, "/cloudsql/ddaquigan-188101:us-west1:portfolio-instance");
+echo "Connected";
 
 
 ?>
