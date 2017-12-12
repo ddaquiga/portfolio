@@ -87,8 +87,12 @@ if (empty($_POST["details"]))
 else
 	$details = test_input($_POST["details"]);
 
+$dsn = getenv('MYSQL_DSN');
+$user = getenv('MYSQL_USER');
+$password = getenv('MYSQL_PASSWORD');
+
 try {
-	$conn = new PDO("mysql:host=35.203.177.219;dbname=responses", "root","");
+	$conn = new PDO($dsn, $user, $password);
 	echo "Connected Successfully";
 }
 catch(PDOException $e){
