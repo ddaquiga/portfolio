@@ -62,7 +62,7 @@ $password = "";
 $dbname = "responses";
 
 try {
-	$conn = new PDO("mysql:host=/cloudsql/ddaquigan-188101:us-west1:portfolio-instance;dbname=$dbname", $username, $password);
+	$conn = new PDO("mysql:unix_socket=/cloudsql/ddaquigan-188101:us-west1:portfolio-instance;dbname=$dbname", $username, $password);
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	echo "Connected Successfuly";
 }
