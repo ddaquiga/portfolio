@@ -30,6 +30,9 @@ handlers:
 - url: /thank-you\.php
   script: thank-you.php
 
+- url: /messages\.php
+  script: messages.php
+
 - url: /Projects
   static_dir: Projects
 
