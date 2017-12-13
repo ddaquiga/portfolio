@@ -14,12 +14,19 @@
  <body id="override-bootstrap">
  
  <?php
-  $server = 'mysql:host=35.203.177.219;dbname=responses';
+  $server = 'mysql:unix_socket=/cloudsql/ddaquigan-188900:us-central1:portfolio-instance;dbname=responses';
   $user = 'root';
   $pass = '';
 
-$conn = new PDO($server, $user, $pass);
-
+  try{
+    $conn = new PDO($server, $user, $pass);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected successfully"; 
+    }
+catch(PDOException $e)
+    {
+    echo "Connection failed: " . $e->getMessage();
+    }
  ?>
  
  <nav class="navbar navbar-default">
