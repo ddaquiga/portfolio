@@ -11,6 +11,6 @@ env_variables:
   # Replace USER, PASSWORD, DATABASE, and CONNECTION_NAME with the
   # values obtained when configuring your Cloud SQL instance.
   MYSQL_DSN: mysql:unix_socket=/cloudsql/test-instance;dbname=DATABASE
-  MYSQL_USER: USER
-  MYSQL_PASSWORD: PASSWORD
+  MYSQL_USER: root
+  MYSQL_PASSWORD: ''
 # [END env]
