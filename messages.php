@@ -13,7 +13,21 @@
 
 <body id="override-bootstrap">
 <?php
-	
+	$u_name = $p_word = "";
+
+	if (empty($_POST["u_name"])) $u_name = "";
+	else $u_name = test_input($_POST["u_name"]);
+
+	if (empty($_POST["p_word"])) $p_word = "";
+	else $p_word = test_input($_POST["p_word"]);
+
+	function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		$data = hash('sha512',$data);
+		return $data;
+	}
 	$server = 'mysql:unix_socket=/cloudsql/ddaquigan-188900:us-central1:portfolio-instance;dbname=responses';
 	$user = 'root';
 	$pass = '';
@@ -21,9 +35,16 @@
 	try{
 		$conn = new PDO($server, $user, $pass);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$stmt = $conn->prepare("SELECT * FROM employers");
-		$stmt->execute();
-		$stmt->setFetchMode(PDO::FETCH_ASSOC);
+		$logged = $conn->prepare("SELECT 1 from users WHERE u_name = :u_name AND p_word = :p_word");
+		$logged->bindParam(':u_name',$u_name);
+		$logged->bindParam(':p_word',$p_word);
+		$logged->execute();
+
+		if ($logged->rowCount() > 0){
+			$stmt = $conn->prepare("SELECT * FROM employers");
+			$stmt->execute();
+			$stmt->setFetchMode(PDO::FETCH_ASSOC);
+		}
 	}
 	catch(PDOException $e)
 	{
@@ -41,7 +62,6 @@
 			<li><a class="nav-item" href="about-me.html">About Me</a></li>
 			<li><a class="nav-item" href="contact.html">Contact</a></li>
 			<li><a class="nav-item" href="hire-me.html">Hire Me</a></li>
-			<li><a class="nav-item" href="hire-me.html">Hire Me</a></li>
 		</ul>
 	</div>
 </nav>
@@ -55,31 +75,34 @@
 				<li><a href="about-me.html"><strong>About Me</strong></a></li>
 				<li><a href="contact.html"><strong>Contact</strong></a></li>
 				<li><a href="hire-me.html"><strong>Hire Me</strong></a></li>
-				<li><a href="hire-me.html"><strong>Hire Me</strong></a></li>
 			</ul>
 		</div>
 		<div id="mainbody" class="col-sm-10">
-			<h3>Messages</h3>
-			<?php if ($stmt->rowCount() <= 0) { ?>
-				<p>No Messages</p>
-			<?php } else { ?>
-				<div class="panel-group">
-					<?php foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) { ?>
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<p class="panel-title">Message from <?php echo $v["firstname"] . " " . $v["lastname"]; ?></p>
+			<?php if ($logged->rowCount() <= 0) echo "<h3>Not Logged In</h3>";
+			else { ?>
+				<h3>Messages</h3>
+				<?php if ($stmt->rowCount() <= 0) { ?>
+					<p>No Messages</p>
+				<?php } else { ?>
+					<div class="panel-group">
+						<?php foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) { ?>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<p class="panel-title">Message from <?php echo $v["firstname"] . " " . $v["lastname"] . " - " . $v["posttime"]; ?></p>
+								</div>
+								<div class="panel-body">
+									<p>ID: <?php echo $v["ID"]; ?></p>
+									<p>Company: <?php echo $v["company"]; ?></p>
+									<p>Email: <?php echo $v["email"]; ?></p>
+									<p>Phone: <?php echo $v["phone"]; ?></p>
+									<p>Website: <?php echo $v["website"]; ?></p>
+									<p>Details:<br> <?php echo $v["details"]; ?></p>
+								</div>
 							</div>
-							<div class="panel-body">
-								<p>ID: <?php echo $v["ID"]; ?></p>
-								<p>Company: <?php echo $v["company"]; ?></p>
-								<p>Email: <?php echo $v["email"]; ?></p>
-								<p>Phone: <?php echo $v["phone"]; ?></p>
-								<p>Website: <?php echo $v["website"]; ?></p>
-								<p>Details: <?php echo $v["details"]; ?></p>
-							</div>
-						</div>
-					<?php } ?>
-			<?php } ?>
+						<?php } ?>
+					</div>
+				<?php }
+			} ?>				
 		</div>
 	</div>
 </div>

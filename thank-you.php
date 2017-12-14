@@ -50,14 +50,14 @@
 	try{
 		$conn = new PDO($server, $user, $pass);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$stmt = $conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, details) VALUES (:firstname, :lastname, :company, :email, :phone, :website, :details)");
+		$stmt = $conn->prepare("INSERT INTO employers (firstname, lastname, company, email, phone, website, details, posttime) VALUES (:firstname, :lastname, :company, :email, :phone, :website, :details, CONVERT_TZ(NOW(),'+00:00','-08:00'))");
 		$stmt->bindParam(':firstname', $firstname);
 		$stmt->bindParam(':lastname', $lastname);
 		$stmt->bindParam(':company', $company);
 		$stmt->bindParam(':email', $email);
 		$stmt->bindParam(':phone', $phone);
 		$stmt->bindParam(':website', $website);
-		$stmt->bindParam(':details', $details);
+		$stmt->bindParam(':details', nl2br($details));
 		$stmt->execute();
 	}
 	catch(PDOException $e)
@@ -89,7 +89,6 @@
 				<li><a href="resume.html"><strong>Resume</strong></a></li>
 				<li><a href="about-me.html"><strong>About Me</strong></a></li>
 				<li><a href="contact.html"><strong>Contact</strong></a></li>
-				<li><a href="hire-me.html"><strong>Hire Me</strong></a></li>
 				<li class="active"><a href="hire-me.html"><strong>Hire Me</strong></a></li>
 			</ul>
 		</div>
