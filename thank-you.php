@@ -94,6 +94,7 @@
 		</div>
 		<div id="mainbody" class="col-sm-10">
 			<h3>Thank You</h3>
+			<h2>I will contact you as soon as I can</h2>
 		</div>
 	</div>
 </div>
