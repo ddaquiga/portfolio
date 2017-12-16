@@ -16,7 +16,8 @@
 #override-bootstrap .language,
 #override-bootstrap .nav-pills>li>p, 
 #override-bootstrap .project-data,
-#override-bootstrap h2{
+#override-bootstrap h2,
+#override-bootstrap h4{
 	color: #B27300;
 }
 
