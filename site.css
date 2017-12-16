@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:700|Titillium+Web:900');
+
+
 #override-bootstrap a.navbar-brand,
 #override-bootstrap a.nav-item,
 #override-bootstrap h1,
@@ -55,4 +58,23 @@
 	max-width: 150px;
 	width: auto;
 	height: auto;
+}
+
+
+#override-bootstrap a.navbar-brand,
+#override-bootstrap h1,
+#override-bootstrap h3{
+	font-family: 'Titillium Web', sans-serif;
+}
+
+#override-bootstrap h2,
+#override-bootstrap h4,
+#override-bootstrap .panel-heading,
+#footer-button,
+#override-bootstrap a.nav-item,
+#sidebar,
+#override-bootstrap .list-group-item>p,
+#override-bootstrap .project-data,
+#override-bootstrap .list-inline{
+	font-family: 'Open Sans', sans-serif;
 }
