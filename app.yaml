@@ -5,6 +5,10 @@ handlers:
 - url: /site.css
   static_files: site.css
   upload: site.css
+
+- url: /chrome.css
+  static_files: chrome.css
+  upload: chrome.css
   
 - url: /
   script: index.html
